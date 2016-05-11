@@ -13,7 +13,7 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script src="http://www.mathjax.org/mathjax/MathJax.js"></script>
+</script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +25,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">libambix
    </div>
+   <div id="projectbrief">the AMBIsonics eXchange library</div>
   </td>
  </tr>
  </tbody>
@@ -86,6 +87,7 @@ Reading BASIC ambix files</h2>
 <div class="line">  free(ambidata);</div>
 <div class="line">  free(extradata);</div>
 <div class="line">}</div>
+<div class="line">free(info);</div>
 </div><!-- fragment --><h2><a class="anchor" id="readextended_usage"></a>
 Reading EXTENDED ambix files</h2>
 <p>You can read an ambix file as "EXTENDED" by setting the 'fileformat' member of the <a class="el" href="structambix__info__t.html">ambix_info_t</a> struct to <a class="el" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abdb142f028c2b82558a73552d8f7f59d">AMBIX_EXTENDED</a> prior to opening the file. You will then have to retrieve the adaptor matrix from the file, in order to be able to reconstruct the full ambisonics set. You can also analyze the matrix to make educated guesses about the original channel layout.</p>
@@ -127,10 +129,11 @@ Reading EXTENDED ambix files</h2>
 <div class="line">    free(ambidata);</div>
 <div class="line">    free(extradata);</div>
 <div class="line">  }</div>
+<div class="line">  free(info);</div>
 <div class="line">* </div>
 </div><!-- fragment --><h2><a class="anchor" id="readunknown_usage"></a>
 Reading any ambix files</h2>
-<p>If you don't specify the format prior to opening, you can query the format of the file from the <a class="el" href="structambix__info__t.html">ambix_info_t</a> struct.</p>
+<p>If you do not specify the format prior to opening, you can query the format of the file from the <a class="el" href="structambix__info__t.html">ambix_info_t</a> struct.</p>
 <div class="fragment"><div class="line"><a class="code" href="ambix_8h.html#ad29b22bfc61f9d9517484617299c15c6">ambix_t</a>*ambix = NULL;</div>
 <div class="line"><a class="code" href="structambix__info__t.html">ambix_info_t</a>*info  = calloc(1, <span class="keyword">sizeof</span>(<a class="code" href="structambix__info__t.html">ambix_info_t</a>)); <span class="comment">/* initialize the format field (among others) to 0 */</span></div>
 <div class="line"></div>
@@ -151,11 +154,9 @@ Reading any ambix files</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;this file is of unknown format...\n&quot;</span>);</div>
 <div class="line">  }</div>
 <div class="line"></div>
-<div class="line">  <span class="comment">// using the adaptormatrix</span></div>
-<div class="line">  <span class="comment">// ...</span></div>
-<div class="line"></div>
 <div class="line">  <a class="code" href="group__ambix.html#ga5986e1bb6e6042ce262db23b78602e86">ambix_close</a>(ambix);</div>
 <div class="line">}</div>
+<div class="line">free(info);</div>
 </div><!-- fragment --><h1><a class="anchor" id="write_usage"></a>
 Writing ambix files</h1>
 <p>To write data to an ambix file, you have to open it with the <a class="el" href="ambix_8h.html#abecfbc0978dd169538565e07d431d0faafbbdf1e779cf4cf905f78db42f39d41f">AMBIX_WRITE</a> flag. You also need to specify some global properties of the output data, namely the samplerate and the sampleformat, as well as the number of ambisonics channels and the number of extra channels that are physically stored on the disk.</p>
@@ -192,6 +193,7 @@ Writing BASIC ambix files</h2>
 <div class="line">  <a class="code" href="group__ambix.html#ga5986e1bb6e6042ce262db23b78602e86">ambix_close</a>(ambix);</div>
 <div class="line">  free(ambidata);</div>
 <div class="line">}</div>
+<div class="line">free(info);</div>
 </div><!-- fragment --><h2><a class="anchor" id="writeextended_usage"></a>
 Writing EXTENDED ambix files</h2>
 <p>You can write "EXTENDED" ambix files by setting the 'fileformat' member of the <a class="el" href="structambix__info__t.html">ambix_info_t</a> struct to <a class="el" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abdb142f028c2b82558a73552d8f7f59d">AMBIX_EXTENDED</a> prior to opening the file.</p>
@@ -213,7 +215,7 @@ Writing EXTENDED ambix files</h2>
 <div class="line">  uint64_t block;</div>
 <div class="line"></div>
 <div class="line">  <a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>*ambidata  = calloc(info-&gt;<a class="code" href="structambix__info__t.html#a615d125aaa9f1acaef9e6598a4cca722">ambichannels</a>  * blocksize, <span class="keyword">sizeof</span>(<a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>));</div>
-<div class="line">  <a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>*extradata  = calloc(info-&gt;<a class="code" href="structambix__info__t.html#a634350c74599ccad94c557b1f7d74251">extrachannels</a>  * blocksize, <span class="keyword">sizeof</span>(<a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>));</div>
+<div class="line">  <a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>*extradata = calloc(info-&gt;<a class="code" href="structambix__info__t.html#a634350c74599ccad94c557b1f7d74251">extrachannels</a>  * blocksize, <span class="keyword">sizeof</span>(<a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>));</div>
 <div class="line"></div>
 <div class="line">  <span class="comment">/* create an adaptormatrix: */</span></div>
 <div class="line">  <a class="code" href="structambix__matrix__t.html">ambix_matrix_t</a> adaptormatrix = {0, 0, NULL};</div>
@@ -237,56 +239,58 @@ Writing EXTENDED ambix files</h2>
 <div class="line">  free(ambidata);</div>
 <div class="line">  free(extradata);</div>
 <div class="line">}</div>
+<div class="line">free(info);</div>
 </div><!-- fragment --><h2><a class="anchor" id="writebasic2extended_usage"></a>
 Writing EXTENDED ambix files using the BASIC interface</h2>
 <p>Finally, you can create "EXTENDED" ambix files from a full set of ambisonics channels and an adaptor matrix. This can be useful if you have a setup that works with full ambisonics sets (e.g. a DAW project) and you want to create a size-optimized ambix file that only stores a reduced set.</p>
 <p>This can be achieved by setting the 'fileformat' member of the <a class="el" href="structambix__info__t.html">ambix_info_t</a> struct to <a class="el" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abb44830701a07dc50814f69ec74050d5">AMBIX_BASIC</a> (because you will provide the full ambisonics set as if the file were opened in "BASIC" mode) and the 'ambichannels' member to the (reduced) number of ambisonics channel as will be written to the disk, and then setting an adaptor matrix <a class="el" href="group__ambix.html#gaa6890a0640c08e627ae0cdd464957bf7" title="Set a matrix to be pre-multiplied. ">ambix_set_adaptormatrix()</a>, that will convert the reduced set back to the full set. libambix will internally reduce the full ambisonics set (as passed to <a class="el" href="group__ambix__writef.html">ambix_writef()</a>) using the (pseudo) inverse of the adaptor-matrix.</p>
-<dl class="section note"><dt>Note</dt><dd>you must ensure yourself that the adaptor matrix is able to reconstruct the (desired) full ambisonics set from the reduced set (e.g. if you pass an adaptor matrix that converts a 1st order horizontal-only ambisonics set to a 2nd order fully periphonic set, the reconstructed ambisonics set will have muted channels (those that contain 3rd-order and/or Z-axis components))</dd></dl>
-<div class="fragment"><div class="line">  <a class="code" href="ambix_8h.html#ad29b22bfc61f9d9517484617299c15c6">ambix_t</a>*ambix = NULL;</div>
-<div class="line">  <a class="code" href="structambix__info__t.html">ambix_info_t</a>*info  = calloc(1, <span class="keyword">sizeof</span>(<a class="code" href="structambix__info__t.html">ambix_info_t</a>));</div>
+<dl class="section note"><dt>Note</dt><dd>You must ensure yourself that the adaptor matrix is inversible.</dd></dl>
+<p>The adaptor matrix gets written to disk prior to writing any samples to the file (or closing the ambix file). It is an error to call <a class="el" href="group__ambix.html#gaa6890a0640c08e627ae0cdd464957bf7" title="Set a matrix to be pre-multiplied. ">ambix_set_adaptormatrix()</a> after starting to write samples.</p>
+<dl class="section note"><dt>Note</dt><dd>If you pass an adaptor matrix that expands a reduced set to full ambisonics (e.g. converting from 1st order horizontal-only ambisonics set to a 2nd order fully periphonic set) the reconstructed ambisonics channels (when reading the ambix file later), might be different from the ambisonics channels you passed in when writing the file (e.g. channels that contain 3rd-order and/or Z-axis components will be muted).</dd></dl>
+<div class="fragment"><div class="line"><a class="code" href="ambix_8h.html#ad29b22bfc61f9d9517484617299c15c6">ambix_t</a>*ambix = NULL;</div>
+<div class="line"><a class="code" href="structambix__info__t.html">ambix_info_t</a>*info  = calloc(1, <span class="keyword">sizeof</span>(<a class="code" href="structambix__info__t.html">ambix_info_t</a>));</div>
 <div class="line"></div>
-<div class="line">  <span class="comment">/* need to specify samplerate and sampleformat */</span></div>
-<div class="line">  info-&gt;<a class="code" href="structambix__info__t.html#a4d12850d1784125b024293307a72f269">samplerate</a>   = 44100;</div>
-<div class="line">  info-&gt;<a class="code" href="structambix__info__t.html#abc6766bcc0cf9b0a81f38d535ed0a918">sampleformat</a> = <a class="code" href="ambix_8h.html#a3dba8ae1c6a50c9f533517276e3545f0a64884188068950ac1eeac9ffb8617f3e">AMBIX_SAMPLEFORMAT_PCM24</a>;</div>
-<div class="line">  info-&gt;<a class="code" href="structambix__info__t.html#a088b71debbb155f123fc7abdddd24462">fileformat</a>   = <a class="code" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abb44830701a07dc50814f69ec74050d5">AMBIX_BASIC</a>;</div>
-<div class="line">  info-&gt;<a class="code" href="structambix__info__t.html#a615d125aaa9f1acaef9e6598a4cca722">ambichannels</a> = 7; <span class="comment">/* 3rd-order horizontal-only(!) */</span></div>
+<div class="line"><span class="comment">/* need to specify samplerate and sampleformat */</span></div>
+<div class="line">info-&gt;<a class="code" href="structambix__info__t.html#a4d12850d1784125b024293307a72f269">samplerate</a>   = 44100;</div>
+<div class="line">info-&gt;<a class="code" href="structambix__info__t.html#abc6766bcc0cf9b0a81f38d535ed0a918">sampleformat</a> = <a class="code" href="ambix_8h.html#a3dba8ae1c6a50c9f533517276e3545f0a64884188068950ac1eeac9ffb8617f3e">AMBIX_SAMPLEFORMAT_PCM24</a>;</div>
+<div class="line">info-&gt;<a class="code" href="structambix__info__t.html#a088b71debbb155f123fc7abdddd24462">fileformat</a>   = <a class="code" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abb44830701a07dc50814f69ec74050d5">AMBIX_BASIC</a>;</div>
+<div class="line">info-&gt;<a class="code" href="structambix__info__t.html#a615d125aaa9f1acaef9e6598a4cca722">ambichannels</a> = 7; <span class="comment">/* 3rd-order horizontal-only(!) */</span></div>
 <div class="line"></div>
-<div class="line">  ambix = <a class="code" href="group__ambix.html#gaaf5dcae7c0ea7321e612a7bbe982e056">ambix_open</a>(<span class="stringliteral">&quot;ambixfile.caf&quot;</span>, <a class="code" href="ambix_8h.html#abecfbc0978dd169538565e07d431d0faafbbdf1e779cf4cf905f78db42f39d41f">AMBIX_WRITE</a>, info);</div>
-<div class="line">  <span class="keywordflow">if</span>(ambix) {</div>
-<div class="line">    uint64_t fullambichannels = 16;</div>
-<div class="line">    uint64_t frames = info-&gt;<a class="code" href="structambix__info__t.html#a4fac5ed056e5bb7bedca0c003d2f21b9">frames</a>;</div>
-<div class="line">    uint64_t blocksize = 1024;</div>
-<div class="line">    uint64_t block;</div>
+<div class="line">ambix = <a class="code" href="group__ambix.html#gaaf5dcae7c0ea7321e612a7bbe982e056">ambix_open</a>(<span class="stringliteral">&quot;ambixfile.caf&quot;</span>, <a class="code" href="ambix_8h.html#abecfbc0978dd169538565e07d431d0faafbbdf1e779cf4cf905f78db42f39d41f">AMBIX_WRITE</a>, info);</div>
+<div class="line"><span class="keywordflow">if</span>(ambix) {</div>
+<div class="line">  uint64_t fullambichannels = 16;</div>
+<div class="line">  uint64_t frames = info-&gt;<a class="code" href="structambix__info__t.html#a4fac5ed056e5bb7bedca0c003d2f21b9">frames</a>;</div>
+<div class="line">  uint64_t blocksize = 1024;</div>
+<div class="line">  uint64_t block;</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>*ambidata  = calloc(fullambichannels  * blocksize, <span class="keyword">sizeof</span>(<a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>));</div>
+<div class="line">  <a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>*ambidata  = calloc(fullambichannels  * blocksize, <span class="keyword">sizeof</span>(<a class="code" href="ambix_8h.html#a4611b605e45ab401f02cab15c5e38715">float32_t</a>));</div>
 <div class="line"></div>
-<div class="line">    <span class="comment">/* on disk, the data is stored as 3rd-order horizontal-only Furse-Malham</span></div>
-<div class="line"><span class="comment">     * set (7 channels); we need to provide an adaptor matrix that converts</span></div>
-<div class="line"><span class="comment">     * from the 7 FuMa-channels to the 16 AMBIX channels</span></div>
-<div class="line"><span class="comment">     */</span></div>
-<div class="line">    <a class="code" href="structambix__matrix__t.html">ambix_matrix_t</a>*mtx = NULL;</div>
-<div class="line">    mtx = <a class="code" href="group__ambix__matrix.html#gae42712fa68ef3f1aa0a169d990445d59">ambix_matrix_init</a>(fullambichannels, info-&gt;<a class="code" href="structambix__info__t.html#a615d125aaa9f1acaef9e6598a4cca722">ambichannels</a>, mtx);</div>
-<div class="line">    mtx = <a class="code" href="group__ambix__matrix.html#ga108d3d26586a42a29d07ddde5ab8da62">ambix_matrix_fill</a>(mtx, ABIX_MATRIX_FUMA); <span class="comment">/* fuma-&gt;ambix matrix [16x7] */</span></div>
-<div class="line">    <a class="code" href="group__ambix.html#gaa6890a0640c08e627ae0cdd464957bf7">ambix_set_adaptormatrix</a>(ambix, mtx);</div>
-<div class="line">    <a class="code" href="group__ambix__matrix.html#ga1ea787bb53abfefad7650ea741c391d9">ambix_matrix_destroy</a>(mtx);</div>
+<div class="line">  <span class="comment">/* on disk, the data is stored as 3rd-order horizontal-only Furse-Malham</span></div>
+<div class="line"><span class="comment">   * set (7 channels); we need to provide an adaptor matrix that converts</span></div>
+<div class="line"><span class="comment">   * from the 7 FuMa-channels to the 16 AMBIX channels</span></div>
+<div class="line"><span class="comment">   */</span></div>
+<div class="line">  <a class="code" href="structambix__matrix__t.html">ambix_matrix_t</a>*mtx = NULL;</div>
+<div class="line">  mtx = <a class="code" href="group__ambix__matrix.html#gae42712fa68ef3f1aa0a169d990445d59">ambix_matrix_init</a>(fullambichannels, info-&gt;<a class="code" href="structambix__info__t.html#a615d125aaa9f1acaef9e6598a4cca722">ambichannels</a>, mtx);</div>
+<div class="line">  mtx = <a class="code" href="group__ambix__matrix.html#ga108d3d26586a42a29d07ddde5ab8da62">ambix_matrix_fill</a>(mtx, ABIX_MATRIX_FUMA); <span class="comment">/* fuma-&gt;ambix matrix [16x7] */</span></div>
+<div class="line">  <a class="code" href="group__ambix.html#gaa6890a0640c08e627ae0cdd464957bf7">ambix_set_adaptormatrix</a>(ambix, mtx);</div>
+<div class="line">  <a class="code" href="group__ambix__matrix.html#ga1ea787bb53abfefad7650ea741c391d9">ambix_matrix_destroy</a>(mtx);</div>
 <div class="line"></div>
-<div class="line">    <span class="keywordflow">while</span>(haveData) {</div>
-<div class="line">      <span class="comment">/* acquire blocksize samples of a full set of 3rd order ambisonics data (16 channels)</span></div>
-<div class="line"><span class="comment">       *  into ambidata (interleaved)</span></div>
-<div class="line"><span class="comment">       * ...</span></div>
-<div class="line"><span class="comment">        */</span></div>
+<div class="line">  <span class="keywordflow">while</span>(haveData) {</div>
+<div class="line">    <span class="comment">// acquire blocksize samples of a full set of 3rd order ambisonics data (16 channels)</span></div>
+<div class="line">    <span class="comment">//  into ambidata (interleaved)</span></div>
+<div class="line">    <span class="comment">// ...</span></div>
 <div class="line"></div>
-<div class="line">      block = ambix_write_float32(ambix, ambidata, NULL, blocksize);</div>
-<div class="line">    }</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__ambix.html#ga5986e1bb6e6042ce262db23b78602e86">ambix_close</a>(ambix);</div>
-<div class="line">    free(ambidata);</div>
+<div class="line">    block = ambix_write_float32(ambix, ambidata, NULL, blocksize);</div>
 <div class="line">  }</div>
-<div class="line">* </div>
+<div class="line"></div>
+<div class="line">  <a class="code" href="group__ambix.html#ga5986e1bb6e6042ce262db23b78602e86">ambix_close</a>(ambix);</div>
+<div class="line">  free(ambidata);</div>
+<div class="line">}</div>
+<div class="line">free(info);</div>
 </div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 10 2016 16:21:48 for libambix by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

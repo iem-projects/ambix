@@ -13,7 +13,7 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script src="http://www.mathjax.org/mathjax/MathJax.js"></script>
+</script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +25,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">libambix
    </div>
+   <div id="projectbrief">the AMBIsonics eXchange library</div>
   </td>
  </tr>
  </tbody>
@@ -83,12 +84,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ga246e54a09a9931ad31633515ff8e1aad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="exportdefs_8h.html#aaa712bb30e1a83c4f9a39d09f52b0a3a">AMBIX_API</a> <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ambix__matrix.html#ga246e54a09a9931ad31633515ff8e1aad">ambix_matrix_copy</a> (const <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *src, <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *dest)</td></tr>
 <tr class="memdesc:ga246e54a09a9931ad31633515ff8e1aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy a matrix to another matrix.  <a href="#ga246e54a09a9931ad31633515ff8e1aad">More...</a><br/></td></tr>
 <tr class="separator:ga246e54a09a9931ad31633515ff8e1aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa89ba843078a73ecd511645a124d222b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="exportdefs_8h.html#aaa712bb30e1a83c4f9a39d09f52b0a3a">AMBIX_API</a> <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ambix__matrix.html#gaa89ba843078a73ecd511645a124d222b">ambix_matrix_multiply</a> (const <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *A, const <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *B, <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *result)</td></tr>
-<tr class="memdesc:gaa89ba843078a73ecd511645a124d222b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two matrices.  <a href="#gaa89ba843078a73ecd511645a124d222b">More...</a><br/></td></tr>
-<tr class="separator:gaa89ba843078a73ecd511645a124d222b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga85ea01f0784b31f2674b661a84ef0134"><td class="memItemLeft" align="right" valign="top"><a class="el" href="exportdefs_8h.html#aaa712bb30e1a83c4f9a39d09f52b0a3a">AMBIX_API</a> <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ambix__matrix.html#ga85ea01f0784b31f2674b661a84ef0134">ambix_matrix_pinv</a> (const <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *matrix, <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *pinv)</td></tr>
-<tr class="memdesc:ga85ea01f0784b31f2674b661a84ef0134"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Moore-Penrose pseudoinverse of a matrix.  <a href="#ga85ea01f0784b31f2674b661a84ef0134">More...</a><br/></td></tr>
-<tr class="separator:ga85ea01f0784b31f2674b661a84ef0134"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Various utilities to handle matrices. </p>
@@ -318,92 +313,10 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa89ba843078a73ecd511645a124d222b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="exportdefs_8h.html#aaa712bb30e1a83c4f9a39d09f52b0a3a">AMBIX_API</a> <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a>* ambix_matrix_multiply </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td>
-          <td class="paramname"><em>A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td>
-          <td class="paramname"><em>B</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Multiply two matrices. </p>
-<p>Multiply matrices dest=A*B, possibly resizing or creating the destination matrix.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">A</td><td>left-hand operator</td></tr>
-    <tr><td class="paramname">B</td><td>right-hand operator</td></tr>
-    <tr><td class="paramname">result</td><td>pointer to the matrix object that will hold the result or NULL</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to the result matrix, or NULL in case the matrix multiplication did not succeed.</dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd>If this returns a newly allocated matrix object (result!=return value), the host has to take care of calling <a class="el" href="group__ambix__matrix.html#ga1ea787bb53abfefad7650ea741c391d9" title="Destroy a matrix. ">ambix_matrix_destroy()</a>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga85ea01f0784b31f2674b661a84ef0134"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="exportdefs_8h.html#aaa712bb30e1a83c4f9a39d09f52b0a3a">AMBIX_API</a> <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a>* ambix_matrix_pinv </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td>
-          <td class="paramname"><em>matrix</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structambix__matrix__t.html">ambix_matrix_t</a> *&#160;</td>
-          <td class="paramname"><em>pinv</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the Moore-Penrose pseudoinverse of a matrix. </p>
-<p>Get the Moore-Penrose pseudoinverse of the matrix input and write the result to pinv</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">matrix</td><td>input matrix</td></tr>
-    <tr><td class="paramname">pinv</td><td>pointer to the matrix object that will hold the result or NULL</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to the result matrix, or NULL in case the matrix inversion did not succeed. </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 10 2016 16:21:48 for libambix by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
