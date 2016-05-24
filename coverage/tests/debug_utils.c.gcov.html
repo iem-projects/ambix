@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - libambix test coverage - tests/debug_utils.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - debug_utils.c<span style="font-size: 80%;"> (source / <a href="debug_utils.c.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">libambix test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-05-24</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;common.h&quot;</a>
+<span class="lineNum">       2 </span>            : #include &quot;data.h&quot;
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : /* libambix's private header */
+<a name="5"><span class="lineNum">       5 </span>            : #include &quot;private.h&quot;</a>
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
+<span class="lineNum">       8 </span><span class="lineCov">          1 :   ambix_info_t*info=NULL;</span>
+<span class="lineNum">       9 </span><span class="lineCov">          1 :   ambix_matrix_t*mtx=NULL;</span>
+<span class="lineNum">      10 </span><span class="lineCov">          1 :   ambix_t*ambix=NULL;</span>
+<span class="lineNum">      11 </span><span class="lineCov">          1 :   _ambix_print_info(info);</span>
+<span class="lineNum">      12 </span><span class="lineCov">          1 :   _ambix_print_matrix(mtx);</span>
+<span class="lineNum">      13 </span><span class="lineCov">          1 :   _ambix_print_ambix(ambix);</span>
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span><span class="lineCov">          1 :   info= calloc(1, sizeof(ambix_info_t));</span>
+<span class="lineNum">      16 </span><span class="lineCov">          1 :   ambix=ambix_open(AMBIXTEST_FILE1, AMBIX_READ, info);</span>
+<span class="lineNum">      17 </span><span class="lineCov">          1 :   fail_if(NULL==ambix, __LINE__, &quot;File was not open&quot;);</span>
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span><span class="lineCov">          1 :   _ambix_print_info(info);</span>
+<span class="lineNum">      20 </span><span class="lineCov">          1 :   _ambix_print_ambix(ambix);</span>
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span><span class="lineCov">          1 :   ambix_close(ambix);</span>
+<span class="lineNum">      23 </span><span class="lineCov">          1 :   free(info);</span>
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 5, mtx);</span>
+<span class="lineNum">      26 </span><span class="lineCov">          1 :   _ambix_print_matrix(mtx);</span>
+<span class="lineNum">      27 </span><span class="lineCov">          1 :   mtx=ambix_matrix_fill(mtx, AMBIX_MATRIX_ONE);</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :   _ambix_print_matrix(mtx);</span>
+<span class="lineNum">      29 </span><span class="lineCov">          1 :   ambix_matrix_destroy(mtx);</span>
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span><span class="lineCov">          1 :   return pass();</span>
+<span class="lineNum">      32 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

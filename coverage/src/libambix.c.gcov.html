@@ -1,0 +1,505 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - libambix test coverage - src/libambix.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - libambix.c<span style="font-size: 80%;"> (source / <a href="libambix.c.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">libambix test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">137</td>
+            <td class="headerCovTableEntry">191</td>
+            <td class="headerCovTableEntryLo">71.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-05-24</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntryLo">63.2 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* libambix.c -  AMBIsonics eXchange Library              -*- c -*-</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            :    Copyright © 2012-2016 IOhannes m zmölnig &lt;zmoelnig@iem.at&gt;.
+<span class="lineNum">       4 </span>            :          Institute of Electronic Music and Acoustics (IEM),
+<span class="lineNum">       5 </span>            :          University of Music and Dramatic Arts, Graz
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    This file is part of libambix
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            :    libambix is free software; you can redistribute it and/or modify
+<span class="lineNum">      10 </span>            :    it under the terms of the GNU Lesser General Public License as
+<span class="lineNum">      11 </span>            :    published by the Free Software Foundation; either version 2.1 of
+<span class="lineNum">      12 </span>            :    the License, or (at your option) any later version.
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :    libambix is distributed in the hope that it will be useful,
+<span class="lineNum">      15 </span>            :    but WITHOUT ANY WARRANTY; without even the implied warranty of
+<span class="lineNum">      16 </span>            :    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<span class="lineNum">      17 </span>            :    GNU Lesser General Public License for more details.
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            :    You should have received a copy of the GNU Lesser General Public
+<span class="lineNum">      20 </span>            :    License along with this program; if not, see &lt;http://www.gnu.org/licenses/&gt;.
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : */
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &quot;private.h&quot;
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : #ifdef HAVE_STDLIB_H
+<span class="lineNum">      27 </span>            : #include &lt;stdlib.h&gt;
+<span class="lineNum">      28 </span>            : #endif /* HAVE_STDLIB_H */
+<span class="lineNum">      29 </span>            : #ifdef HAVE_STRING_H
+<span class="lineNum">      30 </span>            : # include &lt;string.h&gt;
+<span class="lineNum">      31 </span>            : #endif /* HAVE_STRING_H */
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : /* forward declarations */
+<span class="lineNum">      34 </span>            : ambix_err_t _ambix_write_header (ambix_t*ambix);
+<a name="35"><span class="lineNum">      35 </span>            : </a>
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span><span class="lineCov">         90 : static ambix_err_t _check_write_ambixinfo(ambix_info_t*info) {</span>
+<span class="lineNum">      38 </span>            :   /* FIXXME: rather than failing, we could force the values to be correct */
+<span class="lineNum">      39 </span><span class="lineCov">         90 :   switch(info-&gt;fileformat) {</span>
+<span class="lineNum">      40 </span>            :   case AMBIX_NONE:
+<span class="lineNum">      41 </span><span class="lineCov">          2 :     if(info-&gt;ambichannels&gt;0)</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_INVALID_FORMAT;</span>
+<span class="lineNum">      43 </span><span class="lineCov">          2 :     break;</span>
+<span class="lineNum">      44 </span>            :   case AMBIX_BASIC:
+<span class="lineNum">      45 </span><span class="lineCov">         52 :     if(info-&gt;extrachannels&gt;0)</span>
+<span class="lineNum">      46 </span><span class="lineCov">         24 :       return AMBIX_ERR_INVALID_FORMAT;</span>
+<span class="lineNum">      47 </span><span class="lineCov">         28 :     if(!ambix_is_fullset(info-&gt;ambichannels))</span>
+<span class="lineNum">      48 </span><span class="lineCov">          4 :       return AMBIX_ERR_INVALID_FORMAT;</span>
+<span class="lineNum">      49 </span><span class="lineCov">         24 :     break;</span>
+<span class="lineNum">      50 </span>            :   default:
+<span class="lineNum">      51 </span><span class="lineCov">         36 :     break;</span>
+<span class="lineNum">      52 </span>            :   }
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span><span class="lineCov">         62 :   return AMBIX_ERR_SUCCESS;</span>
+<a name="55"><span class="lineNum">      55 </span>            : }</a>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineCov">        178 : static void _ambix_info_set(ambix_t*ambix</span>
+<span class="lineNum">      58 </span>            :                        , ambix_fileformat_t format
+<span class="lineNum">      59 </span>            :                        , int32_t otherchannels
+<span class="lineNum">      60 </span>            :                        , int32_t ambichannels
+<span class="lineNum">      61 </span>            :                        , int32_t fullambichannels
+<span class="lineNum">      62 </span>            :                        ) {
+<span class="lineNum">      63 </span><span class="lineCov">        178 :   switch(format) {</span>
+<span class="lineNum">      64 </span>            :   case AMBIX_NONE:
+<span class="lineNum">      65 </span><span class="lineCov">          4 :     ambichannels=fullambichannels=0;</span>
+<span class="lineNum">      66 </span><span class="lineCov">          4 :     break;</span>
+<span class="lineNum">      67 </span>            :   case AMBIX_BASIC:
+<span class="lineNum">      68 </span><span class="lineCov">         34 :     otherchannels=0;</span>
+<span class="lineNum">      69 </span><span class="lineCov">         34 :     break;</span>
+<span class="lineNum">      70 </span>            :   default:
+<span class="lineNum">      71 </span><span class="lineCov">        140 :     break;</span>
+<span class="lineNum">      72 </span>            :   }
+<span class="lineNum">      73 </span><span class="lineCov">        178 :   ambix-&gt;realinfo.fileformat=format;</span>
+<span class="lineNum">      74 </span><span class="lineCov">        178 :   ambix-&gt;realinfo.ambichannels=ambichannels;</span>
+<span class="lineNum">      75 </span><span class="lineCov">        178 :   ambix-&gt;realinfo.extrachannels=otherchannels;</span>
+<span class="lineNum">      76 </span><span class="lineCov">        178 :   ambix-&gt;ambisonics_order=(fullambichannels&gt;0)?ambix_channels2order(fullambichannels):0;</span>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">        178 : }</span></a>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineCov">        178 : ambix_t*    ambix_open  (const char *path, const ambix_filemode_t mode, ambix_info_t*ambixinfo) {</span>
+<span class="lineNum">      80 </span><span class="lineCov">        178 :   ambix_t*ambix=NULL;</span>
+<span class="lineNum">      81 </span><span class="lineCov">        178 :   ambix_err_t err = AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">      82 </span><span class="lineCov">        178 :   int32_t ambichannels=0, otherchannels=0;</span>
+<span class="lineNum">      83 </span><span class="lineCov">        178 :   int basic2extended = 0; /* writing extended file as basic */</span>
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span><span class="lineCov">        178 :   if((AMBIX_WRITE &amp; mode) &amp;&amp; (AMBIX_READ &amp; mode)) {</span>
+<span class="lineNum">      86 </span>            :     /* RDRW not yet implemented */
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :     return NULL;</span>
+<span class="lineNum">      88 </span>            :   }
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineCov">        178 :   if(AMBIX_WRITE &amp; mode) {</span>
+<span class="lineNum">      91 </span><span class="lineCov">         62 :     err=_check_write_ambixinfo(ambixinfo);</span>
+<span class="lineNum">      92 </span><span class="lineCov">         62 :     if(err!=AMBIX_ERR_SUCCESS) {</span>
+<span class="lineNum">      93 </span><span class="lineCov">         28 :       if (AMBIX_BASIC == ambixinfo-&gt;fileformat) {</span>
+<span class="lineNum">      94 </span>            :     /* the user might actually try to write an EXTENDED file as BASIC:
+<span class="lineNum">      95 </span>            :      * - ambichannels do not form a full set
+<span class="lineNum">      96 </span>            :      * - otherchannels&gt;0
+<span class="lineNum">      97 </span>            :      * LATER add better checks whether this is really the case
+<span class="lineNum">      98 </span>            :      */
+<span class="lineNum">      99 </span><span class="lineCov">         28 :     ambixinfo-&gt;fileformat = AMBIX_EXTENDED;</span>
+<span class="lineNum">     100 </span><span class="lineCov">         28 :     err=_check_write_ambixinfo(ambixinfo);</span>
+<span class="lineNum">     101 </span><span class="lineCov">         28 :     if(err!=AMBIX_ERR_SUCCESS)</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :       return NULL;</span>
+<span class="lineNum">     103 </span><span class="lineCov">         28 :     basic2extended = 1;</span>
+<span class="lineNum">     104 </span>            :       } else
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :     return NULL;</span>
+<span class="lineNum">     106 </span>            :     }
+<span class="lineNum">     107 </span><span class="lineCov">         62 :     ambichannels=ambixinfo-&gt;ambichannels;</span>
+<span class="lineNum">     108 </span><span class="lineCov">         62 :     otherchannels=ambixinfo-&gt;extrachannels;</span>
+<span class="lineNum">     109 </span>            :   }
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span><span class="lineCov">        178 :   ambix=(ambix_t*)calloc(1, sizeof(ambix_t));</span>
+<span class="lineNum">     112 </span><span class="lineCov">        178 :   if(AMBIX_ERR_SUCCESS == _ambix_open(ambix, path, mode, ambixinfo)) {</span>
+<span class="lineNum">     113 </span><span class="lineCov">        178 :     const ambix_fileformat_t wantformat=basic2extended?AMBIX_BASIC:ambixinfo-&gt;fileformat;</span>
+<span class="lineNum">     114 </span>            :     ambix_fileformat_t haveformat;
+<span class="lineNum">     115 </span><span class="lineCov">        178 :     uint32_t channels = ambix-&gt;channels;</span>
+<span class="lineNum">     116 </span>            :     /* successfully opened, initialize common stuff... */
+<span class="lineNum">     117 </span><span class="lineCov">        178 :     if(ambix-&gt;is_AMBIX) {</span>
+<span class="lineNum">     118 </span><span class="lineCov">        178 :       if(AMBIX_WRITE &amp; mode) {</span>
+<span class="lineNum">     119 </span><span class="lineCov">         62 :         switch(ambixinfo-&gt;fileformat) {</span>
+<span class="lineNum">     120 </span>            :         case(AMBIX_NONE):
+<span class="lineNum">     121 </span><span class="lineCov">          2 :           _ambix_info_set(ambix, AMBIX_NONE, channels, 0, 0);</span>
+<span class="lineNum">     122 </span><span class="lineCov">          2 :           break;</span>
+<span class="lineNum">     123 </span>            :         case(AMBIX_BASIC):
+<span class="lineNum">     124 </span><span class="lineCov">         24 :           _ambix_info_set(ambix, AMBIX_BASIC, 0, channels, channels);</span>
+<span class="lineNum">     125 </span><span class="lineCov">         24 :           break;</span>
+<span class="lineNum">     126 </span>            :         case(AMBIX_EXTENDED):
+<span class="lineNum">     127 </span>            :           /* the number of full channels is not clear yet!
+<span class="lineNum">     128 </span>            :            * the user MUST call set_adaptormatrix() first */
+<span class="lineNum">     129 </span><span class="lineCov">         36 :           _ambix_info_set(ambix, AMBIX_EXTENDED, otherchannels, ambichannels, 0);</span>
+<span class="lineNum">     130 </span><span class="lineCov">         36 :           break;</span>
+<span class="lineNum">     131 </span>            :         }
+<span class="lineNum">     132 </span>            :       } else {
+<span class="lineNum">     133 </span><span class="lineCov">        116 :         if(ambix-&gt;format&gt;AMBIX_BASIC) {</span>
+<span class="lineNum">     134 </span>            :           /* check whether channels are (N+1)^2
+<span class="lineNum">     135 </span>            :            * if so, we have a simple-ambix file, else it is just an ordinary caf
+<span class="lineNum">     136 </span>            :            */
+<span class="lineNum">     137 </span><span class="lineCov">        208 :           if(ambix-&gt;matrix.cols &lt;= channels &amp;&amp;  /* reduced set must be fully present */</span>
+<span class="lineNum">     138 </span><span class="lineCov">        104 :              ambix_is_fullset(ambix-&gt;matrix.rows)) { /* expanded set must be a full set */</span>
+<span class="lineNum">     139 </span>            :             /* it's a simple AMBIX! */
+<span class="lineNum">     140 </span><span class="lineCov">        104 :             _ambix_info_set(ambix, AMBIX_EXTENDED, channels-ambix-&gt;matrix.cols, ambix-&gt;matrix.cols, ambix-&gt;matrix.rows);</span>
+<span class="lineNum">     141 </span>            :           } else {
+<span class="lineNum">     142 </span>            :             /* ouch! matrix is not valid! */
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :             _ambix_info_set(ambix, AMBIX_NONE, channels, 0, 0);</span>
+<span class="lineNum">     144 </span>            :           }
+<span class="lineNum">     145 </span>            :         } else {
+<span class="lineNum">     146 </span>            :           /* no uuid chunk found, it's probably a BASIC ambix file */
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :           /* check whether channels are (N+1)^2
+<span class="lineNum">     149 </span>            :            * if so, we have a simple-ambix file, else it is just an ordinary caf
+<span class="lineNum">     150 </span>            :            */
+<span class="lineNum">     151 </span><span class="lineCov">         12 :           if(ambix_is_fullset(channels)) { /* expanded set must be a full set */</span>
+<span class="lineNum">     152 </span>            :             /* it's a simple AMBIX! */
+<span class="lineNum">     153 </span><span class="lineCov">         10 :             _ambix_info_set(ambix, AMBIX_BASIC, 0, channels, channels);</span>
+<span class="lineNum">     154 </span>            :           } else {
+<span class="lineNum">     155 </span>            :             /* it's an ordinary CAF file */
+<span class="lineNum">     156 </span><span class="lineCov">          2 :             _ambix_info_set(ambix, AMBIX_NONE, channels, 0, 0);</span>
+<span class="lineNum">     157 </span>            :           }
+<span class="lineNum">     158 </span>            :         }
+<span class="lineNum">     159 </span>            :       }
+<span class="lineNum">     160 </span>            :     } else {
+<span class="lineNum">     161 </span>            :       /* it's not a CAF file.... */
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :       _ambix_info_set(ambix, AMBIX_NONE, channels, 0, 0);</span>
+<span class="lineNum">     163 </span>            :     }
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span><span class="lineCov">        178 :     haveformat=ambix-&gt;realinfo.fileformat;</span>
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span><span class="lineCov">        178 :     ambix-&gt;filemode=mode;</span>
+<span class="lineNum">     168 </span><span class="lineCov">        178 :     memcpy(&amp;ambix-&gt;info, &amp;ambix-&gt;realinfo, sizeof(ambix-&gt;info));</span>
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span>            :     if(basic2extended) {
+<span class="lineNum">     171 </span>            :       /* write EXTENDED files as BASIC */
+<span class="lineNum">     172 </span>            : #if 0
+<span class="lineNum">     173 </span>            :       ambix_matrix_init(ambix-&gt;info.ambichannels, ambix-&gt;realinfo.ambichannels, &amp;ambix-&gt;matrix);
+<span class="lineNum">     174 </span>            :       ambix_matrix_fill(&amp;ambix-&gt;matrix, AMBIX_MATRIX_IDENTITY);
+<span class="lineNum">     175 </span>            :       _ambix_matrix_pinv(&amp;ambix-&gt;matrix, &amp;ambix-&gt;matrix2);
+<span class="lineNum">     176 </span>            : #endif
+<span class="lineNum">     177 </span>            :     }
+<span class="lineNum">     178 </span>            :     if(0) {
+<span class="lineNum">     179 </span><span class="lineCov">        178 :     } else if(AMBIX_BASIC==wantformat &amp;&amp; AMBIX_EXTENDED==haveformat) {</span>
+<span class="lineNum">     180 </span><span class="lineCov">         76 :       ambix-&gt;info.fileformat=AMBIX_BASIC;</span>
+<span class="lineNum">     181 </span><span class="lineCov">         76 :       ambix-&gt;use_matrix=1;</span>
+<span class="lineNum">     182 </span><span class="lineCov">         76 :       ambix-&gt;info.ambichannels=ambix-&gt;matrix.rows;</span>
+<span class="lineNum">     183 </span><span class="lineCov">        102 :     } else if(AMBIX_EXTENDED==wantformat &amp;&amp; AMBIX_BASIC==haveformat) {</span>
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :       ambix_matrix_init(ambix-&gt;realinfo.ambichannels, ambix-&gt;realinfo.ambichannels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :       ambix_matrix_fill(&amp;ambix-&gt;matrix, AMBIX_MATRIX_IDENTITY);</span>
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :       ambix-&gt;info.fileformat=AMBIX_EXTENDED;</span>
+<span class="lineNum">     187 </span><span class="lineNoCov">          0 :       ambix-&gt;use_matrix=0;</span>
+<span class="lineNum">     188 </span>            :     }
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span><span class="lineCov">        178 :     memcpy(ambixinfo, &amp;ambix-&gt;info, sizeof(ambix-&gt;info));</span>
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span><span class="lineCov">        178 :     if(_ambix_adaptorbuffer_resize(ambix, DEFAULT_ADAPTORBUFFER_SIZE, sizeof(float32_t)) == AMBIX_ERR_SUCCESS)</span>
+<span class="lineNum">     193 </span><span class="lineCov">        178 :       return ambix;</span>
+<span class="lineNum">     194 </span>            :   }
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :   ambix_close(ambix);</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :   return NULL;</span>
+<a name="198"><span class="lineNum">     198 </span>            : }</a>
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span><span class="lineCov">        178 : ambix_err_t ambix_close (ambix_t*ambix) {</span>
+<span class="lineNum">     201 </span><span class="lineCov">        178 :   ambix_err_t res=AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     202 </span><span class="lineCov">        178 :   if(NULL==ambix) {</span>
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_INVALID_HANDLE;</span>
+<span class="lineNum">     204 </span>            :   }
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span><span class="lineCov">        178 :   if((ambix-&gt;filemode &amp; AMBIX_WRITE) &amp;&amp; ambix-&gt;pendingHeaders) {</span>
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :     _ambix_write_header(ambix);</span>
+<span class="lineNum">     208 </span>            :   }
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span><span class="lineCov">        178 :   res=_ambix_close(ambix);</span>
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span><span class="lineCov">        178 :   _ambix_adaptorbuffer_destroy(ambix);</span>
+<span class="lineNum">     213 </span><span class="lineCov">        178 :   ambix_matrix_deinit(&amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     214 </span><span class="lineCov">        178 :   ambix_matrix_deinit(&amp;ambix-&gt;matrix2);</span>
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span><span class="lineCov">        178 :   free(ambix);</span>
+<span class="lineNum">     217 </span><span class="lineCov">        178 :   ambix=NULL;</span>
+<span class="lineNum">     218 </span><span class="lineCov">        178 :   return res;</span>
+<a name="219"><span class="lineNum">     219 </span>            : }</a>
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span><span class="lineCov">          1 : int64_t ambix_seek (ambix_t* ambix, int64_t frames, int whence) {</span>
+<span class="lineNum">     222 </span><span class="lineCov">          1 :   return _ambix_seek(ambix, frames, whence);</span>
+<a name="223"><span class="lineNum">     223 </span>            : }</a>
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 : struct SNDFILE_tag*ambix_get_sndfile    (ambix_t*ambix) {</span>
+<span class="lineNum">     226 </span>            : #ifdef HAVE_SNDFILE_H
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :   return _ambix_get_sndfile(ambix);</span>
+<span class="lineNum">     228 </span>            : #endif
+<span class="lineNum">     229 </span>            :   return NULL;
+<span class="lineNum">     230 </span>            : }
+<a name="231"><span class="lineNum">     231 </span>            : </a>
+<span class="lineNum">     232 </span>            : 
+<span class="lineNum">     233 </span><span class="lineCov">         57 : const ambix_matrix_t*ambix_get_adaptormatrix    (ambix_t*ambix) {</span>
+<span class="lineNum">     234 </span><span class="lineCov">         57 :   if(AMBIX_EXTENDED==ambix-&gt;info.fileformat)</span>
+<span class="lineNum">     235 </span><span class="lineCov">         56 :     return &amp;(ambix-&gt;matrix);</span>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">          1 :   return NULL;</span></a>
+<span class="lineNum">     237 </span>            : }
+<span class="lineNum">     238 </span><span class="lineCov">         56 : ambix_err_t ambix_set_adaptormatrix (ambix_t*ambix, const ambix_matrix_t*matrix) {</span>
+<span class="lineNum">     239 </span>            :   if(0) {
+<span class="lineNum">     240 </span><span class="lineCov">         56 :   } else if((ambix-&gt;filemode &amp; AMBIX_READ ) &amp;&amp; (AMBIX_BASIC   == ambix-&gt;info.fileformat)) {</span>
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :     ambix_matrix_t*mtx=NULL;</span>
+<span class="lineNum">     242 </span>            :     /* multiply the matrix with the previous adaptor matrix */
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :     if(AMBIX_EXTENDED == ambix-&gt;realinfo.fileformat) {</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :       mtx=_ambix_matrix_multiply(matrix, &amp;ambix-&gt;matrix, &amp;ambix-&gt;matrix2);</span>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :       if(mtx != &amp;ambix-&gt;matrix2)</span>
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :         return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :       ambix-&gt;use_matrix=2;</span>
+<span class="lineNum">     248 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     249 </span>            :     } else {
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :       if(matrix-&gt;cols != ambix-&gt;realinfo.ambichannels) {</span>
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 :         return AMBIX_ERR_INVALID_DIMENSION;</span>
+<span class="lineNum">     252 </span>            :       }
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :       mtx=ambix_matrix_copy(matrix, &amp;ambix-&gt;matrix2);</span>
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :       if(mtx) {</span>
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :         ambix-&gt;use_matrix=2;</span>
+<span class="lineNum">     256 </span>            :       } else {
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :         return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     258 </span>            :       }
+<span class="lineNum">     259 </span>            :     }
+<span class="lineNum">     260 </span><span class="lineCov">         56 :   } else if((ambix-&gt;filemode &amp; AMBIX_WRITE) &amp;&amp; (AMBIX_EXTENDED == ambix-&gt;info.fileformat)) {</span>
+<span class="lineNum">     261 </span>            :     /* too late, writing started already */
+<span class="lineNum">     262 </span><span class="lineCov">          8 :     if(ambix-&gt;startedWriting)</span>
+<span class="lineNum">     263 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            :     /* check whether the matrix will expand to a full set */
+<span class="lineNum">     266 </span><span class="lineCov">          8 :     if(!ambix_is_fullset(matrix-&gt;rows))</span>
+<span class="lineNum">     267 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_INVALID_DIMENSION;</span>
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span><span class="lineCov">          8 :     if(!ambix_matrix_copy(matrix, &amp;ambix-&gt;matrix))</span>
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     271 </span>            :     /* ready to write it to file */
+<span class="lineNum">     272 </span><span class="lineCov">          8 :     ambix-&gt;pendingHeaders=1;</span>
+<span class="lineNum">     273 </span><span class="lineCov">          8 :     return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     274 </span><span class="lineCov">         48 :   } else if((ambix-&gt;filemode &amp; AMBIX_WRITE) &amp;&amp; (AMBIX_BASIC == ambix-&gt;info.fileformat)) {</span>
+<span class="lineNum">     275 </span><span class="lineCov">         48 :     ambix_matrix_t*pinv=0;</span>
+<span class="lineNum">     276 </span>            :     /* user requested AMBIX_BASIC, but now sets a matrix...
+<span class="lineNum">     277 </span>            :      * so we write an ambix-extended format, and create the ambix-channels by
+<span class="lineNum">     278 </span>            :      * multiplying the full-set with pinv(matrix)
+<span class="lineNum">     279 </span>            :      */
+<span class="lineNum">     280 </span><span class="lineCov">         48 :     if(ambix-&gt;startedWriting)    /* too late, writing started already */</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span>            :     /* check whether the reduced set has the same number of channels as we created our file for */
+<span class="lineNum">     284 </span><span class="lineCov">         48 :     if(ambix-&gt;realinfo.ambichannels != matrix-&gt;cols)</span>
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_INVALID_DIMENSION;</span>
+<span class="lineNum">     286 </span>            : 
+<span class="lineNum">     287 </span>            :     /* check whether the matrix will expand to a full set */
+<span class="lineNum">     288 </span><span class="lineCov">         48 :     if(!ambix_is_fullset(matrix-&gt;rows))</span>
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_INVALID_DIMENSION;</span>
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span><span class="lineCov">         48 :     pinv=_ambix_matrix_pinv(matrix, pinv);</span>
+<span class="lineNum">     292 </span><span class="lineCov">         48 :     if(!pinv)</span>
+<span class="lineNum">     293 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_INVALID_MATRIX;</span>
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span><span class="lineCov">         48 :     if(!ambix_matrix_copy(matrix, &amp;ambix-&gt;matrix))</span>
+<span class="lineNum">     296 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     297 </span><span class="lineCov">         48 :     if(!ambix_matrix_copy(pinv, &amp;ambix-&gt;matrix2))</span>
+<span class="lineNum">     298 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     299 </span>            : 
+<span class="lineNum">     300 </span><span class="lineCov">         48 :     ambix_matrix_destroy(pinv);</span>
+<span class="lineNum">     301 </span>            : 
+<span class="lineNum">     302 </span><span class="lineCov">         48 :     ambix-&gt;realinfo.fileformat=AMBIX_EXTENDED;</span>
+<span class="lineNum">     303 </span>            :     //ambix-&gt;realinfo.ambichannels=matrix-&gt;cols;
+<span class="lineNum">     304 </span><span class="lineCov">         48 :     ambix-&gt;info.ambichannels=matrix-&gt;rows;</span>
+<span class="lineNum">     305 </span>            : 
+<span class="lineNum">     306 </span><span class="lineCov">         48 :     ambix-&gt;use_matrix=2;</span>
+<span class="lineNum">     307 </span>            : 
+<span class="lineNum">     308 </span>            :     /* ready to write it to file */
+<span class="lineNum">     309 </span><span class="lineCov">         48 :     ambix-&gt;pendingHeaders=1;</span>
+<span class="lineNum">     310 </span><span class="lineCov">         48 :     return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     311 </span>            :   }
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span><span class="lineNoCov">          0 :   return AMBIX_ERR_UNKNOWN;</span>
+<a name="314"><span class="lineNum">     314 </span>            : }</a>
+<span class="lineNum">     315 </span>            : 
+<span class="lineNum">     316 </span><span class="lineCov">         56 : ambix_err_t _ambix_write_header (ambix_t*ambix) {</span>
+<span class="lineNum">     317 </span><span class="lineCov">         56 :   void*data=NULL;</span>
+<span class="lineNum">     318 </span><span class="lineCov">         56 :   if(ambix-&gt;filemode &amp; AMBIX_WRITE) {</span>
+<span class="lineNum">     319 </span><span class="lineCov">         56 :     if((AMBIX_EXTENDED == ambix-&gt;realinfo.fileformat)) {</span>
+<span class="lineNum">     320 </span>            :       ambix_err_t res;
+<span class="lineNum">     321 </span>            :       /* generate UUID-chunk */
+<span class="lineNum">     322 </span><span class="lineCov">         56 :       uint64_t datalen=_ambix_matrix_to_uuid1(&amp;ambix-&gt;matrix, NULL, ambix-&gt;byteswap);</span>
+<span class="lineNum">     323 </span><span class="lineCov">         56 :       uint64_t usedlen=1+datalen/sizeof(float32_t);</span>
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span><span class="lineCov">         56 :       if(datalen&lt;1)</span>
+<span class="lineNum">     326 </span><span class="lineNoCov">          0 :         return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     327 </span>            : 
+<span class="lineNum">     328 </span><span class="lineCov">         56 :       data=calloc(usedlen, sizeof(float32_t));</span>
+<span class="lineNum">     329 </span><span class="lineCov">         56 :       if(_ambix_matrix_to_uuid1(&amp;ambix-&gt;matrix, data, ambix-&gt;byteswap)!=datalen)</span>
+<span class="lineNum">     330 </span><span class="lineNoCov">          0 :         goto cleanup;</span>
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            :       /* and write it to file */
+<span class="lineNum">     333 </span><span class="lineCov">         56 :       res=_ambix_write_uuidchunk(ambix, data, datalen);</span>
+<span class="lineNum">     334 </span><span class="lineCov">         56 :       if(data)</span>
+<span class="lineNum">     335 </span><span class="lineCov">         56 :         free(data);</span>
+<span class="lineNum">     336 </span>            : 
+<span class="lineNum">     337 </span><span class="lineCov">         56 :       if(AMBIX_ERR_SUCCESS==res)</span>
+<span class="lineNum">     338 </span><span class="lineCov">         56 :         ambix-&gt;pendingHeaders=0;</span>
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span><span class="lineCov">         56 :       return res;</span>
+<span class="lineNum">     341 </span>            :     }
+<span class="lineNum">     342 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_INVALID_FORMAT;</span>
+<span class="lineNum">     343 </span>            :   } else
+<span class="lineNum">     344 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_INVALID_FILE;</span>
+<span class="lineNum">     345 </span>            : 
+<span class="lineNum">     346 </span>            :  cleanup:
+<span class="lineNum">     347 </span><span class="lineNoCov">          0 :   if(data)</span>
+<span class="lineNum">     348 </span><span class="lineNoCov">          0 :     free(data);</span>
+<span class="lineNum">     349 </span><span class="lineNoCov">          0 :   return AMBIX_ERR_UNKNOWN;</span>
+<a name="350"><span class="lineNum">     350 </span>            : }</a>
+<span class="lineNum">     351 </span>            : 
+<span class="lineNum">     352 </span><span class="lineCov">      22852 : static ambix_err_t _ambix_check_write(ambix_t*ambix, const void*ambidata, const void*otherdata, int64_t frames) {</span>
+<span class="lineNum">     353 </span>            :   /* TODO: add some checks whether writing is feasible
+<span class="lineNum">     354 </span>            :    * e.g. format=extended but no (or wrong) matrix present */
+<span class="lineNum">     355 </span><span class="lineCov">      22852 :   if((ambix-&gt;realinfo.fileformat==AMBIX_EXTENDED) &amp;&amp; !ambix_is_fullset(ambix-&gt;matrix.rows))</span>
+<span class="lineNum">     356 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_INVALID_DIMENSION;</span>
+<span class="lineNum">     357 </span>            : 
+<span class="lineNum">     358 </span>            :   /* write out any headers if we haven't done so yet */
+<span class="lineNum">     359 </span><span class="lineCov">      22852 :   if(ambix-&gt;pendingHeaders) {</span>
+<span class="lineNum">     360 </span><span class="lineCov">         56 :     ambix_err_t res=_ambix_write_header(ambix);</span>
+<span class="lineNum">     361 </span><span class="lineCov">         56 :     if(AMBIX_ERR_SUCCESS!=res)</span>
+<span class="lineNum">     362 </span><span class="lineNoCov">          0 :       return res;</span>
+<span class="lineNum">     363 </span>            :   }
+<span class="lineNum">     364 </span>            : 
+<span class="lineNum">     365 </span><span class="lineCov">      22852 :   ambix-&gt;startedWriting=1;</span>
+<span class="lineNum">     366 </span><span class="lineCov">      22852 :   return AMBIX_ERR_SUCCESS;</span>
+<a name="367"><span class="lineNum">     367 </span>            : }</a>
+<span class="lineNum">     368 </span>            : 
+<span class="lineNum">     369 </span><span class="lineCov">        110 : static ambix_err_t _ambix_check_read(ambix_t*ambix, const void*ambidata, const void*otherdata, int64_t frames) {</span>
+<span class="lineNum">     370 </span>            :   /* TODO: add some checks whether reading is feasible
+<span class="lineNum">     371 </span>            :    * e.g. format=extended but no (or wrong) matrix present */
+<span class="lineNum">     372 </span><span class="lineCov">        110 :   ambix-&gt;startedReading=1;</span>
+<span class="lineNum">     373 </span><span class="lineCov">        110 :   return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     374 </span>            : }
+<span class="lineNum">     375 </span>            : 
+<span class="lineNum">     376 </span>            : 
+<span class="lineNum">     377 </span>            : #define AMBIX_READF(type) \
+<span class="lineNum">     378 </span>            :   int64_t ambix_readf_##type (ambix_t*ambix, type##_t*ambidata, type##_t*otherdata, int64_t frames) { \
+<span class="lineNum">     379 </span>            :     int64_t realframes;                                                 \
+<span class="lineNum">     380 </span>            :     type##_t*adaptorbuffer;                                             \
+<span class="lineNum">     381 </span>            :     ambix_err_t err= _ambix_check_read(ambix, (const void*)ambidata, (const void*)otherdata, frames); \
+<span class="lineNum">     382 </span>            :     if(AMBIX_ERR_SUCCESS != err) { return (err&gt;0)?-err:err;}            \
+<span class="lineNum">     383 </span>            :     err=_ambix_adaptorbuffer_resize(ambix, frames, sizeof(type##_t));   \
+<span class="lineNum">     384 </span>            :     if(AMBIX_ERR_SUCCESS != err) { return (err&gt;0)?-err:err;}            \
+<span class="lineNum">     385 </span>            :     adaptorbuffer=(type##_t*)ambix-&gt;adaptorbuffer;                      \
+<span class="lineNum">     386 </span>            :     realframes=_ambix_readf_##type(ambix, adaptorbuffer, frames);       \
+<span class="lineNum">     387 </span>            :     switch(ambix-&gt;use_matrix) {                                         \
+<span class="lineNum">     388 </span>            :     case 1:                                                             \
+<span class="lineNum">     389 </span>            :       _ambix_splitAdaptormatrix_##type(adaptorbuffer, ambix-&gt;realinfo.ambichannels+ambix-&gt;realinfo.extrachannels, &amp;ambix-&gt;matrix          , ambidata, otherdata, realframes); \
+<span class="lineNum">     390 </span>            :       break;                                                            \
+<span class="lineNum">     391 </span>            :     case 2:                                                             \
+<span class="lineNum">     392 </span>            :       _ambix_splitAdaptormatrix_##type(adaptorbuffer, ambix-&gt;realinfo.ambichannels+ambix-&gt;realinfo.extrachannels, &amp;ambix-&gt;matrix2         , ambidata, otherdata, realframes); \
+<span class="lineNum">     393 </span>            :       break;                                                            \
+<span class="lineNum">     394 </span>            :     default:                                                            \
+<span class="lineNum">     395 </span>            :       _ambix_splitAdaptor_##type      (adaptorbuffer, ambix-&gt;realinfo.ambichannels+ambix-&gt;realinfo.extrachannels, ambix-&gt;realinfo.ambichannels, ambidata, otherdata, realframes); \
+<span class="lineNum">     396 </span>            :     };                                                                  \
+<span class="lineNum">     397 </span>            :     return realframes;                                                  \
+<span class="lineNum">     398 </span>            :   }
+<span class="lineNum">     399 </span>            : 
+<span class="lineNum">     400 </span>            : #define AMBIX_WRITEF(type) \
+<span class="lineNum">     401 </span>            :   int64_t ambix_writef_##type (ambix_t*ambix, const type##_t *ambidata, const type##_t*otherdata, int64_t frames) { \
+<span class="lineNum">     402 </span>            :     type##_t*adaptorbuffer;                                             \
+<span class="lineNum">     403 </span>            :     ambix_err_t err= _ambix_check_write(ambix, (const void*)ambidata, (const void*)otherdata, frames); \
+<span class="lineNum">     404 </span>            :     if(AMBIX_ERR_SUCCESS != err) { return (err&gt;0)?-err:err;}            \
+<span class="lineNum">     405 </span>            :     err=_ambix_adaptorbuffer_resize(ambix, frames, sizeof(type##_t));   \
+<span class="lineNum">     406 </span>            :     if(AMBIX_ERR_SUCCESS != err) { return (err&gt;0)?-err:err;}            \
+<span class="lineNum">     407 </span>            :     adaptorbuffer=(type##_t*)ambix-&gt;adaptorbuffer;                      \
+<span class="lineNum">     408 </span>            :     switch(ambix-&gt;use_matrix) {                                         \
+<span class="lineNum">     409 </span>            :     case 1:                                                             \
+<span class="lineNum">     410 </span>            :     _ambix_mergeAdaptormatrix_##type(ambidata, &amp;ambix-&gt;matrix , otherdata, ambix-&gt;info.extrachannels, adaptorbuffer, frames); \
+<span class="lineNum">     411 </span>            :     break;                                                              \
+<span class="lineNum">     412 </span>            :     case 2:                                                             \
+<span class="lineNum">     413 </span>            :     _ambix_mergeAdaptormatrix_##type(ambidata, &amp;ambix-&gt;matrix2, otherdata, ambix-&gt;info.extrachannels, adaptorbuffer, frames); \
+<span class="lineNum">     414 </span>            :     break;                                                              \
+<span class="lineNum">     415 </span>            :     default:                                                            \
+<span class="lineNum">     416 </span>            :     _ambix_mergeAdaptor_##type(ambidata, ambix-&gt;info.ambichannels, otherdata, ambix-&gt;info.extrachannels, adaptorbuffer, frames); \
+<span class="lineNum">     417 </span>            :     };                                                                  \
+<span class="lineNum">     418 </span>            :     return _ambix_writef_##type(ambix, adaptorbuffer, frames);          \
+<a name="419"><span class="lineNum">     419 </span>            :   }</a>
+<a name="420"><span class="lineNum">     420 </span>            : </a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineNoCov">          0 : AMBIX_READF(int16);</span></a>
+<a name="422"><span class="lineNum">     422 </span><span class="lineNoCov">          0 : AMBIX_READF(int32);</span></a>
+<span class="lineNum">     423 </span><span class="lineCov">        110 : AMBIX_READF(float32);</span>
+<a name="424"><span class="lineNum">     424 </span><span class="lineNoCov">          0 : AMBIX_READF(float64);</span></a>
+<a name="425"><span class="lineNum">     425 </span>            : </a>
+<a name="426"><span class="lineNum">     426 </span><span class="lineNoCov">          0 : AMBIX_WRITEF(int16);</span></a>
+<a name="427"><span class="lineNum">     427 </span><span class="lineNoCov">          0 : AMBIX_WRITEF(int32);</span></a>
+<span class="lineNum">     428 </span><span class="lineCov">      22852 : AMBIX_WRITEF(float32);</span>
+<span class="lineNum">     429 </span><span class="lineNoCov">          0 : AMBIX_WRITEF(float64);</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

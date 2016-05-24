@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - libambix test coverage - src/adaptor.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - adaptor.c<span style="font-size: 80%;"> (source / <a href="adaptor.c.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">libambix test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntry">43</td>
+            <td class="headerCovTableEntryLo">58.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-05-24</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntryLo">36.8 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* adaptor.c -  extracting ambisonics data from data using adaptor matrices              -*- c -*-</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            :    Copyright © 2012-2016 IOhannes m zmölnig &lt;zmoelnig@iem.at&gt;.
+<span class="lineNum">       4 </span>            :          Institute of Electronic Music and Acoustics (IEM),
+<span class="lineNum">       5 </span>            :          University of Music and Dramatic Arts, Graz
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    This file is part of libambix
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            :    libambix is free software; you can redistribute it and/or modify
+<span class="lineNum">      10 </span>            :    it under the terms of the GNU Lesser General Public License as
+<span class="lineNum">      11 </span>            :    published by the Free Software Foundation; either version 2.1 of
+<span class="lineNum">      12 </span>            :    the License, or (at your option) any later version.
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :    libambix is distributed in the hope that it will be useful,
+<span class="lineNum">      15 </span>            :    but WITHOUT ANY WARRANTY; without even the implied warranty of
+<span class="lineNum">      16 </span>            :    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<span class="lineNum">      17 </span>            :    GNU Lesser General Public License for more details.
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            :    You should have received a copy of the GNU Lesser General Public
+<span class="lineNum">      20 </span>            :    License along with this program; if not, see &lt;http://www.gnu.org/licenses/&gt;.
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : */
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &quot;private.h&quot;
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : #ifdef HAVE_STDLIB_H
+<span class="lineNum">      27 </span>            : # include &lt;stdlib.h&gt;
+<a name="28"><span class="lineNum">      28 </span>            : #endif /* HAVE_STDLIB_H */</a>
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span><span class="lineCov">      46280 : static inline uint64_t max_u64(uint64_t a, uint64_t b) {</span>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">      46280 :   return((a&gt;b)?a:b);</span></a>
+<span class="lineNum">      32 </span>            : }
+<span class="lineNum">      33 </span><span class="lineCov">      23140 : ambix_err_t _ambix_adaptorbuffer_resize(ambix_t*ambix, uint64_t frames, uint16_t itemsize) {</span>
+<span class="lineNum">      34 </span><span class="lineCov">      23140 :   uint32_t ambichannels=max_u64(ambix-&gt;info.ambichannels,ambix-&gt;realinfo.ambichannels);</span>
+<span class="lineNum">      35 </span><span class="lineCov">      23140 :   uint32_t extrachannels=max_u64(ambix-&gt;info.extrachannels,ambix-&gt;realinfo.extrachannels);</span>
+<span class="lineNum">      36 </span><span class="lineCov">      23140 :   uint32_t channels=ambichannels + extrachannels;</span>
+<span class="lineNum">      37 </span><span class="lineCov">      23140 :   uint64_t size=channels*frames*itemsize;</span>
+<span class="lineNum">      38 </span><span class="lineCov">      23140 :   if(frames&lt;1 || channels&lt;1)</span>
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">      40 </span><span class="lineCov">      23140 :   if(size&lt;1)</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span><span class="lineCov">      23140 :   if(size &gt; ambix-&gt;adaptorbuffersize) {</span>
+<span class="lineNum">      44 </span>            :     /* re-allocate memory! */
+<span class="lineNum">      45 </span><span class="lineCov">        350 :     void*newbuf=realloc(ambix-&gt;adaptorbuffer, size);</span>
+<span class="lineNum">      46 </span><span class="lineCov">        350 :     if(newbuf) {</span>
+<span class="lineNum">      47 </span><span class="lineCov">        350 :       ambix-&gt;adaptorbuffer=newbuf;</span>
+<span class="lineNum">      48 </span><span class="lineCov">        350 :       ambix-&gt;adaptorbuffersize=size;</span>
+<span class="lineNum">      49 </span>            :     } else {
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :       free(ambix-&gt;adaptorbuffer);</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :       ambix-&gt;adaptorbuffer=NULL;</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :       ambix-&gt;adaptorbuffersize=0;</span>
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">      54 </span>            :     }
+<span class="lineNum">      55 </span>            :   }
+<span class="lineNum">      56 </span><span class="lineCov">      23140 :   return AMBIX_ERR_SUCCESS;</span>
+<a name="57"><span class="lineNum">      57 </span>            : }</a>
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span><span class="lineCov">        178 : ambix_err_t _ambix_adaptorbuffer_destroy(ambix_t*ambix) {</span>
+<span class="lineNum">      60 </span><span class="lineCov">        178 :   if(ambix-&gt;adaptorbuffer)</span>
+<span class="lineNum">      61 </span><span class="lineCov">        178 :     free(ambix-&gt;adaptorbuffer);</span>
+<span class="lineNum">      62 </span><span class="lineCov">        178 :   ambix-&gt;adaptorbuffer=NULL;</span>
+<span class="lineNum">      63 </span><span class="lineCov">        178 :   ambix-&gt;adaptorbuffersize=0;</span>
+<span class="lineNum">      64 </span><span class="lineCov">        178 :   return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">      65 </span>            : }
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            : #define _AMBIX_SPLITADAPTOR(type) \
+<span class="lineNum">      69 </span>            :   ambix_err_t _ambix_splitAdaptor_##type(const type##_t*source, uint32_t sourcechannels, \
+<span class="lineNum">      70 </span>            :                                          uint32_t ambichannels, type##_t*dest_ambi, type##_t*dest_other, \
+<span class="lineNum">      71 </span>            :                                          int64_t frames) {              \
+<span class="lineNum">      72 </span>            :     int64_t frame;                                                      \
+<span class="lineNum">      73 </span>            :     for(frame=0; frame&lt;frames; frame++) {                               \
+<span class="lineNum">      74 </span>            :       uint32_t chan;                                                    \
+<span class="lineNum">      75 </span>            :       for(chan=0; chan&lt;ambichannels; chan++)                            \
+<span class="lineNum">      76 </span>            :         *dest_ambi++=*source++;                                         \
+<span class="lineNum">      77 </span>            :       for(chan=ambichannels; chan&lt;sourcechannels; chan++)               \
+<span class="lineNum">      78 </span>            :         *dest_other++=*source++;                                        \
+<span class="lineNum">      79 </span>            :     }                                                                   \
+<span class="lineNum">      80 </span>            :     return AMBIX_ERR_SUCCESS;                                           \
+<a name="81"><span class="lineNum">      81 </span>            :   }</a>
+<a name="82"><span class="lineNum">      82 </span>            : </a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">         62 : _AMBIX_SPLITADAPTOR(float32);</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineNoCov">          0 : _AMBIX_SPLITADAPTOR(float64);</span></a>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 : _AMBIX_SPLITADAPTOR(int32);</span>
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 : _AMBIX_SPLITADAPTOR(int16);</span>
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : #define _AMBIX_SPLITADAPTOR_MATRIX(type)                                \
+<span class="lineNum">      91 </span>            :   ambix_err_t _ambix_splitAdaptormatrix_##type(const type##_t*source, uint32_t sourcechannels, \
+<span class="lineNum">      92 </span>            :                                                const ambix_matrix_t*matrix, \
+<span class="lineNum">      93 </span>            :                                                type##_t*dest_ambi, type##_t*dest_other, \
+<span class="lineNum">      94 </span>            :                                                int64_t frames) {        \
+<span class="lineNum">      95 </span>            :     float32_t**mtx=matrix-&gt;data;                                        \
+<span class="lineNum">      96 </span>            :     const uint32_t fullambichannels=matrix-&gt;rows;                       \
+<span class="lineNum">      97 </span>            :     const uint32_t rawambichannels=matrix-&gt;cols;                        \
+<span class="lineNum">      98 </span>            :     int64_t f;                                                          \
+<span class="lineNum">      99 </span>            :     for(f=0; f&lt;frames; f++) {                                           \
+<span class="lineNum">     100 </span>            :       uint32_t outchan, inchan;                                         \
+<span class="lineNum">     101 </span>            :       const type##_t*src = source+sourcechannels*f;                     \
+<span class="lineNum">     102 </span>            :       for(outchan=0; outchan&lt;fullambichannels; outchan++) {             \
+<span class="lineNum">     103 </span>            :         float32_t sum=0.;                                               \
+<span class="lineNum">     104 </span>            :         for(inchan=0; inchan&lt;rawambichannels; inchan++) {               \
+<span class="lineNum">     105 </span>            :           sum+=mtx[outchan][inchan] * src[inchan];                      \
+<span class="lineNum">     106 </span>            :         }                                                               \
+<span class="lineNum">     107 </span>            :         *dest_ambi++=(type##_t)sum;  /* FIXXXME: integer saturation */  \
+<span class="lineNum">     108 </span>            :       }                                                                 \
+<span class="lineNum">     109 </span>            :       for(inchan=rawambichannels; inchan&lt;sourcechannels; inchan++)      \
+<span class="lineNum">     110 </span>            :         *dest_other++=src[inchan];                                      \
+<span class="lineNum">     111 </span>            :     }                                                                   \
+<span class="lineNum">     112 </span>            :     return AMBIX_ERR_SUCCESS;                                           \
+<a name="113"><span class="lineNum">     113 </span>            :   }</a>
+<a name="114"><span class="lineNum">     114 </span>            : </a>
+<span class="lineNum">     115 </span><span class="lineCov">         48 : _AMBIX_SPLITADAPTOR_MATRIX(float32);</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 : _AMBIX_SPLITADAPTOR_MATRIX(float64);</span>
+<span class="lineNum">     117 </span>            : /* both _int16 and _int32 are highly unoptimized!
+<a name="118"><span class="lineNum">     118 </span>            :  * LATER: add some fixed point magic to speed things up</a>
+<a name="119"><span class="lineNum">     119 </span>            :  */</a>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 : _AMBIX_SPLITADAPTOR_MATRIX(int32);</span>
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 : _AMBIX_SPLITADAPTOR_MATRIX(int16);</span>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            : #define _AMBIX_MERGEADAPTOR(type)                                       \
+<span class="lineNum">     124 </span>            :   ambix_err_t _ambix_mergeAdaptor_##type(const type##_t*source1, uint32_t source1channels, \
+<span class="lineNum">     125 </span>            :                                          const type##_t*source2, uint32_t source2channels, \
+<span class="lineNum">     126 </span>            :                                          type##_t*destination, int64_t frames) { \
+<span class="lineNum">     127 </span>            :     int64_t frame;                                                      \
+<span class="lineNum">     128 </span>            :     for(frame=0; frame&lt;frames; frame++) {                               \
+<span class="lineNum">     129 </span>            :       uint32_t chan;                                                    \
+<span class="lineNum">     130 </span>            :       for(chan=0; chan&lt;source1channels; chan++)                         \
+<span class="lineNum">     131 </span>            :         *destination++=*source1++;                                      \
+<span class="lineNum">     132 </span>            :       for(chan=0; chan&lt;source2channels; chan++)                         \
+<span class="lineNum">     133 </span>            :         *destination++=*source2++;                                      \
+<span class="lineNum">     134 </span>            :     }                                                                   \
+<span class="lineNum">     135 </span>            :     return AMBIX_ERR_SUCCESS;                                           \
+<a name="136"><span class="lineNum">     136 </span>            :   }</a>
+<a name="137"><span class="lineNum">     137 </span>            : </a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">       2164 : _AMBIX_MERGEADAPTOR(float32);</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineNoCov">          0 : _AMBIX_MERGEADAPTOR(float64);</span></a>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 : _AMBIX_MERGEADAPTOR(int32);</span>
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 : _AMBIX_MERGEADAPTOR(int16);</span>
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            : //#define _AMBIX_MERGEADAPTOR_MATRIX(type)      \
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            : #define _AMBIX_MERGEADAPTOR_MATRIX(type)                                \
+<span class="lineNum">     147 </span>            :   ambix_err_t _ambix_mergeAdaptormatrix_##type(const type##_t*ambi_data, const ambix_matrix_t*matrix, \
+<span class="lineNum">     148 </span>            :                                                const type##_t*otherdata, uint32_t source2channels, \
+<span class="lineNum">     149 </span>            :                                                type##_t*destination, int64_t frames) { \
+<span class="lineNum">     150 </span>            :     float32_t**mtx=matrix-&gt;data;                 \
+<span class="lineNum">     151 </span>            :     const uint32_t fullambichannels=matrix-&gt;cols;            \
+<span class="lineNum">     152 </span>            :     const uint32_t ambixchannels=matrix-&gt;rows;               \
+<span class="lineNum">     153 </span>            :     int64_t f;                              \
+<span class="lineNum">     154 </span>            :     for(f=0; f&lt;frames; f++) {                        \
+<span class="lineNum">     155 </span>            :       /* encode ambisonics-&gt;ambix and store in destination */        \
+<span class="lineNum">     156 </span>            :       uint32_t outchan, inchan;                     \
+<span class="lineNum">     157 </span>            :       const type##_t*src = ambi_data+fullambichannels*f;        \
+<span class="lineNum">     158 </span>            :       for(outchan=0; outchan&lt;ambixchannels; outchan++) {     \
+<span class="lineNum">     159 </span>            :     float32_t sum=0.;                       \
+<span class="lineNum">     160 </span>            :     for(inchan=0; inchan&lt;fullambichannels; inchan++) {       \
+<span class="lineNum">     161 </span>            :       sum+=mtx[outchan][inchan] * src[inchan];          \
+<span class="lineNum">     162 </span>            :     }                               \
+<span class="lineNum">     163 </span>            :     *destination++=(type##_t)sum;                   \
+<span class="lineNum">     164 </span>            :       }                                 \
+<span class="lineNum">     165 </span>            :       /* store the otherchannels */                 \
+<span class="lineNum">     166 </span>            :       for(inchan=0; inchan&lt;source2channels; inchan++)            \
+<span class="lineNum">     167 </span>            :     *destination++=*otherdata++;                    \
+<span class="lineNum">     168 </span>            :     }                                   \
+<span class="lineNum">     169 </span>            :     return AMBIX_ERR_SUCCESS;                       \
+<a name="170"><span class="lineNum">     170 </span>            :   }</a>
+<a name="171"><span class="lineNum">     171 </span>            : </a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">      20688 : _AMBIX_MERGEADAPTOR_MATRIX(float32);</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 : _AMBIX_MERGEADAPTOR_MATRIX(float64);</span></a>
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 : _AMBIX_MERGEADAPTOR_MATRIX(int32);</span>
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 : _AMBIX_MERGEADAPTOR_MATRIX(int16);</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

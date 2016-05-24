@@ -1,0 +1,663 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - libambix test coverage - tests/matrix.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - matrix.c<span style="font-size: 80%;"> (source / <a href="matrix.c.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">libambix test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">312</td>
+            <td class="headerCovTableEntry">320</td>
+            <td class="headerCovTableEntryHi">97.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-05-24</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* matrix - test matrix functionality</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            :    Copyright © 2012-2016 IOhannes m zmölnig &lt;zmoelnig@iem.at&gt;.
+<span class="lineNum">       4 </span>            :          Institute of Electronic Music and Acoustics (IEM),
+<span class="lineNum">       5 </span>            :          University of Music and Dramatic Arts, Graz
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    This file is part of libambix
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            :    libambix is free software; you can redistribute it and/or modify
+<span class="lineNum">      10 </span>            :    it under the terms of the GNU Lesser General Public License as
+<span class="lineNum">      11 </span>            :    published by the Free Software Foundation; either version 2.1 of
+<span class="lineNum">      12 </span>            :    the License, or (at your option) any later version.
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :    libambix is distributed in the hope that it will be useful,
+<span class="lineNum">      15 </span>            :    but WITHOUT ANY WARRANTY; without even the implied warranty of
+<span class="lineNum">      16 </span>            :    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<span class="lineNum">      17 </span>            :    GNU Lesser General Public License for more details.
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            :    You should have received a copy of the GNU Lesser General Public
+<span class="lineNum">      20 </span>            :    License along with this program; if not, see &lt;http://www.gnu.org/licenses/&gt;.
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : */
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &quot;common.h&quot;
+<span class="lineNum">      25 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">      26 </span>            : #include &lt;stdlib.h&gt;
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : static float32_t leftdata_4_3[]= {
+<span class="lineNum">      29 </span>            :    0.19, 0.06, 0.14,
+<span class="lineNum">      30 </span>            :    0.05, 0.08, 0.44,
+<span class="lineNum">      31 </span>            :    0.25, 0.90, 0.77,
+<span class="lineNum">      32 </span>            :    0.83, 0.51, 0.58,
+<span class="lineNum">      33 </span>            : };
+<span class="lineNum">      34 </span>            : static float32_t leftdata_4_4[]= {
+<span class="lineNum">      35 </span>            :   0.7131185686247925, 0.1054799265939327, 0.1882023608287114, 0.1496964665104298,
+<span class="lineNum">      36 </span>            :   0.9035382689904633, 0.0958506183093942, 0.1490156537909140, 0.6730762573692578,
+<span class="lineNum">      37 </span>            :   0.7110257215280688, 0.4278857180785819, 0.5050723092090162, 0.2342525090113509,
+<span class="lineNum">      38 </span>            :   0.1917073427152419, 0.3837280931544647, 0.0397484032568303, 0.5895499716980565,
+<span class="lineNum">      39 </span>            : };
+<span class="lineNum">      40 </span>            : static float32_t rightdata_3_2[]= {
+<span class="lineNum">      41 </span>            :    0.22, 0.46,
+<span class="lineNum">      42 </span>            :    0.36, 0.53,
+<span class="lineNum">      43 </span>            :    0.77, 0.85,
+<span class="lineNum">      44 </span>            : };
+<span class="lineNum">      45 </span>            : static float32_t resultdata_4_2[]= {
+<span class="lineNum">      46 </span>            :   /* leftdata[4,3] * rightdata[3,2] */
+<span class="lineNum">      47 </span>            :    0.1712, 0.2382,
+<span class="lineNum">      48 </span>            :    0.3786, 0.4394,
+<span class="lineNum">      49 </span>            :    0.9719, 1.2465,
+<span class="lineNum">      50 </span>            :    0.8128, 1.1451,
+<span class="lineNum">      51 </span>            : };
+<span class="lineNum">      52 </span>            : static float32_t resultpinv_4_3[] = {
+<span class="lineNum">      53 </span>            :   /* (leftdata[4,3])^-1 */
+<span class="lineNum">      54 </span>            :  0.320059925923633, -0.616572833442599, -0.758203952544301,  1.397070173352668,
+<span class="lineNum">      55 </span>            : -0.475395139478048, -2.112396458091558,  1.443108803981482, -0.198593134445739,
+<span class="lineNum">      56 </span>            :  0.349719602203337,  2.683861685335670, -0.150602340058839, -0.196372558639406,
+<span class="lineNum">      57 </span>            : };
+<span class="lineNum">      58 </span>            : static float32_t resultpinv_4_4[] = {
+<span class="lineNum">      59 </span>            :   /* (leftdata[4,4])^-1 */
+<span class="lineNum">      60 </span>            :   3.260687761423661,-0.750604578051301,-1.027983295100203, 0.437466478433052,
+<span class="lineNum">      61 </span>            :   4.478583197847279,-3.527343133136301,-0.883177052786819, 3.240826676373624,
+<span class="lineNum">      62 </span>            :  -6.751824651655014, 2.959470009112655, 3.874801812795508,-3.203980734335171,
+<a name="63"><span class="lineNum">      63 </span>            :  -3.520111656963465, 2.340434097800232, 0.647874863173282,-0.339426118611342,</a>
+<span class="lineNum">      64 </span>            : };
+<span class="lineNum">      65 </span><span class="lineCov">          7 : static void mtxinverse_test(const ambix_matrix_t *mtx, const ambix_matrix_t *result, float32_t eps) {</span>
+<span class="lineNum">      66 </span><span class="lineCov">          7 :   ambix_matrix_t *pinv = 0;</span>
+<span class="lineNum">      67 </span><span class="lineCov">          7 :   ambix_matrix_t *mul=0;</span>
+<span class="lineNum">      68 </span><span class="lineCov">          7 :   ambix_matrix_t *eye=0;</span>
+<span class="lineNum">      69 </span>            :   float32_t errf;
+<span class="lineNum">      70 </span><span class="lineCov">          7 :   int min_rowcol=(mtx-&gt;cols&lt;mtx-&gt;rows)?mtx-&gt;cols:mtx-&gt;rows;</span>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineCov">          7 :   fail_if((NULL==mtx), __LINE__, &quot;cannot invert NULL-matrix&quot;);</span>
+<span class="lineNum">      73 </span><span class="lineCov">          7 :   fail_if((NULL==result), __LINE__, &quot;cannot invert to NULL-matrix&quot;);</span>
+<span class="lineNum">      74 </span><span class="lineCov">          7 :   eye=ambix_matrix_init(min_rowcol, min_rowcol, eye);</span>
+<span class="lineNum">      75 </span><span class="lineCov">          7 :   eye=ambix_matrix_fill(eye, AMBIX_MATRIX_IDENTITY);</span>
+<span class="lineNum">      76 </span><span class="lineCov">          7 :   fail_if((NULL==eye), __LINE__, &quot;cannot create eye-matrix for pinv-verification&quot;);</span>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span><span class="lineCov">          7 :   pinv=ambix_matrix_pinv(mtx, pinv);</span>
+<span class="lineNum">      79 </span><span class="lineCov">          7 :   if(NULL==pinv)matrix_print(mtx);</span>
+<span class="lineNum">      80 </span><span class="lineCov">          7 :   fail_if((NULL==pinv), __LINE__, &quot;could not invert matrix&quot;);</span>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineCov">          7 :   if(mtx-&gt;cols &lt; mtx-&gt;rows)</span>
+<span class="lineNum">      83 </span><span class="lineCov">          1 :     mul=ambix_matrix_multiply(pinv, mtx, 0);</span>
+<span class="lineNum">      84 </span>            :   else
+<span class="lineNum">      85 </span><span class="lineCov">          6 :     mul=ambix_matrix_multiply(mtx, pinv, 0);</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            : #if 0
+<span class="lineNum">      88 </span>            :   matrix_print(mtx);
+<span class="lineNum">      89 </span>            :   matrix_print(pinv);
+<span class="lineNum">      90 </span>            :   matrix_print(mul);
+<span class="lineNum">      91 </span>            :   //matrix_print(result);
+<span class="lineNum">      92 </span>            :   printf(&quot;------------\n&quot;);
+<span class="lineNum">      93 </span>            : #endif
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineCov">          7 :   errf=matrix_diff(__LINE__, pinv, result, eps);</span>
+<span class="lineNum">      96 </span><span class="lineCov">          7 :   fail_if((errf&gt;eps), __LINE__, &quot;diffing (pseudo)inverse returned %g (&gt;%g)&quot;, errf, eps);</span>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineCov">          7 :   errf=matrix_diff(__LINE__, mul, eye, eps);</span>
+<span class="lineNum">      99 </span><span class="lineCov">          7 :   fail_if((errf&gt;eps), __LINE__, &quot;diffing mtx*pinv(mtx) returned %g (&gt;%g)&quot;, errf, eps);</span>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineCov">          7 :   ambix_matrix_destroy(pinv);</span>
+<span class="lineNum">     102 </span><span class="lineCov">          7 :   ambix_matrix_destroy(mul);</span>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">          7 :   ambix_matrix_destroy(eye);</span></a>
+<span class="lineNum">     104 </span><span class="lineCov">          7 : }</span>
+<span class="lineNum">     105 </span><span class="lineCov">          1 : void mtxinverse_tests(float32_t eps) {</span>
+<span class="lineNum">     106 </span>            :   float32_t errf;
+<span class="lineNum">     107 </span><span class="lineCov">          1 :   ambix_matrix_t *mtx=0, *testresult=0;</span>
+<span class="lineNum">     108 </span><span class="lineCov">          1 :   float32_t*transposedata = (float32_t*)calloc(3*4, sizeof(float32_t));</span>
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            :   /* fill in some test data 4x4 */
+<span class="lineNum">     113 </span><span class="lineCov">          1 :   STARTTEST(&quot;[4x4]\n&quot;);</span>
+<span class="lineNum">     114 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 4, mtx);</span>
+<span class="lineNum">     115 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(mtx, leftdata_4_4);</span>
+<span class="lineNum">     116 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(4, 4, testresult);</span>
+<span class="lineNum">     117 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(testresult, resultpinv_4_4);</span>
+<span class="lineNum">     118 </span><span class="lineCov">          1 :   mtxinverse_test(mtx, testresult, eps);</span>
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            :   /* fill in some test data 4x3 */
+<span class="lineNum">     121 </span><span class="lineCov">          1 :   STARTTEST(&quot;[4x3]\n&quot;);</span>
+<span class="lineNum">     122 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 3, mtx);</span>
+<span class="lineNum">     123 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(mtx, leftdata_4_3);</span>
+<span class="lineNum">     124 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(3, 4, testresult);</span>
+<span class="lineNum">     125 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(testresult, resultpinv_4_3);</span>
+<span class="lineNum">     126 </span><span class="lineCov">          1 :   mtxinverse_test(mtx, testresult, eps);</span>
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span>            :   /* fill in some test data 3x4 */
+<span class="lineNum">     129 </span><span class="lineCov">          1 :   STARTTEST(&quot;[3x4]\n&quot;);</span>
+<span class="lineNum">     130 </span><span class="lineCov">          1 :   data_transpose(transposedata, leftdata_4_3, 4, 3);</span>
+<span class="lineNum">     131 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(3, 4, mtx);</span>
+<span class="lineNum">     132 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(mtx, transposedata);</span>
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span><span class="lineCov">          1 :   data_transpose(transposedata, resultpinv_4_3, 3, 4);</span>
+<span class="lineNum">     135 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(4, 3, testresult);</span>
+<span class="lineNum">     136 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(testresult, transposedata);</span>
+<span class="lineNum">     137 </span><span class="lineCov">          1 :   mtxinverse_test(mtx, testresult, eps);</span>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            :   /* fill in some test data 4x4 */
+<span class="lineNum">     140 </span><span class="lineCov">          1 :   STARTTEST(&quot;[identity:4x4]\n&quot;);</span>
+<span class="lineNum">     141 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 4, mtx);</span>
+<span class="lineNum">     142 </span><span class="lineCov">          1 :   ambix_matrix_fill(mtx, AMBIX_MATRIX_IDENTITY);</span>
+<span class="lineNum">     143 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(4, 4, testresult);</span>
+<span class="lineNum">     144 </span><span class="lineCov">          1 :   ambix_matrix_fill(testresult, AMBIX_MATRIX_IDENTITY);</span>
+<span class="lineNum">     145 </span><span class="lineCov">          1 :   mtxinverse_test(mtx, testresult, eps);</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">          1 :   STARTTEST(&quot;[SID:4x4]\n&quot;);</span>
+<span class="lineNum">     148 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 4, mtx);</span>
+<span class="lineNum">     149 </span><span class="lineCov">          1 :   ambix_matrix_fill(mtx, AMBIX_MATRIX_SID);</span>
+<span class="lineNum">     150 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(4, 4, testresult);</span>
+<span class="lineNum">     151 </span><span class="lineCov">          1 :   ambix_matrix_fill(testresult, AMBIX_MATRIX_TO_SID);</span>
+<span class="lineNum">     152 </span><span class="lineCov">          1 :   mtxinverse_test(mtx, testresult, eps);</span>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineCov">          1 :   STARTTEST(&quot;[N3D:4x4]\n&quot;);</span>
+<span class="lineNum">     155 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 4, mtx);</span>
+<span class="lineNum">     156 </span><span class="lineCov">          1 :   ambix_matrix_fill(mtx, AMBIX_MATRIX_N3D);</span>
+<span class="lineNum">     157 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(4, 4, testresult);</span>
+<span class="lineNum">     158 </span><span class="lineCov">          1 :   ambix_matrix_fill(testresult, AMBIX_MATRIX_TO_N3D);</span>
+<span class="lineNum">     159 </span><span class="lineCov">          1 :   mtxinverse_test(mtx, testresult, eps);</span>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineCov">          1 :   STARTTEST(&quot;[FUMA:4x4]\n&quot;);</span>
+<span class="lineNum">     162 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 4, mtx);</span>
+<span class="lineNum">     163 </span><span class="lineCov">          1 :   ambix_matrix_fill(mtx, AMBIX_MATRIX_FUMA);</span>
+<span class="lineNum">     164 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(4, 4, testresult);</span>
+<span class="lineNum">     165 </span><span class="lineCov">          1 :   ambix_matrix_fill(testresult, AMBIX_MATRIX_TO_FUMA);</span>
+<span class="lineNum">     166 </span><span class="lineCov">          1 :   mtxinverse_test(mtx, testresult, eps);</span>
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span><span class="lineCov">          1 :   ambix_matrix_destroy(mtx);</span>
+<span class="lineNum">     170 </span><span class="lineCov">          1 :   ambix_matrix_destroy(testresult);</span>
+<span class="lineNum">     171 </span><span class="lineCov">          1 :   free(transposedata);</span>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span></a>
+<span class="lineNum">     173 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     174 </span><span class="lineCov">          1 : void mtxmul_tests(float32_t eps) {</span>
+<span class="lineNum">     175 </span>            :   float32_t errf;
+<span class="lineNum">     176 </span><span class="lineCov">          1 :   ambix_matrix_t *left=NULL, *right=NULL, *result, *testresult;</span>
+<span class="lineNum">     177 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            :  /* fill in some test data */
+<span class="lineNum">     180 </span><span class="lineCov">          1 :   left=ambix_matrix_init(4, 3, NULL);</span>
+<span class="lineNum">     181 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(left, leftdata_4_3);</span>
+<span class="lineNum">     182 </span><span class="lineCov">          1 :   right=ambix_matrix_init(3, 2, NULL);</span>
+<span class="lineNum">     183 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(right, rightdata_3_2);</span>
+<span class="lineNum">     184 </span><span class="lineCov">          1 :   testresult=ambix_matrix_init(4, 2, NULL);</span>
+<span class="lineNum">     185 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(testresult, resultdata_4_2);</span>
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span><span class="lineCov">          1 :   errf=matrix_diff(__LINE__, left, left, eps);</span>
+<span class="lineNum">     188 </span><span class="lineCov">          1 :   fail_if(!(errf&lt;eps), __LINE__, &quot;diffing matrix with itself returned %f (&gt;%f)&quot;, errf, eps);</span>
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span>            :   /* NULL multiplications */
+<span class="lineNum">     191 </span><span class="lineCov">          1 :   result=ambix_matrix_multiply(NULL, NULL, NULL);</span>
+<span class="lineNum">     192 </span><span class="lineCov">          1 :   fail_if(NULL!=result, __LINE__, &quot;multiplying NULL*NULL returned success&quot;);</span>
+<span class="lineNum">     193 </span><span class="lineCov">          1 :   result=ambix_matrix_multiply(left, NULL, result);</span>
+<span class="lineNum">     194 </span><span class="lineCov">          1 :   fail_if(NULL!=result, __LINE__, &quot;multiplying left*NULL returned success&quot;);</span>
+<span class="lineNum">     195 </span><span class="lineCov">          1 :   result=ambix_matrix_multiply(NULL, left, result);</span>
+<span class="lineNum">     196 </span><span class="lineCov">          1 :   fail_if(NULL!=result, __LINE__, &quot;multiplying NULL*left returned success&quot;);</span>
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span>            :   /* do some matrix multiplication */
+<span class="lineNum">     199 </span><span class="lineCov">          1 :   result=ambix_matrix_multiply(left, right, NULL);</span>
+<span class="lineNum">     200 </span><span class="lineCov">          1 :   fail_if((NULL==result), __LINE__, &quot;multiply into NULL did not create matrix&quot;);</span>
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span><span class="lineCov">          1 :   fail_if((result!=ambix_matrix_multiply(left, right, result)), __LINE__, &quot;multiply into existing matrix returned new matrix&quot;);</span>
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            : #if 0
+<span class="lineNum">     205 </span>            :   matrix_print(left);
+<span class="lineNum">     206 </span>            :   matrix_print(right);
+<span class="lineNum">     207 </span>            :   matrix_print(result);
+<span class="lineNum">     208 </span>            :   printf(&quot;------------\n&quot;);
+<span class="lineNum">     209 </span>            : #endif
+<span class="lineNum">     210 </span><span class="lineCov">          1 :   errf=matrix_diff(__LINE__, testresult, result, eps);</span>
+<span class="lineNum">     211 </span><span class="lineCov">          1 :   fail_if((errf&gt;eps), __LINE__, &quot;diffing two results of same multiplication returned %f (&gt;%f)&quot;, errf, eps);</span>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span><span class="lineCov">          1 :   ambix_matrix_destroy(left);</span>
+<span class="lineNum">     214 </span><span class="lineCov">          1 :   ambix_matrix_destroy(right);</span>
+<span class="lineNum">     215 </span><span class="lineCov">          1 :   ambix_matrix_destroy(result);</span>
+<span class="lineNum">     216 </span><span class="lineCov">          1 :   ambix_matrix_destroy(testresult);</span>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span></a>
+<span class="lineNum">     218 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     219 </span><span class="lineCov">          1 : void mtxmul_eye_tests(float32_t eps) {</span>
+<span class="lineNum">     220 </span>            :   float32_t errf;
+<span class="lineNum">     221 </span>            :   ambix_matrix_t *left, *result, *eye;
+<span class="lineNum">     222 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     223 </span><span class="lineCov">          1 :   eye=ambix_matrix_init(4, 4, NULL);</span>
+<span class="lineNum">     224 </span><span class="lineCov">          1 :   fail_if((eye!=ambix_matrix_fill(eye, AMBIX_MATRIX_IDENTITY)), __LINE__, &quot;filling unity matrix %p did not return original matrix %p&quot;, eye);</span>
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span><span class="lineCov">          1 :   left=ambix_matrix_init(4, 2, NULL);</span>
+<span class="lineNum">     227 </span><span class="lineCov">          1 :   fail_if(AMBIX_ERR_SUCCESS!=ambix_matrix_fill_data(left, resultdata_4_2), __LINE__,</span>
+<span class="lineNum">     228 </span>            :           &quot;filling left data failed&quot;);
+<span class="lineNum">     229 </span>            : 
+<span class="lineNum">     230 </span><span class="lineCov">          1 :   result=ambix_matrix_init(4, 2, NULL);</span>
+<span class="lineNum">     231 </span><span class="lineCov">          1 :   fail_if(AMBIX_ERR_SUCCESS!=ambix_matrix_fill_data(result, resultdata_4_2), __LINE__,</span>
+<span class="lineNum">     232 </span>            :           &quot;filling result data failed&quot;);
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span><span class="lineCov">          1 :   fail_if((result!=ambix_matrix_multiply(eye, left, result)), __LINE__, &quot;multiplication into matrix did not return original matrix&quot;);</span>
+<span class="lineNum">     235 </span>            : #if 0
+<span class="lineNum">     236 </span>            :   matrix_print(eye);
+<span class="lineNum">     237 </span>            :   matrix_print(result);
+<span class="lineNum">     238 </span>            :   matrix_print(left);
+<span class="lineNum">     239 </span>            : #endif
+<span class="lineNum">     240 </span><span class="lineCov">          1 :   errf=matrix_diff(__LINE__, left, result, eps);</span>
+<span class="lineNum">     241 </span><span class="lineCov">          1 :   fail_if((errf&gt;eps), __LINE__, &quot;diffing matrix M with E*M returned %f (&gt;%f)&quot;, errf, eps);</span>
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineCov">          1 :   ambix_matrix_destroy(left);</span>
+<span class="lineNum">     244 </span><span class="lineCov">          1 :   ambix_matrix_destroy(result);</span>
+<span class="lineNum">     245 </span><span class="lineCov">          1 :   ambix_matrix_destroy(eye);</span>
+<a name="246"><span class="lineNum">     246 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span></a>
+<span class="lineNum">     247 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     248 </span><span class="lineCov">          1 : void datamul_tests(float32_t eps) {</span>
+<span class="lineNum">     249 </span>            :   float32_t errf;
+<span class="lineNum">     250 </span><span class="lineCov">          1 :   float32_t*resultdata  = (float32_t*)calloc(2*4, sizeof(float32_t));</span>
+<span class="lineNum">     251 </span><span class="lineCov">          1 :   float32_t*resultdataT = (float32_t*)calloc(4*2, sizeof(float32_t));</span>
+<span class="lineNum">     252 </span><span class="lineCov">          1 :   float32_t*inputdata   = (float32_t*)calloc(2*3, sizeof(float32_t));</span>
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span><span class="lineCov">          1 :   fail_if((NULL==resultdata), __LINE__, &quot;couldn't callocate resultdata&quot;);</span>
+<span class="lineNum">     255 </span><span class="lineCov">          1 :   fail_if((NULL==resultdataT), __LINE__, &quot;couldn't callocate resultdataT&quot;);</span>
+<span class="lineNum">     256 </span><span class="lineCov">          1 :   fail_if((NULL==inputdata), __LINE__, &quot;couldn't callocate inputdata&quot;);</span>
+<span class="lineNum">     257 </span>            : 
+<span class="lineNum">     258 </span><span class="lineCov">          1 :   ambix_matrix_t*mtx=NULL;</span>
+<span class="lineNum">     259 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     260 </span>            : 
+<span class="lineNum">     261 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(4, 3, NULL);</span>
+<span class="lineNum">     262 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(mtx, leftdata_4_3);</span>
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span><span class="lineCov">          1 :   data_transpose(inputdata, rightdata_3_2, 3, 2);</span>
+<span class="lineNum">     265 </span>            : 
+<span class="lineNum">     266 </span><span class="lineCov">          1 :   fail_if(AMBIX_ERR_SUCCESS!=ambix_matrix_multiply_float32(resultdata, mtx, inputdata, 2), __LINE__,</span>
+<span class="lineNum">     267 </span>            :           &quot;data multiplication failed&quot;);
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span><span class="lineCov">          1 :   data_transpose(resultdataT, resultdata, 2, 4);</span>
+<span class="lineNum">     270 </span>            : 
+<span class="lineNum">     271 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, resultdataT, resultdata_4_2, 4*2, eps);</span>
+<span class="lineNum">     272 </span><span class="lineCov">          1 :   if(errf&gt;eps) {</span>
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :     printf(&quot;matrix:\n&quot;);</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :     matrix_print(mtx);</span>
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :     printf(&quot;input:\n&quot;);</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :     data_print(inputdata, 3*2);</span>
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :     printf(&quot;expected:\n&quot;);</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :     data_print(resultdata_4_2, 4*2);</span>
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :     printf(&quot;calculated:\n&quot;);</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :     data_print(resultdataT   , 4*2);</span>
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span>            :   }
+<span class="lineNum">     284 </span><span class="lineCov">          1 :   fail_if(!(errf&lt;eps), __LINE__, &quot;diffing data multiplication returned %f (&gt;%f)&quot;, errf, eps);</span>
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span>            : #if 0
+<span class="lineNum">     287 </span>            :   printf(&quot;matrix:\n&quot;);matrix_print(mtx);
+<span class="lineNum">     288 </span>            :   printf(&quot;input :\n&quot;);  data_print(rightdata_3_2, 3*2);
+<span class="lineNum">     289 </span>            :   printf(&quot;output:\n&quot;);  data_print(resultdata, 4*2);
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            :   printf(&quot;target:\n&quot;);  data_print(resultdata_4_2, 4*2);
+<span class="lineNum">     292 </span>            : #endif
+<span class="lineNum">     293 </span>            : 
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span><span class="lineCov">          1 :   if(mtx)ambix_matrix_destroy(mtx);</span>
+<span class="lineNum">     296 </span><span class="lineCov">          1 :   free(resultdata);</span>
+<span class="lineNum">     297 </span><span class="lineCov">          1 :   free(resultdataT);</span>
+<span class="lineNum">     298 </span><span class="lineCov">          1 :   free(inputdata);</span>
+<span class="lineNum">     299 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     301 </span>            : 
+<span class="lineNum">     302 </span><span class="lineCov">          1 : void datamul_eye_tests(float32_t eps) {</span>
+<span class="lineNum">     303 </span>            :   float32_t errf;
+<span class="lineNum">     304 </span><span class="lineCov">          1 :   uint64_t frames=4096;</span>
+<span class="lineNum">     305 </span><span class="lineCov">          1 :   uint32_t channels=16;</span>
+<span class="lineNum">     306 </span>            :   float32_t*inputdata;
+<span class="lineNum">     307 </span>            :   float32_t*outputdata;
+<span class="lineNum">     308 </span><span class="lineCov">          1 :   float32_t freq=500;</span>
+<span class="lineNum">     309 </span><span class="lineCov">          1 :   ambix_matrix_t eye = {0, 0, NULL};</span>
+<span class="lineNum">     310 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     311 </span>            : 
+<span class="lineNum">     312 </span><span class="lineCov">          1 :   inputdata =data_sine(frames, channels, freq);</span>
+<span class="lineNum">     313 </span><span class="lineCov">          1 :   outputdata=(float32_t*)malloc(sizeof(float32_t)*frames*channels);</span>
+<span class="lineNum">     314 </span><span class="lineCov">          1 :   fail_if((NULL==outputdata), __LINE__, &quot;couldn't mallocate outputdata&quot;);</span>
+<span class="lineNum">     315 </span>            : 
+<span class="lineNum">     316 </span><span class="lineCov">          1 :   ambix_matrix_init(channels, channels, &amp;eye);</span>
+<span class="lineNum">     317 </span><span class="lineCov">          1 :   ambix_matrix_fill(&amp;eye, AMBIX_MATRIX_IDENTITY);</span>
+<span class="lineNum">     318 </span>            : 
+<span class="lineNum">     319 </span><span class="lineCov">          1 :   fail_if(AMBIX_ERR_SUCCESS!=ambix_matrix_multiply_float32(outputdata, &amp;eye, inputdata, frames),</span>
+<span class="lineNum">     320 </span>            :           __LINE__, &quot;data multilplication failed&quot;);
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, inputdata, outputdata, frames*channels, eps);</span>
+<span class="lineNum">     323 </span><span class="lineCov">          1 :   fail_if(!(errf&lt;eps), __LINE__, &quot;diffing data multiplication returned %f (&gt;%f)&quot;, errf, eps);</span>
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span>            : #if 0
+<span class="lineNum">     326 </span>            :   printf(&quot;matrix:\n&quot;);  matrix_print(&amp;eye);
+<span class="lineNum">     327 </span>            :   printf(&quot;input :\n&quot;);  data_print(inputdata, frames*channels);
+<span class="lineNum">     328 </span>            :   printf(&quot;output:\n&quot;);  data_print(outputdata,frames*channels);
+<span class="lineNum">     329 </span>            : #endif
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span><span class="lineCov">          1 :   free(inputdata);</span>
+<span class="lineNum">     332 </span><span class="lineCov">          1 :   free(outputdata);</span>
+<span class="lineNum">     333 </span><span class="lineCov">          1 :   ambix_matrix_deinit(&amp;eye);</span>
+<span class="lineNum">     334 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span>
+<a name="335"><span class="lineNum">     335 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     336 </span>            : 
+<span class="lineNum">     337 </span><span class="lineCov">          1 : void datamul_4_2_tests(uint32_t chunksize, float32_t eps) {</span>
+<span class="lineNum">     338 </span>            :   uint32_t r, c, rows, cols;
+<span class="lineNum">     339 </span>            :   float32_t errf;
+<span class="lineNum">     340 </span><span class="lineCov">          1 :   uint64_t frames=8;</span>
+<span class="lineNum">     341 </span><span class="lineCov">          1 :   uint32_t rawchannels=2;</span>
+<span class="lineNum">     342 </span><span class="lineCov">          1 :   uint32_t cokchannels=4;</span>
+<span class="lineNum">     343 </span>            : 
+<span class="lineNum">     344 </span>            :   float32_t*inputdata;
+<span class="lineNum">     345 </span>            :   float32_t*outputdata;
+<span class="lineNum">     346 </span>            :   float32_t*targetdata;
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span><span class="lineCov">          1 :   float32_t freq=500;</span>
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span><span class="lineCov">          1 :   ambix_matrix_t eye = {0, 0, NULL};</span>
+<span class="lineNum">     351 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     352 </span>            : 
+<span class="lineNum">     353 </span><span class="lineCov">          1 :   inputdata =data_sine(frames, rawchannels, freq);</span>
+<span class="lineNum">     354 </span><span class="lineCov">          1 :   targetdata=data_sine(frames, cokchannels, freq);</span>
+<span class="lineNum">     355 </span>            : 
+<span class="lineNum">     356 </span><span class="lineCov">          1 :   outputdata=(float32_t*)malloc(sizeof(float32_t)*frames*cokchannels);</span>
+<span class="lineNum">     357 </span><span class="lineCov">          1 :   fail_if((NULL==outputdata), __LINE__, &quot;couldn't allocate outputdata&quot;);</span>
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span><span class="lineCov">          1 :   ambix_matrix_init(cokchannels, rawchannels, &amp;eye);</span>
+<span class="lineNum">     360 </span><span class="lineCov">          1 :   rows=eye.rows;</span>
+<span class="lineNum">     361 </span><span class="lineCov">          1 :   cols=eye.cols;</span>
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span><span class="lineCov">          5 :   for(r=0; r&lt;rows; r++) {</span>
+<span class="lineNum">     364 </span><span class="lineCov">         12 :     for(c=0; c&lt;cols; c++) {</span>
+<span class="lineNum">     365 </span><span class="lineCov">          8 :       eye.data[r][c]=(1+r+c)%2;</span>
+<span class="lineNum">     366 </span>            :     }
+<span class="lineNum">     367 </span>            :   }
+<span class="lineNum">     368 </span>            : 
+<span class="lineNum">     369 </span>            : #if 0
+<span class="lineNum">     370 </span>            :   matrix_print(&amp;eye);
+<span class="lineNum">     371 </span>            :   printf(&quot;input\n&quot;);
+<span class="lineNum">     372 </span>            :   data_print(inputdata, rawchannels*frames);
+<span class="lineNum">     373 </span>            : #endif
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span><span class="lineCov">          1 :   fail_if(AMBIX_ERR_SUCCESS!=ambix_matrix_multiply_float32(outputdata, &amp;eye, inputdata, frames),</span>
+<span class="lineNum">     376 </span>            :           __LINE__, &quot;data multilplication failed&quot;);
+<span class="lineNum">     377 </span>            : 
+<span class="lineNum">     378 </span>            : #if 0
+<span class="lineNum">     379 </span>            :   printf(&quot;output\n&quot;);
+<span class="lineNum">     380 </span>            :   data_print(outputdata, cokchannels*frames);
+<span class="lineNum">     381 </span>            : 
+<span class="lineNum">     382 </span>            :   printf(&quot;target\n&quot;);
+<span class="lineNum">     383 </span>            :   data_print(targetdata, cokchannels*frames);
+<span class="lineNum">     384 </span>            : #endif
+<span class="lineNum">     385 </span>            : 
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span>            : 
+<span class="lineNum">     388 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, targetdata, outputdata, frames*cokchannels, eps);</span>
+<span class="lineNum">     389 </span><span class="lineCov">          1 :   fail_if(!(errf&lt;eps), __LINE__, &quot;diffing data multiplication returned %f (&gt;%f)&quot;, errf, eps);</span>
+<span class="lineNum">     390 </span>            : 
+<span class="lineNum">     391 </span>            : #if 0
+<span class="lineNum">     392 </span>            :   printf(&quot;matrix:\n&quot;);  matrix_print(&amp;eye);
+<span class="lineNum">     393 </span>            :   printf(&quot;input :\n&quot;);  data_print(inputdata, frames*channels);
+<span class="lineNum">     394 </span>            :   printf(&quot;output:\n&quot;);  data_print(outputdata,frames*channels);
+<span class="lineNum">     395 </span>            : #endif
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span><span class="lineCov">          1 :   ambix_matrix_deinit(&amp;eye);</span>
+<span class="lineNum">     398 </span>            : 
+<span class="lineNum">     399 </span><span class="lineCov">          1 :   free(inputdata);</span>
+<span class="lineNum">     400 </span><span class="lineCov">          1 :   free(outputdata);</span>
+<span class="lineNum">     401 </span><span class="lineCov">          1 :   free(targetdata);</span>
+<span class="lineNum">     402 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span>
+<a name="403"><span class="lineNum">     403 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     404 </span>            : 
+<span class="lineNum">     405 </span><span class="lineCov">          1 : void mtx_copy(float32_t eps) {</span>
+<span class="lineNum">     406 </span>            :   float32_t errf;
+<span class="lineNum">     407 </span><span class="lineCov">          1 :   ambix_matrix_t *left=NULL, *right=NULL;</span>
+<span class="lineNum">     408 </span>            :   unsigned int i;
+<span class="lineNum">     409 </span><span class="lineCov">          1 :   float32_t maxeps=eps;</span>
+<span class="lineNum">     410 </span>            : 
+<span class="lineNum">     411 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     412 </span>            : 
+<span class="lineNum">     413 </span><span class="lineCov">          1 :   right=ambix_matrix_copy(left, NULL);</span>
+<span class="lineNum">     414 </span><span class="lineCov">          1 :   fail_if((NULL!=right), __LINE__, &quot;copying from NULL matrix erroneously succeeded&quot;);</span>
+<span class="lineNum">     415 </span>            : 
+<span class="lineNum">     416 </span><span class="lineCov">          1 :   left=ambix_matrix_create();</span>
+<span class="lineNum">     417 </span><span class="lineCov">          1 :   fail_if((left !=ambix_matrix_init(4, 3, left )), __LINE__, &quot;initializing left matrix failed&quot;);</span>
+<span class="lineNum">     418 </span><span class="lineCov">          1 :   ambix_matrix_fill_data(left, leftdata_4_3);</span>
+<span class="lineNum">     419 </span>            : 
+<span class="lineNum">     420 </span><span class="lineCov">          1 :   right=ambix_matrix_copy(left, NULL);</span>
+<span class="lineNum">     421 </span><span class="lineCov">          1 :   fail_if((NULL==right), __LINE__, &quot;copying to NULL matrix failed&quot;);</span>
+<span class="lineNum">     422 </span><span class="lineCov">          1 :   errf=matrix_diff(__LINE__, left, right, eps);</span>
+<span class="lineNum">     423 </span><span class="lineCov">          1 :   fail_if(errf&gt;0.f, __LINE__, &quot;diffing mtx with copy0 returned %g (&gt;%g)&quot;, errf, 0.f);</span>
+<span class="lineNum">     424 </span>            : 
+<span class="lineNum">     425 </span><span class="lineCov">          1 :   right=ambix_matrix_copy(left, right);</span>
+<span class="lineNum">     426 </span><span class="lineCov">          1 :   fail_if((NULL==right), __LINE__, &quot;copying to right matrix failed&quot;);</span>
+<span class="lineNum">     427 </span><span class="lineCov">          1 :   errf=matrix_diff(__LINE__, left, right, eps);</span>
+<span class="lineNum">     428 </span><span class="lineCov">          1 :   fail_if(errf&gt;0.f, __LINE__, &quot;diffing mtx with copy returned %g (&gt;%g)&quot;, errf, 0.f);</span>
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span><span class="lineCov">          1 :   ambix_matrix_destroy(left);</span>
+<span class="lineNum">     431 </span><span class="lineCov">          1 :   ambix_matrix_destroy(right);</span>
+<span class="lineNum">     432 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     433 </span>            : 
+<a name="434"><span class="lineNum">     434 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     435 </span>            : 
+<span class="lineNum">     436 </span><span class="lineCov">          2 : void mtx_diff(float32_t eps) {</span>
+<span class="lineNum">     437 </span>            :   float32_t errf;
+<span class="lineNum">     438 </span><span class="lineCov">          2 :   ambix_matrix_t *left=NULL, *right=NULL;</span>
+<span class="lineNum">     439 </span>            :   unsigned int i;
+<span class="lineNum">     440 </span><span class="lineCov">          2 :   const unsigned int rows=4;</span>
+<span class="lineNum">     441 </span><span class="lineCov">          2 :   const unsigned int cols=3;</span>
+<span class="lineNum">     442 </span><span class="lineCov">          2 :   float32_t*leftdata=leftdata_4_3;</span>
+<span class="lineNum">     443 </span><span class="lineCov">          2 :   float32_t*rightdata=malloc(sizeof(leftdata_4_3));</span>
+<span class="lineNum">     444 </span><span class="lineCov">          2 :   float32_t maxeps=eps;</span>
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span><span class="lineCov">          2 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     447 </span>            : 
+<span class="lineNum">     448 </span><span class="lineCov">          2 :   left=ambix_matrix_create();</span>
+<span class="lineNum">     449 </span><span class="lineCov">          2 :   right=ambix_matrix_create();</span>
+<span class="lineNum">     450 </span>            : 
+<span class="lineNum">     451 </span>            :   /* comparisions:
+<span class="lineNum">     452 </span>            :      - failing tests:
+<span class="lineNum">     453 </span>            :        - different dimensions
+<span class="lineNum">     454 </span>            :        - left/right matrix is NULL
+<span class="lineNum">     455 </span>            :      - non-failing tests:
+<span class="lineNum">     456 </span>            :        - all values diff==0
+<span class="lineNum">     457 </span>            :        - all values diff&lt;eps
+<span class="lineNum">     458 </span>            :        - few values diff&lt;eps
+<span class="lineNum">     459 </span>            :        - many values diff&lt;eps
+<span class="lineNum">     460 </span>            :   */
+<span class="lineNum">     461 </span><span class="lineCov">          2 :   fail_if((left !=ambix_matrix_init(3, 4, left )), __LINE__, &quot;initializing left matrix failed&quot;);</span>
+<span class="lineNum">     462 </span><span class="lineCov">          2 :   fail_if((right!=ambix_matrix_init(3, 4, right)), __LINE__, &quot;initializing right matrix failed&quot;);</span>
+<span class="lineNum">     463 </span>            : 
+<span class="lineNum">     464 </span>            :   /* compare equal matrices */
+<span class="lineNum">     465 </span><span class="lineCov">          2 :   STARTTEST(&quot;ident\n&quot;);</span>
+<span class="lineNum">     466 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(left, leftdata);</span>
+<span class="lineNum">     467 </span><span class="lineCov">          2 :   errf=matrix_diff(__LINE__, left, left, eps);</span>
+<span class="lineNum">     468 </span><span class="lineCov">          2 :   fail_if(errf&gt;0.f, __LINE__, &quot;diffing mtx with itself returned %g (&gt;%g)&quot;, errf, 0.f);</span>
+<span class="lineNum">     469 </span>            : 
+<span class="lineNum">     470 </span>            :   /* compare equal matrices */
+<span class="lineNum">     471 </span><span class="lineCov">          2 :   STARTTEST(&quot;equal\n&quot;);</span>
+<span class="lineNum">     472 </span><span class="lineCov">         26 :   for(i=0; i&lt;rows*cols; i++) {</span>
+<span class="lineNum">     473 </span><span class="lineCov">         24 :     rightdata[i]=leftdata[i];</span>
+<span class="lineNum">     474 </span>            :   }
+<span class="lineNum">     475 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(left , leftdata);</span>
+<span class="lineNum">     476 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(right, rightdata);</span>
+<span class="lineNum">     477 </span><span class="lineCov">          2 :   errf=matrix_diff(__LINE__, left, right, eps);</span>
+<span class="lineNum">     478 </span><span class="lineCov">          2 :   fail_if(errf&gt;0.f, __LINE__, &quot;diffing mtx with copy returned %g (&gt;%g)&quot;, errf, 0.f);</span>
+<span class="lineNum">     479 </span>            : 
+<span class="lineNum">     480 </span>            :   /* compare matrices where all values differ, but &lt;eps */
+<span class="lineNum">     481 </span><span class="lineCov">          2 :   STARTTEST(&quot;all&lt;eps\n&quot;);</span>
+<span class="lineNum">     482 </span><span class="lineCov">         26 :   for(i=0; i&lt;rows*cols; i++) {</span>
+<span class="lineNum">     483 </span><span class="lineCov">         24 :     rightdata[i]=leftdata[i]+eps*0.5;</span>
+<span class="lineNum">     484 </span>            :   }
+<span class="lineNum">     485 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(left , leftdata);</span>
+<span class="lineNum">     486 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(right, rightdata);</span>
+<span class="lineNum">     487 </span><span class="lineCov">          2 :   errf=matrix_diff(__LINE__, left, right, eps);</span>
+<span class="lineNum">     488 </span><span class="lineCov">          2 :   fail_if(errf&gt;eps, __LINE__, &quot;diffing mtx with mtx+eps/2 returned %g (&gt;%g)&quot;, errf, eps);</span>
+<span class="lineNum">     489 </span><span class="lineCov">         26 :   for(i=0; i&lt;rows*cols; i++) {</span>
+<span class="lineNum">     490 </span><span class="lineCov">         24 :     rightdata[i]=leftdata[i]-eps*0.5;</span>
+<span class="lineNum">     491 </span>            :   }
+<span class="lineNum">     492 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(left , leftdata);</span>
+<span class="lineNum">     493 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(right, rightdata);</span>
+<span class="lineNum">     494 </span><span class="lineCov">          2 :   errf=matrix_diff(__LINE__, left, right, eps);</span>
+<span class="lineNum">     495 </span><span class="lineCov">          2 :   fail_if(errf&gt;eps, __LINE__, &quot;diffing mtx with mtx-eps/2 returned %g (&gt;%g)&quot;, errf, eps);</span>
+<span class="lineNum">     496 </span>            : 
+<span class="lineNum">     497 </span>            :   /* compare matrices where many values differ with &lt;eps; but one with &gt;eps */
+<span class="lineNum">     498 </span><span class="lineCov">          2 :   STARTTEST(&quot;most&lt;eps;one&gt;eps\n&quot;);</span>
+<span class="lineNum">     499 </span><span class="lineCov">         26 :   for(i=0; i&lt;rows*cols; i++) {</span>
+<span class="lineNum">     500 </span><span class="lineCov">         24 :     rightdata[i]=leftdata[i];</span>
+<span class="lineNum">     501 </span>            :   }
+<span class="lineNum">     502 </span><span class="lineCov">         10 :   for(i=0; i&lt;rows; i++) {</span>
+<span class="lineNum">     503 </span><span class="lineCov">          8 :     rightdata[i]=leftdata[i]+eps*0.5;</span>
+<span class="lineNum">     504 </span>            :   }
+<span class="lineNum">     505 </span><span class="lineCov">          2 :   rightdata[0]=leftdata[0]+eps*1.5;</span>
+<span class="lineNum">     506 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(left , leftdata);</span>
+<span class="lineNum">     507 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(right, rightdata);</span>
+<span class="lineNum">     508 </span><span class="lineCov">          2 :   errf=matrix_diff(__LINE__, left, right, eps);</span>
+<span class="lineNum">     509 </span><span class="lineCov">          2 :   fail_if(errf&gt;(eps*2.0), __LINE__, &quot;diffing mtx with one value&gt;eps returned %g (&gt;%g)&quot;, errf, eps);</span>
+<span class="lineNum">     510 </span><span class="lineCov">          2 :   fail_if(errf&lt;(eps*1.0), __LINE__, &quot;diffing mtx with one value&gt;eps returned %g (&gt;%g)&quot;, errf, eps);</span>
+<span class="lineNum">     511 </span>            : 
+<span class="lineNum">     512 </span>            :   /* compare matrices where most values differ with &gt;eps */
+<span class="lineNum">     513 </span><span class="lineCov">          2 :   STARTTEST(&quot;most&gt;eps\n&quot;);</span>
+<span class="lineNum">     514 </span><span class="lineCov">         26 :   for(i=0; i&lt;rows*cols; i++) {</span>
+<span class="lineNum">     515 </span><span class="lineCov">         24 :     rightdata[i]=leftdata[i];</span>
+<span class="lineNum">     516 </span>            :   }
+<span class="lineNum">     517 </span><span class="lineCov">          2 :   maxeps=eps*1.5;</span>
+<span class="lineNum">     518 </span><span class="lineCov">         24 :   for(i=0; i&lt;(rows*cols)-1; i++) {</span>
+<span class="lineNum">     519 </span><span class="lineCov">         22 :     rightdata[i]=leftdata[i]-maxeps;</span>
+<span class="lineNum">     520 </span>            :   }
+<span class="lineNum">     521 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(left , leftdata);</span>
+<span class="lineNum">     522 </span><span class="lineCov">          2 :   ambix_matrix_fill_data(right, rightdata);</span>
+<span class="lineNum">     523 </span><span class="lineCov">          2 :   errf=matrix_diff(__LINE__, left, right, eps);</span>
+<span class="lineNum">     524 </span><span class="lineCov">          2 :   fail_if(errf&lt;eps*1.0, __LINE__, &quot;diffing mtx with one value&gt;eps returned %g (&lt;%g)&quot;, errf, eps*1.0);</span>
+<span class="lineNum">     525 </span><span class="lineCov">          2 :   fail_if(errf&gt;eps*2.0, __LINE__, &quot;diffing mtx with one value&gt;eps returned %g (&lt;%g)&quot;, errf, eps*2.0);</span>
+<span class="lineNum">     526 </span>            : 
+<span class="lineNum">     527 </span><span class="lineCov">          2 :   ambix_matrix_destroy(left);</span>
+<span class="lineNum">     528 </span><span class="lineCov">          2 :   ambix_matrix_destroy(right);</span>
+<span class="lineNum">     529 </span><span class="lineCov">          2 :   free(rightdata);</span>
+<span class="lineNum">     530 </span><span class="lineCov">          2 :   STOPTEST(&quot;\n&quot;);</span>
+<a name="531"><span class="lineNum">     531 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     532 </span>            : 
+<span class="lineNum">     533 </span><span class="lineCov">          1 : void create_tests(float32_t eps) {</span>
+<span class="lineNum">     534 </span><span class="lineCov">          1 :   int rows=4;</span>
+<span class="lineNum">     535 </span><span class="lineCov">          1 :   int cols=3;</span>
+<span class="lineNum">     536 </span><span class="lineCov">          1 :   int cols2=2;</span>
+<span class="lineNum">     537 </span>            :   ambix_matrix_t matrix, *left, *right;
+<span class="lineNum">     538 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     539 </span>            : 
+<span class="lineNum">     540 </span><span class="lineCov">          1 :   memset(&amp;matrix, 0, sizeof(matrix));</span>
+<span class="lineNum">     541 </span><span class="lineCov">          1 :   matrix_print(&amp;matrix);</span>
+<span class="lineNum">     542 </span>            : 
+<span class="lineNum">     543 </span><span class="lineCov">          1 :   left=ambix_matrix_create();</span>
+<span class="lineNum">     544 </span><span class="lineCov">          1 :   fail_if((left==NULL), __LINE__, &quot;failed to create left matrix&quot;);</span>
+<span class="lineNum">     545 </span><span class="lineCov">          1 :   fail_if((left-&gt;rows || left-&gt;cols), __LINE__, &quot;created empty matrix has non-zero size&quot;);</span>
+<span class="lineNum">     546 </span><span class="lineCov">          1 :   fail_if((left!=ambix_matrix_init(rows, cols, left)), __LINE__, &quot;initializing existing matrix* returned new matrix&quot;);</span>
+<span class="lineNum">     547 </span><span class="lineCov">          1 :   fail_if((left-&gt;rows!=rows || left-&gt;cols!=cols), __LINE__, &quot;created matrix [%dx%d] does not match [%dx%d]&quot;, left-&gt;rows, left-&gt;cols, cols, cols2);</span>
+<span class="lineNum">     548 </span><span class="lineCov">          1 :   matrix_print(left);</span>
+<span class="lineNum">     549 </span>            : 
+<span class="lineNum">     550 </span><span class="lineCov">          1 :   right=ambix_matrix_init(cols, cols2, NULL);</span>
+<span class="lineNum">     551 </span><span class="lineCov">          1 :   fail_if((right==NULL), __LINE__, &quot;failed to create right matrix&quot;);</span>
+<span class="lineNum">     552 </span><span class="lineCov">          1 :   fail_if((right-&gt;rows!=cols || right-&gt;cols!=cols2), __LINE__, &quot;created matrix [%dx%d] does not match [%dx%d]&quot;, right-&gt;rows, right-&gt;cols, cols, cols2);</span>
+<span class="lineNum">     553 </span><span class="lineCov">          1 :   matrix_print(right);</span>
+<span class="lineNum">     554 </span>            : 
+<span class="lineNum">     555 </span><span class="lineCov">          1 :   fail_if((&amp;matrix!=ambix_matrix_init(rows, cols2, &amp;matrix)), __LINE__, &quot;initializing existing matrix returned new matrix&quot;);</span>
+<span class="lineNum">     556 </span><span class="lineCov">          1 :   fail_if((matrix.rows!=rows || matrix.cols!=cols2), __LINE__, &quot;initialized matrix [%dx%d] does not match [%dx%d]&quot;, matrix.rows, matrix.cols, rows, cols2);</span>
+<span class="lineNum">     557 </span>            : 
+<span class="lineNum">     558 </span>            : 
+<span class="lineNum">     559 </span><span class="lineCov">          1 :   ambix_matrix_deinit(&amp;matrix);</span>
+<span class="lineNum">     560 </span><span class="lineCov">          1 :   fail_if((matrix.rows || matrix.cols), __LINE__, &quot;deinitialized matrix is non-zero&quot;);</span>
+<span class="lineNum">     561 </span>            : 
+<span class="lineNum">     562 </span><span class="lineCov">          1 :   ambix_matrix_deinit(left);</span>
+<span class="lineNum">     563 </span><span class="lineCov">          1 :   fail_if((left-&gt;rows || left-&gt;cols), __LINE__, &quot;deinitialized matrix is non-zero&quot;);</span>
+<span class="lineNum">     564 </span>            : 
+<span class="lineNum">     565 </span><span class="lineCov">          1 :   ambix_matrix_destroy(left);</span>
+<span class="lineNum">     566 </span><span class="lineCov">          1 :   ambix_matrix_destroy(right);</span>
+<span class="lineNum">     567 </span><span class="lineCov">          1 :   STOPTEST(&quot;\n&quot;);</span>
+<span class="lineNum">     568 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     569 </span>            : 
+<a name="570"><span class="lineNum">     570 </span>            : </a>
+<span class="lineNum">     571 </span>            : 
+<span class="lineNum">     572 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
+<span class="lineNum">     573 </span>            : #if 1
+<span class="lineNum">     574 </span><span class="lineCov">          1 :   create_tests(1e-7);</span>
+<span class="lineNum">     575 </span><span class="lineCov">          1 :   mtx_copy(1e-7);</span>
+<span class="lineNum">     576 </span><span class="lineCov">          1 :   mtx_diff(1e-1);</span>
+<span class="lineNum">     577 </span><span class="lineCov">          1 :   mtx_diff(1e-7);</span>
+<span class="lineNum">     578 </span><span class="lineCov">          1 :   mtxmul_tests(1e-7);</span>
+<span class="lineNum">     579 </span><span class="lineCov">          1 :   mtxmul_eye_tests(1e-7);</span>
+<span class="lineNum">     580 </span><span class="lineCov">          1 :   datamul_tests(1e-7);</span>
+<span class="lineNum">     581 </span><span class="lineCov">          1 :   datamul_eye_tests(1e-7);</span>
+<span class="lineNum">     582 </span>            : #endif
+<span class="lineNum">     583 </span><span class="lineCov">          1 :   datamul_4_2_tests(1024, 1e-7);</span>
+<span class="lineNum">     584 </span><span class="lineCov">          1 :   mtxinverse_tests(1e-5);</span>
+<span class="lineNum">     585 </span>            : 
+<span class="lineNum">     586 </span><span class="lineCov">          1 :   return pass();</span>
+<span class="lineNum">     587 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

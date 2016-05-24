@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - libambix test coverage - tests/common_basic2extended.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - common_basic2extended.c<span style="font-size: 80%;"> (source / <a href="common_basic2extended.c.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">libambix test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">109</td>
+            <td class="headerCovTableEntry">112</td>
+            <td class="headerCovTableEntryHi">97.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-05-24</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* common_simple2exetended - common function for writing extended files as simple files</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            :    Copyright © 2016 IOhannes m zmölnig &lt;zmoelnig@iem.at&gt;.
+<span class="lineNum">       4 </span>            :          Institute of Electronic Music and Acoustics (IEM),
+<span class="lineNum">       5 </span>            :          University of Music and Dramatic Arts, Graz
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    This file is part of libambix
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            :    libambix is free software; you can redistribute it and/or modify
+<span class="lineNum">      10 </span>            :    it under the terms of the GNU Lesser General Public License as
+<span class="lineNum">      11 </span>            :    published by the Free Software Foundation; either version 2.1 of
+<span class="lineNum">      12 </span>            :    the License, or (at your option) any later version.
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :    libambix is distributed in the hope that it will be useful,
+<span class="lineNum">      15 </span>            :    but WITHOUT ANY WARRANTY; without even the implied warranty of
+<span class="lineNum">      16 </span>            :    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<span class="lineNum">      17 </span>            :    GNU Lesser General Public License for more details.
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            :    You should have received a copy of the GNU Lesser General Public
+<span class="lineNum">      20 </span>            :    License along with this program; if not, see &lt;http://www.gnu.org/licenses/&gt;.
+<span class="lineNum">      21 </span>            : */
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : #include &quot;common.h&quot;
+<span class="lineNum">      24 </span>            : #include &lt;unistd.h&gt;
+<a name="25"><span class="lineNum">      25 </span>            : #include &lt;string.h&gt;</a>
+<span class="lineNum">      26 </span>            : 
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">         48 : uint32_t max_u32(uint32_t a, uint32_t b) { return (a&gt;b)?a:b;}</span></a>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineCov">         48 : int check_create_b2e(const char*path, ambix_sampleformat_t format,</span>
+<span class="lineNum">      30 </span>            :               ambix_matrix_t*matrix, uint32_t extrachannels,
+<span class="lineNum">      31 </span>            :               uint32_t chunksize, float32_t eps) {
+<span class="lineNum">      32 </span><span class="lineCov">         48 :   uint32_t fullambichannels = matrix?matrix-&gt;rows:0;</span>
+<span class="lineNum">      33 </span><span class="lineCov">         48 :   uint32_t ambixchannels = matrix?matrix-&gt;cols:0;</span>
+<span class="lineNum">      34 </span>            :   ambix_info_t info, rinfo, winfo;
+<span class="lineNum">      35 </span><span class="lineCov">         48 :   ambix_t*ambix=NULL;</span>
+<span class="lineNum">      36 </span>            :   float32_t*orgambidata,*ambidata,*resultambidata;
+<span class="lineNum">      37 </span>            :   float32_t*orgotherdata,*otherdata,*resultotherdata;
+<span class="lineNum">      38 </span><span class="lineCov">         48 :   uint32_t framesize=441000;</span>
+<span class="lineNum">      39 </span><span class="lineCov">         48 :   float32_t periods=8192;</span>
+<span class="lineNum">      40 </span><span class="lineCov">         48 :   const ambix_matrix_t*mtx2=NULL;</span>
+<span class="lineNum">      41 </span>            :   int64_t err64, gotframes;
+<span class="lineNum">      42 </span><span class="lineCov">         48 :   float32_t diff=0.;</span>
+<span class="lineNum">      43 </span><span class="lineCov">         48 :   ambix_err_t err=0;</span>
+<span class="lineNum">      44 </span><span class="lineCov">         48 :   STARTTEST(&quot;ambi=[%dx%d],extra=%d, format=%d\n&quot;,</span>
+<span class="lineNum">      45 </span>            :         matrix?matrix-&gt;rows:-1, matrix?matrix-&gt;cols:-1, extrachannels, format);
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :   //printf(&quot;test using '%s' [%d] with chunks of %d and eps=%f\n&quot;, path, (int)format, (int)chunksize, eps);
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span><span class="lineCov">         48 :   resultambidata=(float32_t*)calloc(max_u32(fullambichannels, ambixchannels)*framesize, sizeof(float32_t));</span>
+<span class="lineNum">      50 </span><span class="lineCov">         48 :   ambidata=(float32_t*)calloc(fullambichannels*framesize, sizeof(float32_t));</span>
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span><span class="lineCov">         48 :   resultotherdata=(float32_t*)calloc(extrachannels*framesize, sizeof(float32_t));</span>
+<span class="lineNum">      53 </span><span class="lineCov">         48 :   otherdata=(float32_t*)calloc(extrachannels*framesize, sizeof(float32_t));</span>
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span><span class="lineCov">         48 :   memset(&amp;info, 0, sizeof(info));</span>
+<span class="lineNum">      56 </span><span class="lineCov">         48 :   info.fileformat=AMBIX_EXTENDED;</span>
+<span class="lineNum">      57 </span><span class="lineCov">         48 :   info.ambichannels=ambixchannels;</span>
+<span class="lineNum">      58 </span><span class="lineCov">         48 :   info.extrachannels=extrachannels;</span>
+<span class="lineNum">      59 </span><span class="lineCov">         48 :   info.samplerate=44100;</span>
+<span class="lineNum">      60 </span><span class="lineCov">         48 :   info.sampleformat=format;</span>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineCov">         48 :   memcpy(&amp;winfo, &amp;info, sizeof(info));</span>
+<span class="lineNum">      63 </span>            :   /* we want to write an EXTENDED file using the BASIC api (full set) */
+<span class="lineNum">      64 </span><span class="lineCov">         48 :   winfo.fileformat=AMBIX_BASIC;</span>
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineCov">         48 :   ambix=ambix_open(path, AMBIX_WRITE, &amp;winfo);</span>
+<span class="lineNum">      67 </span><span class="lineCov">         48 :   if(fail_if((NULL==ambix), __LINE__, &quot;couldn't create ambix file '%s' for writing&quot;, path))return 1;</span>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span><span class="lineCov">         48 :   orgambidata=data_sine(framesize, fullambichannels, periods);</span>
+<span class="lineNum">      70 </span><span class="lineCov">         48 :   orgotherdata=data_ramp(framesize, extrachannels);</span>
+<span class="lineNum">      71 </span>            :   //data_print(orgdata, 100);
+<span class="lineNum">      72 </span><span class="lineCov">         48 :   if(fail_if((NULL==orgambidata), __LINE__, &quot;couldn't create ambidata %dx%d sine @ %f&quot;, (int)framesize, (int)fullambichannels, (float)periods))return 1;</span>
+<span class="lineNum">      73 </span><span class="lineCov">         48 :   if(fail_if((NULL==orgotherdata), __LINE__, &quot;couldn't create otherdata %dx%d sine @ %f&quot;, (int)framesize, (int)extrachannels, (float)periods))return 1;</span>
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span><span class="lineCov">         48 :   memcpy(ambidata, orgambidata, framesize*fullambichannels*sizeof(float32_t));</span>
+<span class="lineNum">      76 </span><span class="lineCov">         48 :   memcpy(otherdata, orgotherdata, framesize*extrachannels*sizeof(float32_t));</span>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span><span class="lineCov">         48 :   err=ambix_set_adaptormatrix(ambix, matrix);</span>
+<span class="lineNum">      79 </span>            :   if(1 || AMBIX_ERR_SUCCESS!=err) {
+<span class="lineNum">      80 </span><span class="lineCov">         48 :     ambix_matrix_t*pinv=0;</span>
+<span class="lineNum">      81 </span>            :     //printf(&quot;adaptor matrix:\n&quot;); matrix_print(matrix);
+<span class="lineNum">      82 </span><span class="lineCov">         48 :     pinv=ambix_matrix_pinv(matrix, pinv);</span>
+<span class="lineNum">      83 </span>            :     if(pinv) {
+<span class="lineNum">      84 </span>            :       //printf(&quot;pseudo-inverse:\n&quot;); matrix_print(pinv);
+<span class="lineNum">      85 </span>            :     } else {
+<span class="lineNum">      86 </span>            :       //printf(&quot;no pseudo-inverse!\n&quot;);
+<span class="lineNum">      87 </span>            :       ;
+<span class="lineNum">      88 </span>            :     }
+<span class="lineNum">      89 </span><span class="lineCov">         48 :     if(pinv)ambix_matrix_destroy(pinv);</span>
+<span class="lineNum">      90 </span>            :   }
+<span class="lineNum">      91 </span><span class="lineCov">         48 :   if(fail_if((AMBIX_ERR_SUCCESS!=err),</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :          __LINE__, &quot;failed setting adaptor matrix [%d]&quot;, err))return 1;</span>
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span><span class="lineCov">         48 :   if(chunksize&gt;0) {</span>
+<span class="lineNum">      95 </span><span class="lineCov">         48 :     uint32_t subframe=chunksize;</span>
+<span class="lineNum">      96 </span><span class="lineCov">         48 :     uint32_t chunks = framesize/chunksize;</span>
+<span class="lineNum">      97 </span><span class="lineCov">         48 :     uint32_t framesleft=framesize;</span>
+<span class="lineNum">      98 </span>            :     uint32_t frame;
+<span class="lineNum">      99 </span>            :     //printf(&quot;writing %d chunks of %d frames\n&quot;, (int)chunks, (int)chunksize);
+<span class="lineNum">     100 </span><span class="lineCov">      20688 :     for(frame=0; frame&lt;chunks; frame++) {</span>
+<span class="lineNum">     101 </span><span class="lineCov">      20640 :       err64=ambix_writef_float32(ambix, ambidata+fullambichannels*frame*chunksize, otherdata+extrachannels*frame*chunksize, chunksize);</span>
+<span class="lineNum">     102 </span><span class="lineCov">      20640 :       if(fail_if((err64!=chunksize), __LINE__, &quot;wrote only %d chunksize of %d&quot;, (int)err64, (int)chunksize))return 1;</span>
+<span class="lineNum">     103 </span><span class="lineCov">      20640 :       framesleft-=chunksize;</span>
+<span class="lineNum">     104 </span>            :     }
+<span class="lineNum">     105 </span><span class="lineCov">         48 :     subframe=framesleft;</span>
+<span class="lineNum">     106 </span>            :     //printf(&quot;writing rest of %d frames\n&quot;, (int)subframe);
+<span class="lineNum">     107 </span><span class="lineCov">         48 :     err64=ambix_writef_float32(ambix, ambidata+fullambichannels*frame*chunksize, otherdata+extrachannels*frame*chunksize, subframe);</span>
+<span class="lineNum">     108 </span><span class="lineCov">         48 :     if(fail_if((err64!=subframe), __LINE__, &quot;wrote only %d subframe of %d&quot;, (int)err64, (int)subframe))return 1;</span>
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span>            :   } else {
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     err64=ambix_writef_float32(ambix, ambidata, otherdata, framesize);</span>
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     if(fail_if((err64!=framesize), __LINE__, &quot;wrote only %d frames of %d&quot;, (int)err64, (int)framesize))return 1;</span>
+<span class="lineNum">     113 </span>            :   }
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineCov">         48 :   diff=data_diff(__LINE__, orgambidata, ambidata, framesize*fullambichannels, eps);</span>
+<span class="lineNum">     116 </span><span class="lineCov">         48 :   if(fail_if((diff&gt;eps), __LINE__, &quot;ambidata diff %f &gt; %f&quot;, diff, eps))return 1;</span>
+<span class="lineNum">     117 </span><span class="lineCov">         48 :   diff=data_diff(__LINE__, orgotherdata, otherdata, framesize*extrachannels, eps);</span>
+<span class="lineNum">     118 </span><span class="lineCov">         48 :   if(fail_if((diff&gt;eps), __LINE__, &quot;otherdata diff %f &gt; %f&quot;, diff, eps))return 1;</span>
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span><span class="lineCov">         48 :   if(fail_if((AMBIX_ERR_SUCCESS!=ambix_close(ambix)), __LINE__, &quot;closing ambix file %p&quot;, ambix))return 1;</span>
+<span class="lineNum">     121 </span><span class="lineCov">         48 :   ambix=NULL;</span>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            :   /* read data back via BASIC */
+<span class="lineNum">     124 </span><span class="lineCov">         48 :   STARTTEST(&quot;readback BASIC\n&quot;);</span>
+<span class="lineNum">     125 </span><span class="lineCov">         48 :   memset(&amp;rinfo, 0, sizeof(rinfo));</span>
+<span class="lineNum">     126 </span><span class="lineCov">         48 :   rinfo.fileformat = AMBIX_BASIC;</span>
+<span class="lineNum">     127 </span><span class="lineCov">         48 :   ambix=ambix_open(path, AMBIX_READ, &amp;rinfo);</span>
+<span class="lineNum">     128 </span><span class="lineCov">         48 :   if(fail_if((NULL==ambix), __LINE__, &quot;couldn't open ambix file '%s' for reading&quot;, path))return 1;</span>
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span><span class="lineCov">         48 :   if(fail_if((AMBIX_BASIC!=rinfo.fileformat), __LINE__, &quot;fileformat mismatch %d!=%d&quot;, (int)AMBIX_BASIC, (int)rinfo.fileformat))return 1;</span>
+<span class="lineNum">     131 </span><span class="lineCov">         48 :   if(fail_if((info.samplerate!=rinfo.samplerate), __LINE__, &quot;samplerate mismatch %g!=%g&quot;, (float)info.samplerate, (float)rinfo.samplerate))return 1;</span>
+<span class="lineNum">     132 </span><span class="lineCov">         48 :   if(fail_if((info.sampleformat!=rinfo.sampleformat), __LINE__, &quot;sampleformat mismatch %d!=%d&quot;, (int)info.sampleformat, (int)rinfo.sampleformat))return 1;</span>
+<span class="lineNum">     133 </span><span class="lineCov">         48 :   if(fail_if((fullambichannels!=rinfo.ambichannels), __LINE__, &quot;ambichannels mismatch %d!=%d&quot;, (int)fullambichannels, (int)rinfo.ambichannels))return 1;</span>
+<span class="lineNum">     134 </span><span class="lineCov">         48 :   if(fail_if((info.extrachannels!=rinfo.extrachannels), __LINE__, &quot;extrachannels mismatch %d!=%d&quot;, (int)info.extrachannels, (int)rinfo.extrachannels))return 1;</span>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">         48 :   gotframes=0;</span>
+<span class="lineNum">     137 </span>            :   do {
+<span class="lineNum">     138 </span>            :     //err64=ambix_readf_float32(ambix, resultambidata, resultotherdata, framesize);
+<span class="lineNum">     139 </span><span class="lineCov">        240 :       err64=ambix_readf_float32(ambix,</span>
+<span class="lineNum">     140 </span><span class="lineCov">         96 :             resultambidata +(gotframes*fullambichannels ),</span>
+<span class="lineNum">     141 </span><span class="lineCov">         96 :             resultotherdata+(gotframes*extrachannels),</span>
+<span class="lineNum">     142 </span>            :             (framesize-gotframes));
+<span class="lineNum">     143 </span><span class="lineCov">         48 :     if(fail_if((err64&lt;0), __LINE__, &quot;reading frames failed after %d/%d frames&quot;, (int)gotframes, (int)framesize))return 1;</span>
+<span class="lineNum">     144 </span><span class="lineCov">         48 :     gotframes+=err64;</span>
+<span class="lineNum">     145 </span><span class="lineCov">         48 :   } while(err64&gt;0 &amp;&amp; gotframes&lt;framesize);</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">         48 :   diff=data_diff(__LINE__, orgambidata, resultambidata, framesize*fullambichannels, eps);</span>
+<span class="lineNum">     148 </span><span class="lineCov">         48 :   if(fail_if((diff&gt;eps), __LINE__, &quot;ambidata diff %f &gt; %f&quot;, diff, eps))return 1;</span>
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span><span class="lineCov">         48 :   diff=data_diff(__LINE__, orgotherdata, resultotherdata, framesize*extrachannels, eps);</span>
+<span class="lineNum">     151 </span><span class="lineCov">         48 :   if(fail_if((diff&gt;eps), __LINE__, &quot;otherdata diff %f &gt; %f&quot;, diff, eps))return 1;</span>
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span><span class="lineCov">         48 :   if(fail_if((AMBIX_ERR_SUCCESS!=ambix_close(ambix)), __LINE__, &quot;closing ambix file %p&quot;, ambix))return 1;</span>
+<span class="lineNum">     154 </span><span class="lineCov">         48 :   ambix=NULL;</span>
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            :   /* read data back via EXTENDED */
+<span class="lineNum">     157 </span><span class="lineCov">         48 :   STARTTEST(&quot;readback EXTENDED\n&quot;);</span>
+<span class="lineNum">     158 </span><span class="lineCov">         48 :   memset(&amp;rinfo, 0, sizeof(rinfo));</span>
+<span class="lineNum">     159 </span><span class="lineCov">         48 :   rinfo.fileformat = AMBIX_EXTENDED;</span>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineCov">         48 :   ambix=ambix_open(path, AMBIX_READ, &amp;rinfo);</span>
+<span class="lineNum">     162 </span><span class="lineCov">         48 :   if(fail_if((NULL==ambix), __LINE__, &quot;couldn't open ambix file '%s' for reading&quot;, path))return 1;</span>
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span><span class="lineCov">         48 :   if(fail_if((AMBIX_EXTENDED!=rinfo.fileformat), __LINE__, &quot;fileformat mismatch %d!=%d&quot;, (int)info.fileformat, (int)rinfo.fileformat))return 1;</span>
+<span class="lineNum">     165 </span><span class="lineCov">         48 :   if(fail_if((info.samplerate!=rinfo.samplerate), __LINE__, &quot;samplerate mismatch %g!=%g&quot;, (float)info.samplerate, (float)rinfo.samplerate))return 1;</span>
+<span class="lineNum">     166 </span><span class="lineCov">         48 :   if(fail_if((info.sampleformat!=rinfo.sampleformat), __LINE__, &quot;sampleformat mismatch %d!=%d&quot;, (int)info.sampleformat, (int)rinfo.sampleformat))return 1;</span>
+<span class="lineNum">     167 </span><span class="lineCov">         48 :   if(fail_if((info.ambichannels!=rinfo.ambichannels), __LINE__, &quot;ambichannels mismatch %d!=%d&quot;, (int)info.ambichannels, (int)rinfo.ambichannels))return 1;</span>
+<span class="lineNum">     168 </span><span class="lineCov">         48 :   if(fail_if((info.extrachannels!=rinfo.extrachannels), __LINE__, &quot;extrachannels mismatch %d!=%d&quot;, (int)info.extrachannels, (int)rinfo.extrachannels))return 1;</span>
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span><span class="lineCov">         48 :   mtx2=ambix_get_adaptormatrix(ambix);</span>
+<span class="lineNum">     171 </span><span class="lineCov">         48 :   if(fail_if((NULL==mtx2), __LINE__, &quot;failed reading adaptor matrix&quot;))return 1;</span>
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span><span class="lineCov">         48 :   diff=matrix_diff(__LINE__, matrix, mtx2, eps);</span>
+<span class="lineNum">     174 </span><span class="lineCov">         48 :   if(fail_if((diff&gt;eps), __LINE__, &quot;adaptormatrix diff %f &gt; %f&quot;, diff, eps))return 1;</span>
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineCov">         48 :   gotframes=0;</span>
+<span class="lineNum">     177 </span>            :   do {
+<span class="lineNum">     178 </span>            :     //err64=ambix_readf_float32(ambix, resultambidata, resultotherdata, framesize);
+<span class="lineNum">     179 </span><span class="lineCov">        240 :       err64=ambix_readf_float32(ambix,</span>
+<span class="lineNum">     180 </span><span class="lineCov">         96 :             resultambidata +(gotframes*ambixchannels ),</span>
+<span class="lineNum">     181 </span><span class="lineCov">         96 :             resultotherdata+(gotframes*extrachannels),</span>
+<span class="lineNum">     182 </span>            :             (framesize-gotframes));
+<span class="lineNum">     183 </span><span class="lineCov">         48 :     if(fail_if((err64&lt;0), __LINE__, &quot;reading frames failed after %d/%d frames&quot;, (int)gotframes, (int)framesize))return 1;</span>
+<span class="lineNum">     184 </span><span class="lineCov">         48 :     gotframes+=err64;</span>
+<span class="lineNum">     185 </span><span class="lineCov">         48 :   } while(err64&gt;0 &amp;&amp; gotframes&lt;framesize);</span>
+<span class="lineNum">     186 </span>            : #if 0
+<span class="lineNum">     187 </span>            :   diff=data_diff(__LINE__, orgambidata, resultambidata, framesize*ambixchannels, eps);
+<span class="lineNum">     188 </span>            :   if(fail_if((diff&gt;eps), __LINE__, &quot;ambidata diff %f &gt; %f&quot;, diff, eps))return 1;
+<span class="lineNum">     189 </span>            : #endif
+<span class="lineNum">     190 </span><span class="lineCov">         48 :   diff=data_diff(__LINE__, orgotherdata, resultotherdata, framesize*extrachannels, eps);</span>
+<span class="lineNum">     191 </span><span class="lineCov">         48 :   if(fail_if((diff&gt;eps), __LINE__, &quot;otherdata diff %f &gt; %f&quot;, diff, eps))return 1;</span>
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span><span class="lineCov">         48 :   if(fail_if((AMBIX_ERR_SUCCESS!=ambix_close(ambix)), __LINE__, &quot;closing ambix file %p&quot;, ambix))return 1;</span>
+<span class="lineNum">     194 </span><span class="lineCov">         48 :   ambix=NULL;</span>
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span><span class="lineCov">         48 :   free(resultambidata);</span>
+<span class="lineNum">     197 </span><span class="lineCov">         48 :   free(ambidata);</span>
+<span class="lineNum">     198 </span><span class="lineCov">         48 :   free(resultotherdata);</span>
+<span class="lineNum">     199 </span><span class="lineCov">         48 :   free(otherdata);</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span><span class="lineCov">         48 :   free(orgambidata);</span>
+<span class="lineNum">     202 </span><span class="lineCov">         48 :   free(orgotherdata);</span>
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span><span class="lineCov">         48 :   unlink(path);</span>
+<span class="lineNum">     205 </span><span class="lineCov">         48 :   return 0;</span>
+<span class="lineNum">     206 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

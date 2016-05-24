@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - libambix test coverage - src/matrix_invert.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - matrix_invert.c<span style="font-size: 80%;"> (source / <a href="matrix_invert.c.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">libambix test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">65</td>
+            <td class="headerCovTableEntry">105</td>
+            <td class="headerCovTableEntryLo">61.9 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-05-24</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* matrix_invert.c -  utilities for matrix inversion              -*- c -*-</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            :    Copyright © 2016 IOhannes m zmölnig &lt;zmoelnig@iem.at&gt;.
+<span class="lineNum">       4 </span>            :          Institute of Electronic Music and Acoustics (IEM),
+<span class="lineNum">       5 </span>            :          University of Music and Dramatic Arts, Graz
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    This file is part of libambix
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            :    libambix is free software; you can redistribute it and/or modify
+<span class="lineNum">      10 </span>            :    it under the terms of the GNU Lesser General Public License as
+<span class="lineNum">      11 </span>            :    published by the Free Software Foundation; either version 2.1 of
+<span class="lineNum">      12 </span>            :    the License, or (at your option) any later version.
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :    libambix is distributed in the hope that it will be useful,
+<span class="lineNum">      15 </span>            :    but WITHOUT ANY WARRANTY; without even the implied warranty of
+<span class="lineNum">      16 </span>            :    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<span class="lineNum">      17 </span>            :    GNU Lesser General Public License for more details.
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            :    You should have received a copy of the GNU Lesser General Public
+<span class="lineNum">      20 </span>            :    License along with this program; if not, see &lt;http://www.gnu.org/licenses/&gt;.
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : */
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &quot;private.h&quot;
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : #ifdef HAVE_STDLIB_H
+<span class="lineNum">      27 </span>            : # include &lt;stdlib.h&gt;
+<span class="lineNum">      28 </span>            : #endif /* HAVE_STDLIB_H */
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : #include &lt;math.h&gt;
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            : /**
+<span class="lineNum">      33 </span>            :  * simple matrix inversion of square matrices, using Gauss-Jordan
+<span class="lineNum">      34 </span>            :  */
+<a name="35"><span class="lineNum">      35 </span>            : /* this modifies the input matrix! */</a>
+<span class="lineNum">      36 </span>            : ambix_matrix_t*
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 : _ambix_matrix_invert_gaussjordan(ambix_matrix_t*input, ambix_matrix_t*inverse, float32_t eps)</span>
+<span class="lineNum">      38 </span>            : {
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :   ambix_matrix_t*inverse_org = inverse;</span>
+<span class="lineNum">      40 </span>            :   int i, k;
+<span class="lineNum">      41 </span>            :   float32_t *a1, *b1, *a2, *b2;
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :   int errors=0; /* error counter */</span>
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :   if(input==0)</span>
+<span class="lineNum">      46 </span>            :   { // no input matrix
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     return NULL;</span>
+<span class="lineNum">      48 </span>            :   }
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :   if (input-&gt;cols != input-&gt;rows)</span>
+<span class="lineNum">      51 </span>            :   {// matrix is not squared
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     return NULL;</span>
+<span class="lineNum">      53 </span>            :   }
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :   int col=input-&gt;cols, row=input-&gt;rows;</span>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :   /* 1a reserve space for the inverted matrix */
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :   if(!inverse)</span>
+<span class="lineNum">      59 </span>            :   {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :     inverse=ambix_matrix_init(row, col, NULL);</span>
+<span class="lineNum">      61 </span>            :   }
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :   float32_t **original=input-&gt;data;</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :   float32_t **inverted=inverse-&gt;data;</span>
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :   /* 1b make an eye-shaped float-buf for B */
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :   ambix_matrix_fill(inverse, AMBIX_MATRIX_IDENTITY);</span>
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :   /* 2. do the Gauss-Jordan */
+<span class="lineNum">      71 </span>            :   //printf(&quot;GaussJordan\n&quot;);
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :   for (k=0; k&lt;row; k++) {</span>
+<span class="lineNum">      73 </span>            :     /* adjust current row */
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     float32_t diagel = original[k][k];</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :     float32_t i_diagel = 0;</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     if(diagel&gt;-eps &amp;&amp; diagel&lt;eps)</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :       errors++;</span>
+<span class="lineNum">      78 </span>            :     else
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :       i_diagel = 1./diagel;</span>
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :     /* normalize current row (set the diagonal-element to 1 */
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     for (i=0; i &lt; row; i++)</span>
+<span class="lineNum">      83 </span>            :     {
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :       original[k][i] *= i_diagel;</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :       inverted[k][i] *= i_diagel;</span>
+<span class="lineNum">      86 </span>            :     }
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     /* eliminate the k-th element in each row by adding the weighted normalized row */
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     for (i=0; i &lt; row; i++)</span>
+<span class="lineNum">      90 </span>            :     {
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :       if (i-k)</span>
+<span class="lineNum">      92 </span>            :       {
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :         float32_t f =-original[i][k];</span>
+<span class="lineNum">      94 </span>            :         int j;
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :         for (j=row-1; j &gt;= 0; j--) {</span>
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :           original[i][j] += f * original[k][j];</span>
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :           inverted[i][j] += f * inverted[k][j];</span>
+<span class="lineNum">      98 </span>            :         }
+<span class="lineNum">      99 </span>            :       }
+<span class="lineNum">     100 </span>            :     }
+<span class="lineNum">     101 </span>            :   }
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :   if (errors &gt; 0) {</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :     if(inverse != inverse_org)</span>
+<span class="lineNum">     105 </span>            :       /* if the 'inverse' was locally allocated, free it */
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :       ambix_matrix_destroy(inverse);</span>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :     inverse=NULL;</span>
+<span class="lineNum">     108 </span>            :   }
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :   return inverse;</span>
+<span class="lineNum">     111 </span>            : }
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span>            : /**
+<span class="lineNum">     114 </span>            :  * matrix inversion using the Cholesky algorithm
+<span class="lineNum">     115 </span>            :  *
+<span class="lineNum">     116 </span>            :  * the functions _am_cholesky2_decomp and _am_cholesky_2_inverse
+<span class="lineNum">     117 </span>            :  * have been extracted from the &quot;Survival&quot; package for R.
+<span class="lineNum">     118 </span>            :  *   https://cran.r-project.org/web/packages/survival/index.html
+<span class="lineNum">     119 </span>            :  *
+<span class="lineNum">     120 </span>            :  * They are distributed under the Lesser Gnu General Public License 2 (or greater)
+<span class="lineNum">     121 </span>            :  * and are
+<span class="lineNum">     122 </span>            :  * © 2009 Thomas Lumley
+<span class="lineNum">     123 </span>            :  * © 2009-2016 Terry M Therneau
+<span class="lineNum">     124 </span>            :  */
+<span class="lineNum">     125 </span>            : /** cholesky2 decomposition
+<span class="lineNum">     126 </span>            :  * \author © -2009 Thomas Lumley
+<span class="lineNum">     127 </span>            :  * \author © 2009-2016 Terry M Therneau &lt;therneau.terry@mayo.edu&gt;
+<span class="lineNum">     128 </span>            :  * \copyright LGPL &gt;= 2
+<a name="129"><span class="lineNum">     129 </span>            :  * \note origin survival 2.39-3 https://cran.r-project.org/web/packages/survival/index.html</a>
+<span class="lineNum">     130 </span>            :  */
+<span class="lineNum">     131 </span><span class="lineCov">        108 : static int _am_cholesky2_decomp(ambix_matrix_t*mtx, float32_t toler)</span>
+<span class="lineNum">     132 </span>            : {
+<span class="lineNum">     133 </span><span class="lineCov">        108 :   const uint32_t columns = mtx-&gt;cols;</span>
+<span class="lineNum">     134 </span><span class="lineCov">        108 :   float32_t**matrix= mtx-&gt;data;</span>
+<span class="lineNum">     135 </span>            :   float32_t temp;
+<span class="lineNum">     136 </span>            :   int i, j, k;
+<span class="lineNum">     137 </span>            :   float32_t eps, pivot;
+<span class="lineNum">     138 </span>            :   int rank;
+<span class="lineNum">     139 </span>            :   int nonneg;
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineCov">        108 :   nonneg = 1;</span>
+<span class="lineNum">     142 </span><span class="lineCov">        108 :   eps = 0;</span>
+<span class="lineNum">     143 </span><span class="lineCov">        532 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     144 </span><span class="lineCov">        424 :     if (matrix[i][i] &gt; eps)</span>
+<span class="lineNum">     145 </span><span class="lineCov">        136 :       eps = matrix[i][i];</span>
+<span class="lineNum">     146 </span><span class="lineCov">       1050 :     for (j = (i + 1); j &lt; columns; j++)</span>
+<span class="lineNum">     147 </span><span class="lineCov">        626 :       matrix[j][i] = matrix[i][j];</span>
+<span class="lineNum">     148 </span>            :   }
+<span class="lineNum">     149 </span><span class="lineCov">        108 :   eps *= toler;</span>
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span><span class="lineCov">        108 :   rank = 0;</span>
+<span class="lineNum">     152 </span><span class="lineCov">        532 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     153 </span><span class="lineCov">        424 :     pivot = matrix[i][i];</span>
+<span class="lineNum">     154 </span><span class="lineCov">        424 :     if (pivot &lt; eps) {</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :       matrix[i][i] = 0;</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :       if (pivot &lt; -8 * eps)</span>
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :     nonneg = -1;</span>
+<span class="lineNum">     158 </span>            :     } else {
+<span class="lineNum">     159 </span><span class="lineCov">        424 :       rank++;</span>
+<span class="lineNum">     160 </span><span class="lineCov">       1050 :       for (j = (i + 1); j &lt; columns; j++) {</span>
+<span class="lineNum">     161 </span><span class="lineCov">        626 :     temp = matrix[j][i] / pivot;</span>
+<span class="lineNum">     162 </span><span class="lineCov">        626 :     matrix[j][i] = temp;</span>
+<span class="lineNum">     163 </span><span class="lineCov">        626 :     matrix[j][j] -= temp * temp * pivot;</span>
+<span class="lineNum">     164 </span><span class="lineCov">       1038 :     for (k = (j + 1); k &lt; columns; k++)</span>
+<span class="lineNum">     165 </span><span class="lineCov">        412 :       matrix[k][j] -= temp * matrix[k][i];</span>
+<span class="lineNum">     166 </span>            :       }
+<span class="lineNum">     167 </span>            :     }
+<span class="lineNum">     168 </span>            :   }
+<span class="lineNum">     169 </span><span class="lineCov">        108 :   return (rank * nonneg);</span>
+<span class="lineNum">     170 </span>            : }
+<span class="lineNum">     171 </span>            : /* inplace inverse */
+<span class="lineNum">     172 </span>            : /** inplace inversion of a cholesky2 decomposed matrix
+<span class="lineNum">     173 </span>            :  * \author © -2009 Thomas Lumley
+<span class="lineNum">     174 </span>            :  * \author © 2009-2016 Terry M Therneau &lt;therneau.terry@mayo.edu&gt;
+<span class="lineNum">     175 </span>            :  * \copyright LGPL &gt;= 2
+<a name="176"><span class="lineNum">     176 </span>            :  * \note origin survival 2.39-3 https://cran.r-project.org/web/packages/survival/index.html</a>
+<span class="lineNum">     177 </span>            :  */
+<span class="lineNum">     178 </span><span class="lineCov">        108 : static void _am_cholesky2_inverse(ambix_matrix_t*mtx)</span>
+<span class="lineNum">     179 </span>            : {
+<span class="lineNum">     180 </span><span class="lineCov">        108 :   const int columns = mtx-&gt;cols;;</span>
+<span class="lineNum">     181 </span><span class="lineCov">        108 :   float32_t**matrix = mtx-&gt;data;</span>
+<span class="lineNum">     182 </span>            :   register float32_t temp;
+<span class="lineNum">     183 </span>            :   register int i, j, k;
+<span class="lineNum">     184 </span>            : 
+<span class="lineNum">     185 </span>            :   /*
+<span class="lineNum">     186 </span>            :   ** invert the cholesky in the lower triangle
+<span class="lineNum">     187 </span>            :   **   take full advantage of the cholesky's diagonal of 1's
+<span class="lineNum">     188 </span>            :   */
+<span class="lineNum">     189 </span><span class="lineCov">        532 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     190 </span><span class="lineCov">        424 :     if (matrix[i][i] &gt; 0) {</span>
+<span class="lineNum">     191 </span><span class="lineCov">        424 :       matrix[i][i] = 1 / matrix[i][i]; /*this line inverts D */</span>
+<span class="lineNum">     192 </span><span class="lineCov">       1050 :       for (j = (i + 1); j &lt; columns; j++) {</span>
+<span class="lineNum">     193 </span><span class="lineCov">        626 :     matrix[j][i] = -matrix[j][i];</span>
+<span class="lineNum">     194 </span><span class="lineCov">       1038 :     for (k = 0; k &lt; i; k++) /* sweep operator */</span>
+<span class="lineNum">     195 </span><span class="lineCov">        412 :       matrix[j][k] += matrix[j][i] * matrix[i][k];</span>
+<span class="lineNum">     196 </span>            :       }
+<span class="lineNum">     197 </span>            :     }
+<span class="lineNum">     198 </span>            :   }
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            :   /*
+<span class="lineNum">     201 </span>            :   ** lower triangle now contains inverse of cholesky
+<span class="lineNum">     202 </span>            :   ** calculate F'DF (inverse of cholesky decomp process) to get inverse
+<span class="lineNum">     203 </span>            :   **   of original matrix
+<span class="lineNum">     204 </span>            :   */
+<span class="lineNum">     205 </span><span class="lineCov">        532 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     206 </span><span class="lineCov">        424 :     if (matrix[i][i] == 0) { /* singular row */</span>
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :       for (j = 0; j &lt; i; j++)</span>
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     matrix[j][i] = 0;</span>
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :       for (j = i; j &lt; columns; j++)</span>
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :     matrix[i][j] = 0;</span>
+<span class="lineNum">     211 </span>            :     } else {
+<span class="lineNum">     212 </span><span class="lineCov">       1050 :       for (j = (i + 1); j &lt; columns; j++) {</span>
+<span class="lineNum">     213 </span><span class="lineCov">        626 :     temp = matrix[j][i] * matrix[j][j];</span>
+<span class="lineNum">     214 </span><span class="lineCov">        626 :     if (j != i)</span>
+<span class="lineNum">     215 </span><span class="lineCov">        626 :       matrix[i][j] = temp;</span>
+<span class="lineNum">     216 </span><span class="lineCov">       1664 :     for (k = i; k &lt; j; k++)</span>
+<span class="lineNum">     217 </span><span class="lineCov">       1038 :       matrix[i][k] += temp * matrix[j][k];</span>
+<span class="lineNum">     218 </span>            :       }
+<span class="lineNum">     219 </span>            :     }
+<span class="lineNum">     220 </span>            :   }
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span>            :   // ugly fix to return only inverse
+<span class="lineNum">     223 </span><span class="lineCov">        424 :   for (i = 1; i &lt; columns; i++)</span>
+<span class="lineNum">     224 </span><span class="lineCov">        942 :     for (j = 0; j &lt; i; j++)</span>
+<span class="lineNum">     225 </span><span class="lineCov">        626 :       matrix[i][j] = matrix[j][i];</span>
+<span class="lineNum">     226 </span><span class="lineCov">        108 : }</span>
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span>            : /*
+<span class="lineNum">     229 </span>            :  * calculate the inverse of any (rectangular) real-valued matrix using cholesky decomposition
+<a name="230"><span class="lineNum">     230 </span>            :  */</a>
+<span class="lineNum">     231 </span>            : ambix_matrix_t*
+<span class="lineNum">     232 </span><span class="lineCov">        108 : _ambix_matrix_pinvert_cholesky(const ambix_matrix_t*input, ambix_matrix_t*inverse, float32_t tolerance) {</span>
+<span class="lineNum">     233 </span>            :   /* (rows&gt;cols)?(inv(x'*x)*x'):(x'*inv(x*x')) */
+<span class="lineNum">     234 </span><span class="lineCov">        108 :   float32_t toler = tolerance;</span>
+<span class="lineNum">     235 </span><span class="lineCov">        108 :   ambix_matrix_t*trans = _ambix_matrix_transpose(input, 0);</span>
+<span class="lineNum">     236 </span><span class="lineCov">        108 :   ambix_matrix_t*chinv=0;</span>
+<span class="lineNum">     237 </span><span class="lineCov">        108 :   ambix_matrix_t*result=0;</span>
+<span class="lineNum">     238 </span>            :   do {
+<span class="lineNum">     239 </span><span class="lineCov">        108 :     if(!trans)break;</span>
+<span class="lineNum">     240 </span><span class="lineCov">        108 :     if(input-&gt;rows &gt; input-&gt;cols) {</span>
+<span class="lineNum">     241 </span><span class="lineCov">          4 :       chinv=_ambix_matrix_multiply(trans, input, chinv);</span>
+<span class="lineNum">     242 </span><span class="lineCov">          4 :       if(!chinv)break;</span>
+<span class="lineNum">     243 </span><span class="lineCov">          4 :       _am_cholesky2_decomp(chinv, toler);</span>
+<span class="lineNum">     244 </span><span class="lineCov">          4 :       _am_cholesky2_inverse(chinv);</span>
+<span class="lineNum">     245 </span><span class="lineCov">          4 :       result=_ambix_matrix_multiply(chinv, trans, inverse);</span>
+<span class="lineNum">     246 </span>            :     } else {
+<span class="lineNum">     247 </span><span class="lineCov">        104 :       chinv=_ambix_matrix_multiply(input, trans, chinv);</span>
+<span class="lineNum">     248 </span><span class="lineCov">        104 :       if(!chinv)break;</span>
+<span class="lineNum">     249 </span><span class="lineCov">        104 :       _am_cholesky2_decomp(chinv, toler);</span>
+<span class="lineNum">     250 </span><span class="lineCov">        104 :       _am_cholesky2_inverse(chinv);</span>
+<span class="lineNum">     251 </span><span class="lineCov">        104 :       result=_ambix_matrix_multiply(trans, chinv, inverse);</span>
+<span class="lineNum">     252 </span>            :     }
+<span class="lineNum">     253 </span>            :   } while(0);
+<span class="lineNum">     254 </span><span class="lineCov">        108 :   if(trans)ambix_matrix_destroy(trans);</span>
+<span class="lineNum">     255 </span><span class="lineCov">        108 :   if(chinv)ambix_matrix_destroy(chinv);</span>
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span><span class="lineCov">        108 :   return result;</span>
+<span class="lineNum">     258 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
