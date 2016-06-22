@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-21</td>
+            <td class="headerValue">2016-06-22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -64,7 +64,7 @@
 <a name="2"><span class="lineNum">       2 </span>            : void check_create_simple(const char*path, ambix_sampleformat_t format, float32_t eps);</a>
 <span class="lineNum">       3 </span>            : 
 <span class="lineNum">       4 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
-<span class="lineNum">       5 </span><span class="lineCov">          1 :   check_create_simple(&quot;test-pcm32.caf&quot;,  AMBIX_SAMPLEFORMAT_PCM32, 1e-5);</span>
+<span class="lineNum">       5 </span><span class="lineCov">          1 :   check_create_simple(FILENAME_FILE,  AMBIX_SAMPLEFORMAT_PCM32, 1e-5);</span>
 <span class="lineNum">       6 </span><span class="lineCov">          1 :   return pass();</span>
 <span class="lineNum">       7 </span>            : }
 </pre>

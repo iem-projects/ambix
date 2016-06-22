@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-21</td>
+            <td class="headerValue">2016-06-22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">9</td>
@@ -125,14 +125,14 @@
 <span class="lineNum">      63 </span><span class="lineCov">          5 :   STARTTEST(&quot;[%dx%d]\n&quot;, rows, cols);</span>
 <span class="lineNum">      64 </span>            :   /* make a copy of the org data, and verify it */
 <span class="lineNum">      65 </span><span class="lineCov">          5 :   memcpy(data, orgdata, frames*sizeof(*orgdata));</span>
-<span class="lineNum">      66 </span><span class="lineCov">          5 :   errf = data_diff(line, orgdata, data, frames, eps);</span>
+<span class="lineNum">      66 </span><span class="lineCov">          5 :   errf = data_diff(line, FLOAT32, orgdata, data, frames, eps);</span>
 <span class="lineNum">      67 </span><span class="lineCov">          5 :   fail_if(!(errf&lt;eps), line, &quot;orgdata differs from memcpy by %g (&gt;%g)&quot;, errf, eps);</span>
 <span class="lineNum">      68 </span>            : 
 <span class="lineNum">      69 </span>            :   /* fill in the data */
 <span class="lineNum">      70 </span><span class="lineCov">          5 :   ambix_matrix_fill_data(mtx, data);</span>
 <span class="lineNum">      71 </span>            : 
 <span class="lineNum">      72 </span>            :   /* check if data has been modified */
-<span class="lineNum">      73 </span><span class="lineCov">          5 :   errf = data_diff(line, orgdata, data, frames, eps);</span>
+<span class="lineNum">      73 </span><span class="lineCov">          5 :   errf = data_diff(line, FLOAT32, orgdata, data, frames, eps);</span>
 <span class="lineNum">      74 </span><span class="lineCov">          5 :   fail_if(!(errf&lt;eps), line, &quot;orgdata differs from filled data by %g (&gt;%g)&quot;, errf, eps);</span>
 <span class="lineNum">      75 </span>            : 
 <span class="lineNum">      76 </span><span class="lineCov">          5 :   free(data);</span>
@@ -189,7 +189,7 @@
 <span class="lineNum">     127 </span>            :             &quot;original matrix row[%d: %p] does not match copied-from matrix row[%d: %p]&quot;,
 <span class="lineNum">     128 </span>            :             r, org_row, r, row);
 <span class="lineNum">     129 </span>            :     /* compare the actual row-vector */
-<span class="lineNum">     130 </span><span class="lineCov">         18 :     errf=data_diff(line, org_data[r], mtx-&gt;data[r], cols, eps);</span>
+<span class="lineNum">     130 </span><span class="lineCov">         18 :     errf=data_diff(line, FLOAT32, org_data[r], mtx-&gt;data[r], cols, eps);</span>
 <span class="lineNum">     131 </span><span class="lineCov">         18 :     fail_if(!(errf&lt;eps), line, &quot;orgdata differs from copied-from data by %g (&gt;%g)&quot;, errf, eps);</span>
 <span class="lineNum">     132 </span>            :   }
 <span class="lineNum">     133 </span>            : 

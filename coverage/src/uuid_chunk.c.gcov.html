@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-21</td>
+            <td class="headerValue">2016-06-22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -118,44 +118,44 @@
 <span class="lineNum">      56 </span>            :   printf(&quot;%02x%02x&quot;, data0, data1);
 <span class="lineNum">      57 </span>            : }
 <span class="lineNum">      58 </span>            : static void _ambix_printUUID(const char data[16]) {
-<span class="lineNum">      59 </span>            :  /* 8-4-4-4-12 */
-<span class="lineNum">      60 </span>            :  _ambix_printUUID4(data);data+=2;
-<span class="lineNum">      61 </span>            :  _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      59 </span>            :   /* 8-4-4-4-12 */
+<span class="lineNum">      60 </span>            :   _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      61 </span>            :   _ambix_printUUID4(data);data+=2;
 <span class="lineNum">      62 </span>            :   printf(&quot;-&quot;);
-<span class="lineNum">      63 </span>            :  _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      63 </span>            :   _ambix_printUUID4(data);data+=2;
 <span class="lineNum">      64 </span>            :   printf(&quot;-&quot;);
-<span class="lineNum">      65 </span>            :  _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      65 </span>            :   _ambix_printUUID4(data);data+=2;
 <span class="lineNum">      66 </span>            :   printf(&quot;-&quot;);
-<span class="lineNum">      67 </span>            :  _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      67 </span>            :   _ambix_printUUID4(data);data+=2;
 <span class="lineNum">      68 </span>            :   printf(&quot;-&quot;);
-<span class="lineNum">      69 </span>            :  _ambix_printUUID4(data);data+=2;
-<span class="lineNum">      70 </span>            :  _ambix_printUUID4(data);data+=2;
-<span class="lineNum">      71 </span>            :  _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      69 </span>            :   _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      70 </span>            :   _ambix_printUUID4(data);data+=2;
+<span class="lineNum">      71 </span>            :   _ambix_printUUID4(data);data+=2;
 <span class="lineNum">      72 </span>            : }
 <span class="lineNum">      73 </span>            : #endif
-<span class="lineNum">      74 </span>            :  /*
-<span class="lineNum">      75 </span>            :   * uarg, this is not a UUID!
-<span class="lineNum">      76 </span>            :   * (well it is...UUID::Tiny thinks it's a v2 (DCE security) UUID
-<span class="lineNum">      77 </span>            :   */
+<span class="lineNum">      74 </span>            : /*
+<span class="lineNum">      75 </span>            :  * uarg, this is not a UUID!
+<span class="lineNum">      76 </span>            :  * (well it is...UUID::Tiny thinks it's a v2 (DCE security) UUID
+<span class="lineNum">      77 </span>            :  */
 <span class="lineNum">      78 </span>            : static const char _ambix_uuid_v1_[]=&quot;IEM.AT/AMBIX/XML&quot;;
 <span class="lineNum">      79 </span>            : /*
 <span class="lineNum">      80 </span>            :  * that's a better UUID, based on a SHA1-hash of &quot;http://ambisonics.iem.at/xchange/format/1.0&quot;
 <a name="81"><span class="lineNum">      81 </span>            :  */</a>
 <span class="lineNum">      82 </span>            : static const char _ambix_uuid_v1[]={0x1a, 0xd3, 0x18, 0xc3, 0x00, 0xe5, 0x55, 0x76, 0xbe, 0x2d, 0x0d, 0xca, 0x24, 0x60, 0xbc, 0x89};
-<span class="lineNum">      83 </span><span class="lineCov">        112 : const char* _ambix_getUUID(uint32_t version) {</span>
-<span class="lineNum">      84 </span><span class="lineCov">        112 :   switch(version) {</span>
+<span class="lineNum">      83 </span><span class="lineCov">        126 : const char* _ambix_getUUID(uint32_t version) {</span>
+<span class="lineNum">      84 </span><span class="lineCov">        126 :   switch(version) {</span>
 <span class="lineNum">      85 </span>            :   default:
 <span class="lineNum">      86 </span><span class="lineNoCov">          0 :     break;</span>
 <span class="lineNum">      87 </span>            :   case 1:
-<span class="lineNum">      88 </span><span class="lineCov">        112 :     return _ambix_uuid_v1;</span>
+<span class="lineNum">      88 </span><span class="lineCov">        126 :     return _ambix_uuid_v1;</span>
 <span class="lineNum">      89 </span>            :   }
 <span class="lineNum">      90 </span><span class="lineNoCov">          0 :   return NULL;</span>
 <span class="lineNum">      91 </span>            : }
 <a name="92"><span class="lineNum">      92 </span>            : </a>
 <span class="lineNum">      93 </span>            : uint32_t
-<span class="lineNum">      94 </span><span class="lineCov">        104 : _ambix_checkUUID(const char data[16]) {</span>
-<span class="lineNum">      95 </span><span class="lineCov">        104 :   if(!memcmp(data, _ambix_uuid_v1, 16))</span>
-<span class="lineNum">      96 </span><span class="lineCov">        104 :     return 1;</span>
+<span class="lineNum">      94 </span><span class="lineCov">        118 : _ambix_checkUUID(const char data[16]) {</span>
+<span class="lineNum">      95 </span><span class="lineCov">        118 :   if(!memcmp(data, _ambix_uuid_v1, 16))</span>
+<span class="lineNum">      96 </span><span class="lineCov">        118 :     return 1;</span>
 <span class="lineNum">      97 </span>            :   /* compat mode: old AMBIXv1 UUID */
 <span class="lineNum">      98 </span><span class="lineNoCov">          0 :   if(!memcmp(data, _ambix_uuid_v1_, 16))</span>
 <span class="lineNum">      99 </span><span class="lineNoCov">          0 :     return 1;</span>
@@ -163,57 +163,57 @@
 <span class="lineNum">     101 </span>            : }
 <a name="102"><span class="lineNum">     102 </span>            : </a>
 <span class="lineNum">     103 </span>            : ambix_matrix_t*
-<span class="lineNum">     104 </span><span class="lineCov">        104 : _ambix_uuid1_to_matrix(const void*vdata, uint64_t datasize, ambix_matrix_t*orgmtx, int swap) {</span>
-<span class="lineNum">     105 </span><span class="lineCov">        104 :   const char*cdata=(const char*)vdata;</span>
-<span class="lineNum">     106 </span><span class="lineCov">        104 :   ambix_matrix_t*mtx=orgmtx;</span>
+<span class="lineNum">     104 </span><span class="lineCov">        118 : _ambix_uuid1_to_matrix(const void*vdata, uint64_t datasize, ambix_matrix_t*orgmtx, int swap) {</span>
+<span class="lineNum">     105 </span><span class="lineCov">        118 :   const char*cdata=(const char*)vdata;</span>
+<span class="lineNum">     106 </span><span class="lineCov">        118 :   ambix_matrix_t*mtx=orgmtx;</span>
 <span class="lineNum">     107 </span>            :   uint32_t rows;
 <span class="lineNum">     108 </span>            :   uint32_t cols;
 <span class="lineNum">     109 </span>            :   uint64_t size;
 <span class="lineNum">     110 </span>            :   uint32_t index;
 <span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span><span class="lineCov">        104 :   if(datasize&lt;(sizeof(rows)+sizeof(cols)))</span>
+<span class="lineNum">     112 </span><span class="lineCov">        118 :   if(datasize&lt;(sizeof(rows)+sizeof(cols)))</span>
 <span class="lineNum">     113 </span><span class="lineNoCov">          0 :     return NULL;</span>
 <span class="lineNum">     114 </span>            : 
-<span class="lineNum">     115 </span><span class="lineCov">        104 :   index = 0;</span>
+<span class="lineNum">     115 </span><span class="lineCov">        118 :   index = 0;</span>
 <span class="lineNum">     116 </span>            : 
-<span class="lineNum">     117 </span><span class="lineCov">        104 :   memcpy(&amp;rows, cdata+index, sizeof(uint32_t));</span>
-<span class="lineNum">     118 </span><span class="lineCov">        104 :   index += sizeof(uint32_t);</span>
+<span class="lineNum">     117 </span><span class="lineCov">        118 :   memcpy(&amp;rows, cdata+index, sizeof(uint32_t));</span>
+<span class="lineNum">     118 </span><span class="lineCov">        118 :   index += sizeof(uint32_t);</span>
 <span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineCov">        104 :   memcpy(&amp;cols, cdata+index, sizeof(uint32_t));</span>
-<span class="lineNum">     121 </span><span class="lineCov">        104 :   index += sizeof(uint32_t);</span>
+<span class="lineNum">     120 </span><span class="lineCov">        118 :   memcpy(&amp;cols, cdata+index, sizeof(uint32_t));</span>
+<span class="lineNum">     121 </span><span class="lineCov">        118 :   index += sizeof(uint32_t);</span>
 <span class="lineNum">     122 </span>            : 
-<span class="lineNum">     123 </span><span class="lineCov">        104 :   if(swap) {</span>
-<span class="lineNum">     124 </span><span class="lineCov">        104 :     rows=swap4(rows);</span>
-<span class="lineNum">     125 </span><span class="lineCov">        104 :     cols=swap4(cols);</span>
+<span class="lineNum">     123 </span><span class="lineCov">        118 :   if(swap) {</span>
+<span class="lineNum">     124 </span><span class="lineCov">        118 :     rows=swap4(rows);</span>
+<span class="lineNum">     125 </span><span class="lineCov">        118 :     cols=swap4(cols);</span>
 <span class="lineNum">     126 </span>            :   }
 <span class="lineNum">     127 </span>            : 
-<span class="lineNum">     128 </span><span class="lineCov">        104 :   size=(uint64_t)rows*cols;</span>
+<span class="lineNum">     128 </span><span class="lineCov">        118 :   size=(uint64_t)rows*cols;</span>
 <span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span><span class="lineCov">        104 :   if(rows&lt;1 || cols&lt;1 || size &lt; 1)</span>
+<span class="lineNum">     130 </span><span class="lineCov">        118 :   if(rows&lt;1 || cols&lt;1 || size &lt; 1)</span>
 <span class="lineNum">     131 </span>            :     goto cleanup;
 <span class="lineNum">     132 </span>            : 
-<span class="lineNum">     133 </span><span class="lineCov">        104 :   if(size*sizeof(float32_t) &gt; datasize) {</span>
+<span class="lineNum">     133 </span><span class="lineCov">        118 :   if(size*sizeof(float32_t) &gt; datasize) {</span>
 <span class="lineNum">     134 </span><span class="lineNoCov">          0 :     goto cleanup;</span>
 <span class="lineNum">     135 </span>            :   }
 <span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span><span class="lineCov">        104 :   if(!mtx) {</span>
+<span class="lineNum">     137 </span><span class="lineCov">        118 :   if(!mtx) {</span>
 <span class="lineNum">     138 </span><span class="lineNoCov">          0 :     mtx=(ambix_matrix_t*)calloc(1, sizeof(ambix_matrix_t));</span>
 <span class="lineNum">     139 </span><span class="lineNoCov">          0 :     if(!mtx)</span>
 <span class="lineNum">     140 </span><span class="lineNoCov">          0 :       goto cleanup;</span>
 <span class="lineNum">     141 </span>            :   }
 <span class="lineNum">     142 </span>            : 
-<span class="lineNum">     143 </span><span class="lineCov">        104 :   if(!ambix_matrix_init(rows, cols, mtx))</span>
-<span class="lineNum">     144 </span><span class="lineNoCov">          0 :       goto cleanup;</span>
+<span class="lineNum">     143 </span><span class="lineCov">        118 :   if(!ambix_matrix_init(rows, cols, mtx))</span>
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :     goto cleanup;</span>
 <span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span><span class="lineCov">        104 :   if(swap) {</span>
-<span class="lineNum">     147 </span><span class="lineCov">        104 :     if(_ambix_matrix_fill_data_byteswapped(mtx, (number32_t*)(cdata+index)) != AMBIX_ERR_SUCCESS)</span>
+<span class="lineNum">     146 </span><span class="lineCov">        118 :   if(swap) {</span>
+<span class="lineNum">     147 </span><span class="lineCov">        118 :     if(_ambix_matrix_fill_data_byteswapped(mtx, (number32_t*)(cdata+index)) != AMBIX_ERR_SUCCESS)</span>
 <span class="lineNum">     148 </span><span class="lineNoCov">          0 :       goto cleanup;</span>
 <span class="lineNum">     149 </span>            :   } else {
 <span class="lineNum">     150 </span><span class="lineNoCov">          0 :     if(ambix_matrix_fill_data(mtx, (float32_t*)(cdata+index)) != AMBIX_ERR_SUCCESS)</span>
 <span class="lineNum">     151 </span><span class="lineNoCov">          0 :       goto cleanup;</span>
 <span class="lineNum">     152 </span>            :   }
 <span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span><span class="lineCov">        104 :   return mtx;</span>
+<span class="lineNum">     154 </span><span class="lineCov">        118 :   return mtx;</span>
 <span class="lineNum">     155 </span>            : 
 <span class="lineNum">     156 </span>            :  cleanup:
 <span class="lineNum">     157 </span><span class="lineNoCov">          0 :   if(mtx &amp;&amp; mtx!=orgmtx) {</span>
@@ -226,49 +226,49 @@
 <span class="lineNum">     164 </span>            : 
 <a name="165"><span class="lineNum">     165 </span>            : </a>
 <span class="lineNum">     166 </span>            : uint64_t
-<span class="lineNum">     167 </span><span class="lineCov">        112 : _ambix_matrix_to_uuid1(const ambix_matrix_t*matrix, void*vdata, int swap) {</span>
-<span class="lineNum">     168 </span><span class="lineCov">        112 :   char*cdata=(char*)vdata;</span>
-<span class="lineNum">     169 </span><span class="lineCov">        112 :   const char*uuid=_ambix_getUUID(1);</span>
-<span class="lineNum">     170 </span><span class="lineCov">        112 :   uint64_t index=0;</span>
-<span class="lineNum">     171 </span><span class="lineCov">        112 :   uint64_t datasize=0;</span>
-<span class="lineNum">     172 </span><span class="lineCov">        112 :   uint32_t rows=matrix-&gt;rows;</span>
-<span class="lineNum">     173 </span><span class="lineCov">        112 :   uint32_t cols=matrix-&gt;cols;</span>
-<span class="lineNum">     174 </span><span class="lineCov">        112 :   float32_t**mtx=matrix-&gt;data;</span>
-<span class="lineNum">     175 </span><span class="lineCov">        112 :   if(!uuid)</span>
+<span class="lineNum">     167 </span><span class="lineCov">        126 : _ambix_matrix_to_uuid1(const ambix_matrix_t*matrix, void*vdata, int swap) {</span>
+<span class="lineNum">     168 </span><span class="lineCov">        126 :   char*cdata=(char*)vdata;</span>
+<span class="lineNum">     169 </span><span class="lineCov">        126 :   const char*uuid=_ambix_getUUID(1);</span>
+<span class="lineNum">     170 </span><span class="lineCov">        126 :   uint64_t index=0;</span>
+<span class="lineNum">     171 </span><span class="lineCov">        126 :   uint64_t datasize=0;</span>
+<span class="lineNum">     172 </span><span class="lineCov">        126 :   uint32_t rows=matrix-&gt;rows;</span>
+<span class="lineNum">     173 </span><span class="lineCov">        126 :   uint32_t cols=matrix-&gt;cols;</span>
+<span class="lineNum">     174 </span><span class="lineCov">        126 :   float32_t**mtx=matrix-&gt;data;</span>
+<span class="lineNum">     175 </span><span class="lineCov">        126 :   if(!uuid)</span>
 <span class="lineNum">     176 </span><span class="lineNoCov">          0 :     return 0;</span>
-<span class="lineNum">     177 </span><span class="lineCov">        112 :   datasize+=16; /* reserved for the UUID */</span>
+<span class="lineNum">     177 </span><span class="lineCov">        126 :   datasize+=16; /* reserved for the UUID */</span>
 <span class="lineNum">     178 </span>            : 
-<span class="lineNum">     179 </span><span class="lineCov">        112 :   datasize+=sizeof(uint32_t); /* rows */</span>
-<span class="lineNum">     180 </span><span class="lineCov">        112 :   datasize+=sizeof(uint32_t); /* cols */</span>
-<span class="lineNum">     181 </span><span class="lineCov">        112 :   datasize+=(uint64_t)rows*(uint64_t)cols*sizeof(float32_t); /* data */</span>
+<span class="lineNum">     179 </span><span class="lineCov">        126 :   datasize+=sizeof(uint32_t); /* rows */</span>
+<span class="lineNum">     180 </span><span class="lineCov">        126 :   datasize+=sizeof(uint32_t); /* cols */</span>
+<span class="lineNum">     181 </span><span class="lineCov">        126 :   datasize+=(uint64_t)rows*(uint64_t)cols*sizeof(float32_t); /* data */</span>
 <span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span><span class="lineCov">        112 :   if(vdata) {</span>
-<span class="lineNum">     184 </span><span class="lineCov">         56 :     uint32_t*uidata=(uint32_t*)vdata;</span>
+<span class="lineNum">     183 </span><span class="lineCov">        126 :   if(vdata) {</span>
+<span class="lineNum">     184 </span><span class="lineCov">         63 :     uint32_t*uidata=(uint32_t*)vdata;</span>
 <span class="lineNum">     185 </span>            :     uint64_t r;
 <span class="lineNum">     186 </span>            :     uint32_t*swapdata;
-<span class="lineNum">     187 </span><span class="lineCov">         56 :     uint64_t elements=(uint64_t)rows*(uint64_t)cols;</span>
-<span class="lineNum">     188 </span><span class="lineCov">         56 :     memcpy(cdata, uuid, 16);</span>
-<span class="lineNum">     189 </span><span class="lineCov">         56 :     index+=16;</span>
+<span class="lineNum">     187 </span><span class="lineCov">         63 :     uint64_t elements=(uint64_t)rows*(uint64_t)cols;</span>
+<span class="lineNum">     188 </span><span class="lineCov">         63 :     memcpy(cdata, uuid, 16);</span>
+<span class="lineNum">     189 </span><span class="lineCov">         63 :     index+=16;</span>
 <span class="lineNum">     190 </span>            : 
 <span class="lineNum">     191 </span>            :     //swapdata=cdata+index;
-<span class="lineNum">     192 </span><span class="lineCov">         56 :     swapdata=uidata+(index / sizeof(uint32_t));</span>
+<span class="lineNum">     192 </span><span class="lineCov">         63 :     swapdata=uidata+(index / sizeof(uint32_t));</span>
 <span class="lineNum">     193 </span>            : 
-<span class="lineNum">     194 </span><span class="lineCov">         56 :     memcpy(cdata+index, &amp;rows, sizeof(uint32_t));</span>
-<span class="lineNum">     195 </span><span class="lineCov">         56 :     index+=sizeof(uint32_t);</span>
+<span class="lineNum">     194 </span><span class="lineCov">         63 :     memcpy(cdata+index, &amp;rows, sizeof(uint32_t));</span>
+<span class="lineNum">     195 </span><span class="lineCov">         63 :     index+=sizeof(uint32_t);</span>
 <span class="lineNum">     196 </span>            : 
-<span class="lineNum">     197 </span><span class="lineCov">         56 :     memcpy(cdata+index, &amp;cols, sizeof(uint32_t));</span>
-<span class="lineNum">     198 </span><span class="lineCov">         56 :     index+=sizeof(uint32_t);</span>
+<span class="lineNum">     197 </span><span class="lineCov">         63 :     memcpy(cdata+index, &amp;cols, sizeof(uint32_t));</span>
+<span class="lineNum">     198 </span><span class="lineCov">         63 :     index+=sizeof(uint32_t);</span>
 <span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineCov">        280 :     for(r=0; r&lt;rows; r++) {</span>
-<span class="lineNum">     201 </span><span class="lineCov">        224 :       memcpy(cdata+index, mtx[r], cols*sizeof(float32_t));</span>
-<span class="lineNum">     202 </span><span class="lineCov">        224 :       index+=cols*sizeof(float32_t);</span>
+<span class="lineNum">     200 </span><span class="lineCov">        315 :     for(r=0; r&lt;rows; r++) {</span>
+<span class="lineNum">     201 </span><span class="lineCov">        252 :       memcpy(cdata+index, mtx[r], cols*sizeof(float32_t));</span>
+<span class="lineNum">     202 </span><span class="lineCov">        252 :       index+=cols*sizeof(float32_t);</span>
 <span class="lineNum">     203 </span>            :     }
 <span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span><span class="lineCov">         56 :     if(swap) {</span>
-<span class="lineNum">     206 </span><span class="lineCov">         56 :       _ambix_swap4array(swapdata, elements+2);</span>
+<span class="lineNum">     205 </span><span class="lineCov">         63 :     if(swap) {</span>
+<span class="lineNum">     206 </span><span class="lineCov">         63 :       _ambix_swap4array(swapdata, elements+2);</span>
 <span class="lineNum">     207 </span>            :     }
 <span class="lineNum">     208 </span>            :   }
-<span class="lineNum">     209 </span><span class="lineCov">        112 :   return datasize;</span>
+<span class="lineNum">     209 </span><span class="lineCov">        126 :   return datasize;</span>
 <span class="lineNum">     210 </span>            : }
 </pre>
       </td>

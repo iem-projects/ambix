@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-21</td>
+            <td class="headerValue">2016-06-22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -367,10 +367,10 @@
 <span class="lineNum">     305 </span>            :  * @param n a 32bit chunk in the wrong byte order
 <a name="306"><span class="lineNum">     306 </span>            :  * @return byte-swapped data</a>
 <span class="lineNum">     307 </span>            :  */
-<span class="lineNum">     308 </span><span class="lineCov">       3648 : static inline uint32_t swap4(uint32_t n)</span>
+<span class="lineNum">     308 </span><span class="lineCov">       4026 : static inline uint32_t swap4(uint32_t n)</span>
 <span class="lineNum">     309 </span>            : {
-<span class="lineNum">     310 </span><span class="lineCov">      10944 :   return (((n &amp; 0xff) &lt;&lt; 24) | ((n &amp; 0xff00) &lt;&lt; 8) |</span>
-<span class="lineNum">     311 </span><span class="lineCov">       7296 :           ((n &amp; 0xff0000) &gt;&gt; 8) | ((n &amp; 0xff000000) &gt;&gt; 24));</span>
+<span class="lineNum">     310 </span><span class="lineCov">      12078 :   return (((n &amp; 0xff) &lt;&lt; 24) | ((n &amp; 0xff00) &lt;&lt; 8) |</span>
+<span class="lineNum">     311 </span><span class="lineCov">       8052 :           ((n &amp; 0xff0000) &gt;&gt; 8) | ((n &amp; 0xff000000) &gt;&gt; 24));</span>
 <span class="lineNum">     312 </span>            : }
 <span class="lineNum">     313 </span>            : /** @brief byte-swap arrays of 32bit data
 <span class="lineNum">     314 </span>            :  * @param data a pointer to an array of 32bit data to be byteswapped

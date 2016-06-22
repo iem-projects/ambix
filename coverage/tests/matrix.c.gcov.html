@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-21</td>
+            <td class="headerValue">2016-06-22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">11</td>
@@ -330,27 +330,27 @@
 <span class="lineNum">     268 </span>            : 
 <span class="lineNum">     269 </span><span class="lineCov">          1 :   data_transpose(resultdataT, resultdata, 2, 4);</span>
 <span class="lineNum">     270 </span>            : 
-<span class="lineNum">     271 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, resultdataT, resultdata_4_2, 4*2, eps);</span>
+<span class="lineNum">     271 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, FLOAT32, resultdataT, resultdata_4_2, 4*2, eps);</span>
 <span class="lineNum">     272 </span><span class="lineCov">          1 :   if(errf&gt;eps) {</span>
 <span class="lineNum">     273 </span><span class="lineNoCov">          0 :     printf(&quot;matrix:\n&quot;);</span>
 <span class="lineNum">     274 </span><span class="lineNoCov">          0 :     matrix_print(mtx);</span>
 <span class="lineNum">     275 </span><span class="lineNoCov">          0 :     printf(&quot;input:\n&quot;);</span>
-<span class="lineNum">     276 </span><span class="lineNoCov">          0 :     data_print(inputdata, 3*2);</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :     data_print(FLOAT32, inputdata, 3*2);</span>
 <span class="lineNum">     277 </span>            : 
 <span class="lineNum">     278 </span><span class="lineNoCov">          0 :     printf(&quot;expected:\n&quot;);</span>
-<span class="lineNum">     279 </span><span class="lineNoCov">          0 :     data_print(resultdata_4_2, 4*2);</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :     data_print(FLOAT32, resultdata_4_2, 4*2);</span>
 <span class="lineNum">     280 </span><span class="lineNoCov">          0 :     printf(&quot;calculated:\n&quot;);</span>
-<span class="lineNum">     281 </span><span class="lineNoCov">          0 :     data_print(resultdataT   , 4*2);</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :     data_print(FLOAT32, resultdataT   , 4*2);</span>
 <span class="lineNum">     282 </span>            : 
 <span class="lineNum">     283 </span>            :   }
 <span class="lineNum">     284 </span><span class="lineCov">          1 :   fail_if(!(errf&lt;eps), __LINE__, &quot;diffing data multiplication returned %f (&gt;%f)&quot;, errf, eps);</span>
 <span class="lineNum">     285 </span>            : 
 <span class="lineNum">     286 </span>            : #if 0
 <span class="lineNum">     287 </span>            :   printf(&quot;matrix:\n&quot;);matrix_print(mtx);
-<span class="lineNum">     288 </span>            :   printf(&quot;input :\n&quot;);  data_print(rightdata_3_2, 3*2);
-<span class="lineNum">     289 </span>            :   printf(&quot;output:\n&quot;);  data_print(resultdata, 4*2);
+<span class="lineNum">     288 </span>            :   printf(&quot;input :\n&quot;);  data_print(FLOAT32, rightdata_3_2, 3*2);
+<span class="lineNum">     289 </span>            :   printf(&quot;output:\n&quot;);  data_print(FLOAT32, resultdata, 4*2);
 <span class="lineNum">     290 </span>            : 
-<span class="lineNum">     291 </span>            :   printf(&quot;target:\n&quot;);  data_print(resultdata_4_2, 4*2);
+<span class="lineNum">     291 </span>            :   printf(&quot;target:\n&quot;);  data_print(FLOAT32, resultdata_4_2, 4*2);
 <span class="lineNum">     292 </span>            : #endif
 <span class="lineNum">     293 </span>            : 
 <span class="lineNum">     294 </span>            : 
@@ -371,7 +371,7 @@
 <span class="lineNum">     309 </span><span class="lineCov">          1 :   ambix_matrix_t eye = {0, 0, NULL};</span>
 <span class="lineNum">     310 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
 <span class="lineNum">     311 </span>            : 
-<span class="lineNum">     312 </span><span class="lineCov">          1 :   inputdata =data_sine(frames, channels, freq);</span>
+<span class="lineNum">     312 </span><span class="lineCov">          1 :   inputdata =data_sine(FLOAT32, frames, channels, freq);</span>
 <span class="lineNum">     313 </span><span class="lineCov">          1 :   outputdata=(float32_t*)malloc(sizeof(float32_t)*frames*channels);</span>
 <span class="lineNum">     314 </span><span class="lineCov">          1 :   fail_if((NULL==outputdata), __LINE__, &quot;couldn't mallocate outputdata&quot;);</span>
 <span class="lineNum">     315 </span>            : 
@@ -381,13 +381,13 @@
 <span class="lineNum">     319 </span><span class="lineCov">          1 :   fail_if(AMBIX_ERR_SUCCESS!=ambix_matrix_multiply_float32(outputdata, &amp;eye, inputdata, frames),</span>
 <span class="lineNum">     320 </span>            :           __LINE__, &quot;data multilplication failed&quot;);
 <span class="lineNum">     321 </span>            : 
-<span class="lineNum">     322 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, inputdata, outputdata, frames*channels, eps);</span>
+<span class="lineNum">     322 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, FLOAT32, inputdata, outputdata, frames*channels, eps);</span>
 <span class="lineNum">     323 </span><span class="lineCov">          1 :   fail_if(!(errf&lt;eps), __LINE__, &quot;diffing data multiplication returned %f (&gt;%f)&quot;, errf, eps);</span>
 <span class="lineNum">     324 </span>            : 
 <span class="lineNum">     325 </span>            : #if 0
 <span class="lineNum">     326 </span>            :   printf(&quot;matrix:\n&quot;);  matrix_print(&amp;eye);
-<span class="lineNum">     327 </span>            :   printf(&quot;input :\n&quot;);  data_print(inputdata, frames*channels);
-<span class="lineNum">     328 </span>            :   printf(&quot;output:\n&quot;);  data_print(outputdata,frames*channels);
+<span class="lineNum">     327 </span>            :   printf(&quot;input :\n&quot;);  data_print(FLOAT32, inputdata, frames*channels);
+<span class="lineNum">     328 </span>            :   printf(&quot;output:\n&quot;);  data_print(FLOAT32, outputdata,frames*channels);
 <span class="lineNum">     329 </span>            : #endif
 <span class="lineNum">     330 </span>            : 
 <span class="lineNum">     331 </span><span class="lineCov">          1 :   free(inputdata);</span>
@@ -412,8 +412,8 @@
 <span class="lineNum">     350 </span><span class="lineCov">          1 :   ambix_matrix_t eye = {0, 0, NULL};</span>
 <span class="lineNum">     351 </span><span class="lineCov">          1 :   STARTTEST(&quot;\n&quot;);</span>
 <span class="lineNum">     352 </span>            : 
-<span class="lineNum">     353 </span><span class="lineCov">          1 :   inputdata =data_sine(frames, rawchannels, freq);</span>
-<span class="lineNum">     354 </span><span class="lineCov">          1 :   targetdata=data_sine(frames, cokchannels, freq);</span>
+<span class="lineNum">     353 </span><span class="lineCov">          1 :   inputdata =data_sine(FLOAT32, frames, rawchannels, freq);</span>
+<span class="lineNum">     354 </span><span class="lineCov">          1 :   targetdata=data_sine(FLOAT32, frames, cokchannels, freq);</span>
 <span class="lineNum">     355 </span>            : 
 <span class="lineNum">     356 </span><span class="lineCov">          1 :   outputdata=(float32_t*)malloc(sizeof(float32_t)*frames*cokchannels);</span>
 <span class="lineNum">     357 </span><span class="lineCov">          1 :   fail_if((NULL==outputdata), __LINE__, &quot;couldn't allocate outputdata&quot;);</span>
@@ -431,7 +431,7 @@
 <span class="lineNum">     369 </span>            : #if 0
 <span class="lineNum">     370 </span>            :   matrix_print(&amp;eye);
 <span class="lineNum">     371 </span>            :   printf(&quot;input\n&quot;);
-<span class="lineNum">     372 </span>            :   data_print(inputdata, rawchannels*frames);
+<span class="lineNum">     372 </span>            :   data_print(FLOAT32, inputdata, rawchannels*frames);
 <span class="lineNum">     373 </span>            : #endif
 <span class="lineNum">     374 </span>            : 
 <span class="lineNum">     375 </span><span class="lineCov">          1 :   fail_if(AMBIX_ERR_SUCCESS!=ambix_matrix_multiply_float32(outputdata, &amp;eye, inputdata, frames),</span>
@@ -439,21 +439,21 @@
 <span class="lineNum">     377 </span>            : 
 <span class="lineNum">     378 </span>            : #if 0
 <span class="lineNum">     379 </span>            :   printf(&quot;output\n&quot;);
-<span class="lineNum">     380 </span>            :   data_print(outputdata, cokchannels*frames);
+<span class="lineNum">     380 </span>            :   data_print(FLOAT32, outputdata, cokchannels*frames);
 <span class="lineNum">     381 </span>            : 
 <span class="lineNum">     382 </span>            :   printf(&quot;target\n&quot;);
-<span class="lineNum">     383 </span>            :   data_print(targetdata, cokchannels*frames);
+<span class="lineNum">     383 </span>            :   data_print(FLOAT32, targetdata, cokchannels*frames);
 <span class="lineNum">     384 </span>            : #endif
 <span class="lineNum">     385 </span>            : 
 <span class="lineNum">     386 </span>            : 
 <span class="lineNum">     387 </span>            : 
-<span class="lineNum">     388 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, targetdata, outputdata, frames*cokchannels, eps);</span>
+<span class="lineNum">     388 </span><span class="lineCov">          1 :   errf=data_diff(__LINE__, FLOAT32, targetdata, outputdata, frames*cokchannels, eps);</span>
 <span class="lineNum">     389 </span><span class="lineCov">          1 :   fail_if(!(errf&lt;eps), __LINE__, &quot;diffing data multiplication returned %f (&gt;%f)&quot;, errf, eps);</span>
 <span class="lineNum">     390 </span>            : 
 <span class="lineNum">     391 </span>            : #if 0
 <span class="lineNum">     392 </span>            :   printf(&quot;matrix:\n&quot;);  matrix_print(&amp;eye);
-<span class="lineNum">     393 </span>            :   printf(&quot;input :\n&quot;);  data_print(inputdata, frames*channels);
-<span class="lineNum">     394 </span>            :   printf(&quot;output:\n&quot;);  data_print(outputdata,frames*channels);
+<span class="lineNum">     393 </span>            :   printf(&quot;input :\n&quot;);  data_print(FLOAT32, inputdata, frames*channels);
+<span class="lineNum">     394 </span>            :   printf(&quot;output:\n&quot;);  data_print(FLOAT32, outputdata,frames*channels);
 <span class="lineNum">     395 </span>            : #endif
 <span class="lineNum">     396 </span>            : 
 <span class="lineNum">     397 </span><span class="lineCov">          1 :   ambix_matrix_deinit(&amp;eye);</span>

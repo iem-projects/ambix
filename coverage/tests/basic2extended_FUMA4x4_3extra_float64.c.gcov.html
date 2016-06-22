@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-21</td>
+            <td class="headerValue">2016-06-22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -60,31 +60,28 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>            : #include &quot;common.h&quot;</a>
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;common_basic2extended.h&quot;</a>
 <span class="lineNum">       2 </span>            : 
-<span class="lineNum">       3 </span>            : int check_create_b2e(const char*path, ambix_sampleformat_t format,
-<a name="4"><span class="lineNum">       4 </span>            :              ambix_matrix_t*matrix, uint32_t extrachannels,</a>
-<span class="lineNum">       5 </span>            :              uint32_t chunksize, float32_t eps);
-<span class="lineNum">       6 </span><span class="lineCov">          1 : int test_defaultmatrix(const char*name, uint32_t rows, uint32_t cols, ambix_matrixtype_t mtyp,</span>
-<span class="lineNum">       7 </span>            :                uint32_t xtrachannels, uint32_t chunksize, float32_t eps) {
-<span class="lineNum">       8 </span><span class="lineCov">          1 :   int result=0;</span>
-<span class="lineNum">       9 </span><span class="lineCov">          1 :   ambix_matrix_t*mtx=0;</span>
-<span class="lineNum">      10 </span><span class="lineCov">          1 :   STARTTEST(&quot;%s\n&quot;, name);</span>
-<span class="lineNum">      11 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(rows,cols,mtx);</span>
-<span class="lineNum">      12 </span><span class="lineCov">          1 :   if(!mtx)return 1;</span>
-<span class="lineNum">      13 </span><span class="lineCov">          1 :   ambix_matrix_fill(mtx, mtyp);</span>
-<span class="lineNum">      14 </span><span class="lineCov">          1 :   result=check_create_b2e(&quot;test2-b2e-float32.caf&quot;, AMBIX_SAMPLEFORMAT_FLOAT64,</span>
-<span class="lineNum">      15 </span>            :               mtx,xtrachannels,
-<span class="lineNum">      16 </span>            :               chunksize, eps);
-<span class="lineNum">      17 </span><span class="lineCov">          1 :   ambix_matrix_destroy(mtx);</span>
-<span class="lineNum">      18 </span><span class="lineCov">          1 :   return result;</span>
-<a name="19"><span class="lineNum">      19 </span>            : }</a>
-<span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
-<span class="lineNum">      22 </span><span class="lineCov">          1 :   int err=0;</span>
-<span class="lineNum">      23 </span><span class="lineCov">          1 :   err+=test_defaultmatrix(&quot;FuMa[f]&quot; , 4, 4, AMBIX_MATRIX_FUMA    , 3, 1024, 6e-8);</span>
-<span class="lineNum">      24 </span><span class="lineCov">          1 :   return pass();</span>
-<span class="lineNum">      25 </span>            : }
+<span class="lineNum">       3 </span><span class="lineCov">          1 : int test_defaultmatrix(const char*name, uint32_t rows, uint32_t cols, ambix_matrixtype_t mtyp,</span>
+<span class="lineNum">       4 </span>            :                uint32_t xtrachannels, uint32_t chunksize, float32_t eps) {
+<span class="lineNum">       5 </span><span class="lineCov">          1 :   int result=0;</span>
+<span class="lineNum">       6 </span><span class="lineCov">          1 :   ambix_matrix_t*mtx=0;</span>
+<span class="lineNum">       7 </span><span class="lineCov">          1 :   STARTTEST(&quot;%s\n&quot;, name);</span>
+<span class="lineNum">       8 </span><span class="lineCov">          1 :   mtx=ambix_matrix_init(rows,cols,mtx);</span>
+<span class="lineNum">       9 </span><span class="lineCov">          1 :   if(!mtx)return 1;</span>
+<span class="lineNum">      10 </span><span class="lineCov">          1 :   ambix_matrix_fill(mtx, mtyp);</span>
+<span class="lineNum">      11 </span><span class="lineCov">          1 :   result=check_create_b2e(FILENAME_FILE, AMBIX_SAMPLEFORMAT_FLOAT64,</span>
+<span class="lineNum">      12 </span>            :               mtx,xtrachannels,
+<span class="lineNum">      13 </span>            :               chunksize, FLOAT32, eps);
+<span class="lineNum">      14 </span><span class="lineCov">          1 :   ambix_matrix_destroy(mtx);</span>
+<span class="lineNum">      15 </span><span class="lineCov">          1 :   return result;</span>
+<a name="16"><span class="lineNum">      16 </span>            : }</a>
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
+<span class="lineNum">      19 </span><span class="lineCov">          1 :   int err=0;</span>
+<span class="lineNum">      20 </span><span class="lineCov">          1 :   err+=test_defaultmatrix(&quot;FuMa[f]&quot; , 4, 4, AMBIX_MATRIX_FUMA    , 3, 1024, 6e-8);</span>
+<span class="lineNum">      21 </span><span class="lineCov">          1 :   return pass();</span>
+<span class="lineNum">      22 </span>            : }
 </pre>
       </td>
     </tr>

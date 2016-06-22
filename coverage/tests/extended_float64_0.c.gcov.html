@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-21</td>
+            <td class="headerValue">2016-06-22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -68,7 +68,7 @@
 <a name="6"><span class="lineNum">       6 </span>            : void check_create_extended(const char*path, ambix_sampleformat_t format, uint32_t chunksize, float32_t eps);</a>
 <span class="lineNum">       7 </span>            : 
 <span class="lineNum">       8 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
-<span class="lineNum">       9 </span><span class="lineCov">          1 :   check_create_extended(&quot;test2-float32.caf&quot;,AMBIX_SAMPLEFORMAT_FLOAT64, 0, 1e-7);</span>
+<span class="lineNum">       9 </span><span class="lineCov">          1 :   check_create_extended(FILENAME_FILE,AMBIX_SAMPLEFORMAT_FLOAT64, 0, 1e-7);</span>
 <span class="lineNum">      10 </span>            : 
 <span class="lineNum">      11 </span><span class="lineCov">          1 :   return pass();</span>
 <span class="lineNum">      12 </span>            : }
