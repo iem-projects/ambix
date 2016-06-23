@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-22</td>
+            <td class="headerValue">2016-06-23</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">16</td>
@@ -89,25 +89,25 @@
 <span class="lineNum">      27 </span>            : # include &lt;stdlib.h&gt;
 <a name="28"><span class="lineNum">      28 </span>            : #endif /* HAVE_STDLIB_H */</a>
 <span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span><span class="lineCov">      48944 : static inline uint64_t max_u64(uint64_t a, uint64_t b) {</span>
-<a name="31"><span class="lineNum">      31 </span><span class="lineCov">      48944 :   return((a&gt;b)?a:b);</span></a>
+<span class="lineNum">      30 </span><span class="lineCov">      48946 : static inline uint64_t max_u64(uint64_t a, uint64_t b) {</span>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">      48946 :   return((a&gt;b)?a:b);</span></a>
 <span class="lineNum">      32 </span>            : }
-<span class="lineNum">      33 </span><span class="lineCov">      24472 : ambix_err_t _ambix_adaptorbuffer_resize(ambix_t*ambix, uint64_t frames, uint16_t itemsize) {</span>
-<span class="lineNum">      34 </span><span class="lineCov">      24472 :   uint32_t ambichannels=max_u64(ambix-&gt;info.ambichannels,ambix-&gt;realinfo.ambichannels);</span>
-<span class="lineNum">      35 </span><span class="lineCov">      24472 :   uint32_t extrachannels=max_u64(ambix-&gt;info.extrachannels,ambix-&gt;realinfo.extrachannels);</span>
-<span class="lineNum">      36 </span><span class="lineCov">      24472 :   uint32_t channels=ambichannels + extrachannels;</span>
-<span class="lineNum">      37 </span><span class="lineCov">      24472 :   uint64_t size=channels*frames*itemsize;</span>
-<span class="lineNum">      38 </span><span class="lineCov">      24472 :   if(frames&lt;1 || channels&lt;1)</span>
+<span class="lineNum">      33 </span><span class="lineCov">      24473 : ambix_err_t _ambix_adaptorbuffer_resize(ambix_t*ambix, uint64_t frames, uint16_t itemsize) {</span>
+<span class="lineNum">      34 </span><span class="lineCov">      24473 :   uint32_t ambichannels=max_u64(ambix-&gt;info.ambichannels,ambix-&gt;realinfo.ambichannels);</span>
+<span class="lineNum">      35 </span><span class="lineCov">      24473 :   uint32_t extrachannels=max_u64(ambix-&gt;info.extrachannels,ambix-&gt;realinfo.extrachannels);</span>
+<span class="lineNum">      36 </span><span class="lineCov">      24473 :   uint32_t channels=ambichannels + extrachannels;</span>
+<span class="lineNum">      37 </span><span class="lineCov">      24473 :   uint64_t size=channels*frames*itemsize;</span>
+<span class="lineNum">      38 </span><span class="lineCov">      24473 :   if(frames&lt;1 || channels&lt;1)</span>
 <span class="lineNum">      39 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_SUCCESS;</span>
-<span class="lineNum">      40 </span><span class="lineCov">      24472 :   if(size&lt;1)</span>
+<span class="lineNum">      40 </span><span class="lineCov">      24473 :   if(size&lt;1)</span>
 <span class="lineNum">      41 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_UNKNOWN;</span>
 <span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span><span class="lineCov">      24472 :   if(size &gt; ambix-&gt;adaptorbuffersize) {</span>
+<span class="lineNum">      43 </span><span class="lineCov">      24473 :   if(size &gt; ambix-&gt;adaptorbuffersize) {</span>
 <span class="lineNum">      44 </span>            :     /* re-allocate memory! */
-<span class="lineNum">      45 </span><span class="lineCov">        392 :     void*newbuf=realloc(ambix-&gt;adaptorbuffer, size);</span>
-<span class="lineNum">      46 </span><span class="lineCov">        392 :     if(newbuf) {</span>
-<span class="lineNum">      47 </span><span class="lineCov">        392 :       ambix-&gt;adaptorbuffer=newbuf;</span>
-<span class="lineNum">      48 </span><span class="lineCov">        392 :       ambix-&gt;adaptorbuffersize=size;</span>
+<span class="lineNum">      45 </span><span class="lineCov">        393 :     void*newbuf=realloc(ambix-&gt;adaptorbuffer, size);</span>
+<span class="lineNum">      46 </span><span class="lineCov">        393 :     if(newbuf) {</span>
+<span class="lineNum">      47 </span><span class="lineCov">        393 :       ambix-&gt;adaptorbuffer=newbuf;</span>
+<span class="lineNum">      48 </span><span class="lineCov">        393 :       ambix-&gt;adaptorbuffersize=size;</span>
 <span class="lineNum">      49 </span>            :     } else {
 <span class="lineNum">      50 </span><span class="lineNoCov">          0 :       free(ambix-&gt;adaptorbuffer);</span>
 <span class="lineNum">      51 </span><span class="lineNoCov">          0 :       ambix-&gt;adaptorbuffer=NULL;</span>
@@ -115,15 +115,15 @@
 <span class="lineNum">      53 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
 <span class="lineNum">      54 </span>            :     }
 <span class="lineNum">      55 </span>            :   }
-<span class="lineNum">      56 </span><span class="lineCov">      24472 :   return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">      56 </span><span class="lineCov">      24473 :   return AMBIX_ERR_SUCCESS;</span>
 <a name="57"><span class="lineNum">      57 </span>            : }</a>
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">        199 : ambix_err_t _ambix_adaptorbuffer_destroy(ambix_t*ambix) {</span>
-<span class="lineNum">      60 </span><span class="lineCov">        199 :   if(ambix-&gt;adaptorbuffer)</span>
-<span class="lineNum">      61 </span><span class="lineCov">        199 :     free(ambix-&gt;adaptorbuffer);</span>
-<span class="lineNum">      62 </span><span class="lineCov">        199 :   ambix-&gt;adaptorbuffer=NULL;</span>
-<span class="lineNum">      63 </span><span class="lineCov">        199 :   ambix-&gt;adaptorbuffersize=0;</span>
-<span class="lineNum">      64 </span><span class="lineCov">        199 :   return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">      59 </span><span class="lineCov">        200 : ambix_err_t _ambix_adaptorbuffer_destroy(ambix_t*ambix) {</span>
+<span class="lineNum">      60 </span><span class="lineCov">        200 :   if(ambix-&gt;adaptorbuffer)</span>
+<span class="lineNum">      61 </span><span class="lineCov">        200 :     free(ambix-&gt;adaptorbuffer);</span>
+<span class="lineNum">      62 </span><span class="lineCov">        200 :   ambix-&gt;adaptorbuffer=NULL;</span>
+<span class="lineNum">      63 </span><span class="lineCov">        200 :   ambix-&gt;adaptorbuffersize=0;</span>
+<span class="lineNum">      64 </span><span class="lineCov">        200 :   return AMBIX_ERR_SUCCESS;</span>
 <span class="lineNum">      65 </span>            : }
 <span class="lineNum">      66 </span>            : 
 <span class="lineNum">      67 </span>            : 

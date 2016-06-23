@@ -31,18 +31,18 @@
             <td class="headerValue">libambix test coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">126</td>
-            <td class="headerCovTableEntry">181</td>
-            <td class="headerCovTableEntryLo">69.6 %</td>
+            <td class="headerCovTableEntry">128</td>
+            <td class="headerCovTableEntry">172</td>
+            <td class="headerCovTableEntryLo">74.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-22</td>
+            <td class="headerValue">2016-06-23</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">18</td>
-            <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntryHi">90.0 %</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -105,342 +105,347 @@
 <span class="lineNum">      43 </span>            : # define snprintf _snprintf
 <span class="lineNum">      44 </span>            : #endif /* _MSC_VER */
 <span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span>            : typedef struct ambixsndfile_private_t {
-<span class="lineNum">      47 </span>            :   /** handle to the libsndfile object */
-<span class="lineNum">      48 </span>            :   SNDFILE*sf_file;
-<span class="lineNum">      49 </span>            :   /** libsndfile info as returned by sf_open() */
-<span class="lineNum">      50 </span>            :   SF_INFO sf_info;
-<span class="lineNum">      51 </span>            : #if defined HAVE_SF_CHUNK_INFO
-<span class="lineNum">      52 </span>            :   /** for writing uuid chunks */
-<span class="lineNum">      53 </span>            :   SF_CHUNK_INFO sf_chunk;
-<span class="lineNum">      54 </span>            : #elif defined HAVE_SF_UUID_INFO
-<a name="55"><span class="lineNum">      55 </span>            : #endif</a>
-<span class="lineNum">      56 </span>            : }ambixsndfile_private_t;
-<span class="lineNum">      57 </span><span class="lineCov">      27250 : static inline ambixsndfile_private_t*PRIVATE(ambix_t*ax) { return ((ambixsndfile_private_t*)(ax-&gt;private_data)); }</span>
-<span class="lineNum">      58 </span>            : 
-<a name="59"><span class="lineNum">      59 </span>            : </a>
-<span class="lineNum">      60 </span>            : static  ambix_sampleformat_t
-<span class="lineNum">      61 </span><span class="lineCov">        199 : sndfile2ambix_sampleformat(int sformat) {</span>
-<span class="lineNum">      62 </span><span class="lineCov">        199 :   switch(sformat) {</span>
-<span class="lineNum">      63 </span><span class="lineCov">         42 :   case(SF_FORMAT_PCM_16): return AMBIX_SAMPLEFORMAT_PCM16  ;</span>
-<span class="lineNum">      64 </span><span class="lineNoCov">          0 :   case(SF_FORMAT_PCM_24): return AMBIX_SAMPLEFORMAT_PCM24  ;</span>
-<span class="lineNum">      65 </span><span class="lineCov">         42 :   case(SF_FORMAT_PCM_32): return AMBIX_SAMPLEFORMAT_PCM32  ;</span>
-<span class="lineNum">      66 </span><span class="lineCov">         71 :   case(SF_FORMAT_FLOAT ): return AMBIX_SAMPLEFORMAT_FLOAT32;</span>
-<span class="lineNum">      67 </span><span class="lineCov">         44 :   case(SF_FORMAT_DOUBLE): return AMBIX_SAMPLEFORMAT_FLOAT64;</span>
-<span class="lineNum">      68 </span>            :   }
-<span class="lineNum">      69 </span><span class="lineNoCov">          0 :   return AMBIX_SAMPLEFORMAT_NONE;</span>
-<span class="lineNum">      70 </span>            : }
-<a name="71"><span class="lineNum">      71 </span>            : </a>
-<span class="lineNum">      72 </span>            : static  int
-<span class="lineNum">      73 </span><span class="lineCov">        199 : ambix2sndfile_sampleformat(ambix_sampleformat_t asformat) {</span>
-<span class="lineNum">      74 </span><span class="lineCov">        199 :   switch(asformat) {</span>
-<span class="lineNum">      75 </span><span class="lineCov">         18 :   case(AMBIX_SAMPLEFORMAT_PCM16):   return SF_FORMAT_PCM_16;</span>
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :   case(AMBIX_SAMPLEFORMAT_PCM24):   return SF_FORMAT_PCM_24;</span>
-<span class="lineNum">      77 </span><span class="lineCov">         18 :   case(AMBIX_SAMPLEFORMAT_PCM32):   return SF_FORMAT_PCM_32;</span>
-<span class="lineNum">      78 </span><span class="lineCov">         27 :   case(AMBIX_SAMPLEFORMAT_FLOAT32): return SF_FORMAT_FLOAT;</span>
-<span class="lineNum">      79 </span><span class="lineCov">         20 :   case(AMBIX_SAMPLEFORMAT_FLOAT64): return SF_FORMAT_DOUBLE;</span>
-<span class="lineNum">      80 </span><span class="lineCov">        116 :   default:break;</span>
-<span class="lineNum">      81 </span>            :   }
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">        116 :   return SF_FORMAT_PCM_24;</span></a>
-<span class="lineNum">      83 </span>            : }
-<span class="lineNum">      84 </span><span class="lineNoCov">          0 : static void print_sfinfo(SF_INFO*info) {</span>
-<span class="lineNum">      85 </span><span class="lineNoCov">          0 :   printf(&quot;SF_INFO %p\n&quot;, info);</span>
-<span class="lineNum">      86 </span><span class="lineNoCov">          0 :   printf(&quot;  frames\t: %d\n&quot;, (int)(info-&gt;frames));</span>
-<span class="lineNum">      87 </span><span class="lineNoCov">          0 :   printf(&quot;  samplerate\t: %d\n&quot;, info-&gt;samplerate);</span>
-<span class="lineNum">      88 </span><span class="lineNoCov">          0 :   printf(&quot;  channels\t: %d\n&quot;, info-&gt;channels);</span>
-<span class="lineNum">      89 </span><span class="lineNoCov">          0 :   printf(&quot;  format\t: %d\n&quot;, info-&gt;format);</span>
-<span class="lineNum">      90 </span><span class="lineNoCov">          0 :   printf(&quot;  sections\t: %d\n&quot;, info-&gt;sections);</span>
-<span class="lineNum">      91 </span><span class="lineNoCov">          0 :   printf(&quot;  seekable\t: %d\n&quot;, info-&gt;seekable);</span>
-<span class="lineNum">      92 </span><span class="lineNoCov">          0 : }</span>
-<a name="93"><span class="lineNum">      93 </span>            : </a>
-<span class="lineNum">      94 </span>            : static void
-<span class="lineNum">      95 </span><span class="lineCov">        199 : ambix2sndfile_info(const ambix_info_t*axinfo, SF_INFO *sfinfo) {</span>
-<span class="lineNum">      96 </span><span class="lineCov">        199 :   sfinfo-&gt;frames=axinfo-&gt;frames;</span>
-<span class="lineNum">      97 </span><span class="lineCov">        199 :   sfinfo-&gt;samplerate=(int)axinfo-&gt;samplerate;</span>
-<span class="lineNum">      98 </span><span class="lineCov">        199 :   sfinfo-&gt;channels=axinfo-&gt;ambichannels+axinfo-&gt;extrachannels;</span>
-<span class="lineNum">      99 </span><span class="lineCov">        199 :   sfinfo-&gt;format=SF_FORMAT_CAF | ambix2sndfile_sampleformat(axinfo-&gt;sampleformat);</span>
-<span class="lineNum">     100 </span><span class="lineCov">        199 :   sfinfo-&gt;sections=0;</span>
-<span class="lineNum">     101 </span><span class="lineCov">        199 :   sfinfo-&gt;seekable=0;</span>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        199 : }</span></a>
-<span class="lineNum">     103 </span>            : static void
-<span class="lineNum">     104 </span><span class="lineCov">        199 : sndfile2ambix_info(const SF_INFO*sfinfo, ambix_info_t*axinfo) {</span>
-<span class="lineNum">     105 </span><span class="lineCov">        199 :   axinfo-&gt;frames=(uint64_t)sfinfo-&gt;frames;</span>
-<span class="lineNum">     106 </span><span class="lineCov">        199 :   axinfo-&gt;samplerate=(double)(sfinfo-&gt;samplerate);</span>
-<span class="lineNum">     107 </span><span class="lineCov">        199 :   axinfo-&gt;extrachannels=sfinfo-&gt;channels;</span>
-<span class="lineNum">     108 </span><span class="lineCov">        199 :   axinfo-&gt;sampleformat=sndfile2ambix_sampleformat(sfinfo-&gt;format &amp; SF_FORMAT_SUBMASK);</span>
-<span class="lineNum">     109 </span><span class="lineCov">        199 : }</span>
-<a name="110"><span class="lineNum">     110 </span>            : </a>
-<span class="lineNum">     111 </span>            : static int
-<span class="lineNum">     112 </span><span class="lineCov">        199 : read_uuidchunk(ambix_t*ax) {</span>
-<span class="lineNum">     113 </span>            : #if defined HAVE_SF_GET_CHUNK_ITERATOR &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
-<span class="lineNum">     114 </span>            :   int               err ;
-<span class="lineNum">     115 </span>            :   SF_CHUNK_INFO chunk_info ;
-<span class="lineNum">     116 </span><span class="lineCov">        199 :   SNDFILE*file=PRIVATE(ax)-&gt;sf_file;</span>
-<span class="lineNum">     117 </span>            :   SF_CHUNK_ITERATOR *iterator;
-<span class="lineNum">     118 </span><span class="lineCov">        199 :   uint32_t chunkver=0;</span>
-<span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineCov">        199 :   const char*id=&quot;uuid&quot;;</span>
-<span class="lineNum">     121 </span><span class="lineCov">        199 :   memset (&amp;chunk_info, 0, sizeof (chunk_info)) ;</span>
-<span class="lineNum">     122 </span><span class="lineCov">        199 :   snprintf (chunk_info.id, sizeof (chunk_info.id), &quot;%s&quot;, id) ;</span>
-<span class="lineNum">     123 </span><span class="lineCov">        199 :   chunk_info.id_size = 4 ;</span>
+<span class="lineNum">      46 </span>            : //#define DEBUG_SFINFO
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            : typedef struct ambixsndfile_private_t {
+<span class="lineNum">      50 </span>            :   /** handle to the libsndfile object */
+<span class="lineNum">      51 </span>            :   SNDFILE*sf_file;
+<span class="lineNum">      52 </span>            :   /** libsndfile info as returned by sf_open() */
+<span class="lineNum">      53 </span>            :   SF_INFO sf_info;
+<span class="lineNum">      54 </span>            : #if defined HAVE_SF_CHUNK_INFO
+<span class="lineNum">      55 </span>            :   /** for writing uuid chunks */
+<span class="lineNum">      56 </span>            :   SF_CHUNK_INFO sf_chunk;
+<span class="lineNum">      57 </span>            : #elif defined HAVE_SF_UUID_INFO
+<a name="58"><span class="lineNum">      58 </span>            : #endif</a>
+<span class="lineNum">      59 </span>            : }ambixsndfile_private_t;
+<span class="lineNum">      60 </span><span class="lineCov">      27265 : static inline ambixsndfile_private_t*PRIVATE(ambix_t*ax) { return ((ambixsndfile_private_t*)(ax-&gt;private_data)); }</span>
+<span class="lineNum">      61 </span>            : 
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<span class="lineNum">      63 </span>            : static  ambix_sampleformat_t
+<span class="lineNum">      64 </span><span class="lineCov">        200 : sndfile2ambix_sampleformat(int sformat) {</span>
+<span class="lineNum">      65 </span><span class="lineCov">        200 :   switch(sformat) {</span>
+<span class="lineNum">      66 </span><span class="lineCov">         42 :   case(SF_FORMAT_PCM_16): return AMBIX_SAMPLEFORMAT_PCM16  ;</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :   case(SF_FORMAT_PCM_24): return AMBIX_SAMPLEFORMAT_PCM24  ;</span>
+<span class="lineNum">      68 </span><span class="lineCov">         42 :   case(SF_FORMAT_PCM_32): return AMBIX_SAMPLEFORMAT_PCM32  ;</span>
+<span class="lineNum">      69 </span><span class="lineCov">         72 :   case(SF_FORMAT_FLOAT ): return AMBIX_SAMPLEFORMAT_FLOAT32;</span>
+<span class="lineNum">      70 </span><span class="lineCov">         44 :   case(SF_FORMAT_DOUBLE): return AMBIX_SAMPLEFORMAT_FLOAT64;</span>
+<span class="lineNum">      71 </span>            :   }
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :   return AMBIX_SAMPLEFORMAT_NONE;</span>
+<span class="lineNum">      73 </span>            : }
+<a name="74"><span class="lineNum">      74 </span>            : </a>
+<span class="lineNum">      75 </span>            : static  int
+<span class="lineNum">      76 </span><span class="lineCov">        200 : ambix2sndfile_sampleformat(ambix_sampleformat_t asformat) {</span>
+<span class="lineNum">      77 </span><span class="lineCov">        200 :   switch(asformat) {</span>
+<span class="lineNum">      78 </span><span class="lineCov">         18 :   case(AMBIX_SAMPLEFORMAT_PCM16):   return SF_FORMAT_PCM_16;</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :   case(AMBIX_SAMPLEFORMAT_PCM24):   return SF_FORMAT_PCM_24;</span>
+<span class="lineNum">      80 </span><span class="lineCov">         18 :   case(AMBIX_SAMPLEFORMAT_PCM32):   return SF_FORMAT_PCM_32;</span>
+<span class="lineNum">      81 </span><span class="lineCov">         27 :   case(AMBIX_SAMPLEFORMAT_FLOAT32): return SF_FORMAT_FLOAT;</span>
+<span class="lineNum">      82 </span><span class="lineCov">         20 :   case(AMBIX_SAMPLEFORMAT_FLOAT64): return SF_FORMAT_DOUBLE;</span>
+<span class="lineNum">      83 </span><span class="lineCov">        117 :   default:break;</span>
+<span class="lineNum">      84 </span>            :   }
+<span class="lineNum">      85 </span><span class="lineCov">        117 :   return SF_FORMAT_PCM_24;</span>
+<span class="lineNum">      86 </span>            : }
+<span class="lineNum">      87 </span>            : #ifdef DEBUG_SFINFO
+<span class="lineNum">      88 </span>            : static void print_sfinfo(SF_INFO*info) {
+<span class="lineNum">      89 </span>            :   printf(&quot;SF_INFO %p\n&quot;, info);
+<span class="lineNum">      90 </span>            :   printf(&quot;  frames\t: %d\n&quot;, (int)(info-&gt;frames));
+<span class="lineNum">      91 </span>            :   printf(&quot;  samplerate\t: %d\n&quot;, info-&gt;samplerate);
+<span class="lineNum">      92 </span>            :   printf(&quot;  channels\t: %d\n&quot;, info-&gt;channels);
+<span class="lineNum">      93 </span>            :   printf(&quot;  format\t: %d\n&quot;, info-&gt;format);
+<span class="lineNum">      94 </span>            :   printf(&quot;  sections\t: %d\n&quot;, info-&gt;sections);
+<span class="lineNum">      95 </span>            :   printf(&quot;  seekable\t: %d\n&quot;, info-&gt;seekable);
+<span class="lineNum">      96 </span>            : }
+<span class="lineNum">      97 </span>            : #endif
+<a name="98"><span class="lineNum">      98 </span>            : </a>
+<span class="lineNum">      99 </span>            : static void
+<span class="lineNum">     100 </span><span class="lineCov">        200 : ambix2sndfile_info(const ambix_info_t*axinfo, SF_INFO *sfinfo) {</span>
+<span class="lineNum">     101 </span><span class="lineCov">        200 :   sfinfo-&gt;frames=axinfo-&gt;frames;</span>
+<span class="lineNum">     102 </span><span class="lineCov">        200 :   sfinfo-&gt;samplerate=(int)axinfo-&gt;samplerate;</span>
+<span class="lineNum">     103 </span><span class="lineCov">        200 :   sfinfo-&gt;channels=axinfo-&gt;ambichannels+axinfo-&gt;extrachannels;</span>
+<span class="lineNum">     104 </span><span class="lineCov">        200 :   sfinfo-&gt;format=SF_FORMAT_CAF | ambix2sndfile_sampleformat(axinfo-&gt;sampleformat);</span>
+<span class="lineNum">     105 </span><span class="lineCov">        200 :   sfinfo-&gt;sections=0;</span>
+<span class="lineNum">     106 </span><span class="lineCov">        200 :   sfinfo-&gt;seekable=0;</span>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        200 : }</span></a>
+<span class="lineNum">     108 </span>            : static void
+<span class="lineNum">     109 </span><span class="lineCov">        200 : sndfile2ambix_info(const SF_INFO*sfinfo, ambix_info_t*axinfo) {</span>
+<span class="lineNum">     110 </span><span class="lineCov">        200 :   axinfo-&gt;frames=(uint64_t)sfinfo-&gt;frames;</span>
+<span class="lineNum">     111 </span><span class="lineCov">        200 :   axinfo-&gt;samplerate=(double)(sfinfo-&gt;samplerate);</span>
+<span class="lineNum">     112 </span><span class="lineCov">        200 :   axinfo-&gt;extrachannels=sfinfo-&gt;channels;</span>
+<span class="lineNum">     113 </span><span class="lineCov">        200 :   axinfo-&gt;sampleformat=sndfile2ambix_sampleformat(sfinfo-&gt;format &amp; SF_FORMAT_SUBMASK);</span>
+<span class="lineNum">     114 </span><span class="lineCov">        200 : }</span>
+<a name="115"><span class="lineNum">     115 </span>            : </a>
+<span class="lineNum">     116 </span>            : static int
+<span class="lineNum">     117 </span><span class="lineCov">        200 : read_uuidchunk(ambix_t*ax) {</span>
+<span class="lineNum">     118 </span>            : #if defined HAVE_SF_GET_CHUNK_ITERATOR &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
+<span class="lineNum">     119 </span>            :   int               err ;
+<span class="lineNum">     120 </span>            :   SF_CHUNK_INFO chunk_info ;
+<span class="lineNum">     121 </span><span class="lineCov">        200 :   SNDFILE*file=PRIVATE(ax)-&gt;sf_file;</span>
+<span class="lineNum">     122 </span>            :   SF_CHUNK_ITERATOR *iterator;
+<span class="lineNum">     123 </span><span class="lineCov">        200 :   uint32_t chunkver=0;</span>
 <span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span><span class="lineCov">        199 :   for(iterator = sf_get_chunk_iterator (file, &amp;chunk_info); NULL!=iterator; iterator=sf_next_chunk_iterator (iterator)) {</span>
-<span class="lineNum">     126 </span><span class="lineCov">        118 :     if(chunk_info.data)</span>
-<span class="lineNum">     127 </span><span class="lineNoCov">          0 :       free(chunk_info.data);</span>
-<span class="lineNum">     128 </span><span class="lineCov">        118 :     chunk_info.data=NULL;</span>
+<span class="lineNum">     125 </span><span class="lineCov">        200 :   const char*id=&quot;uuid&quot;;</span>
+<span class="lineNum">     126 </span><span class="lineCov">        200 :   memset (&amp;chunk_info, 0, sizeof (chunk_info)) ;</span>
+<span class="lineNum">     127 </span><span class="lineCov">        200 :   snprintf (chunk_info.id, sizeof (chunk_info.id), &quot;%s&quot;, id) ;</span>
+<span class="lineNum">     128 </span><span class="lineCov">        200 :   chunk_info.id_size = 4 ;</span>
 <span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span><span class="lineCov">        118 :     err = sf_get_chunk_size (iterator, &amp;chunk_info) ;</span>
-<span class="lineNum">     131 </span><span class="lineCov">        118 :     if(err != SF_ERR_NO_ERROR) {</span>
-<span class="lineNum">     132 </span><span class="lineNoCov">          0 :       continue;</span>
-<span class="lineNum">     133 </span>            :     }
+<span class="lineNum">     130 </span><span class="lineCov">        200 :   for(iterator = sf_get_chunk_iterator (file, &amp;chunk_info); NULL!=iterator; iterator=sf_next_chunk_iterator (iterator)) {</span>
+<span class="lineNum">     131 </span><span class="lineCov">        118 :     if(chunk_info.data)</span>
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :       free(chunk_info.data);</span>
+<span class="lineNum">     133 </span><span class="lineCov">        118 :     chunk_info.data=NULL;</span>
 <span class="lineNum">     134 </span>            : 
-<span class="lineNum">     135 </span><span class="lineCov">        118 :     if(chunk_info.datalen&lt;16) {</span>
-<span class="lineNum">     136 </span><span class="lineNoCov">          0 :       continue;</span>
-<span class="lineNum">     137 </span>            :     }
-<span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span><span class="lineCov">        118 :     chunk_info.data = malloc (chunk_info.datalen) ;</span>
-<span class="lineNum">     140 </span><span class="lineCov">        118 :     if(!chunk_info.data) {</span>
-<span class="lineNum">     141 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     135 </span><span class="lineCov">        118 :     err = sf_get_chunk_size (iterator, &amp;chunk_info) ;</span>
+<span class="lineNum">     136 </span><span class="lineCov">        118 :     if(err != SF_ERR_NO_ERROR) {</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">     138 </span>            :     }
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span><span class="lineCov">        118 :     if(chunk_info.datalen&lt;16) {</span>
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :       continue;</span>
 <span class="lineNum">     142 </span>            :     }
-<span class="lineNum">     143 </span><span class="lineCov">        118 :     err = sf_get_chunk_data (iterator, &amp;chunk_info) ;</span>
-<span class="lineNum">     144 </span><span class="lineCov">        118 :     if(err != SF_ERR_NO_ERROR) {</span>
-<span class="lineNum">     145 </span><span class="lineNoCov">          0 :       continue;</span>
-<span class="lineNum">     146 </span>            :     }
-<span class="lineNum">     147 </span>            : 
-<span class="lineNum">     148 </span><span class="lineCov">        118 :     chunkver=_ambix_checkUUID((const char*)chunk_info.data);</span>
-<span class="lineNum">     149 </span><span class="lineCov">        118 :     if(1==chunkver) {</span>
-<span class="lineNum">     150 </span><span class="lineCov">        118 :       if(_ambix_uuid1_to_matrix(((const char*)chunk_info.data+16), chunk_info.datalen-16, &amp;ax-&gt;matrix, ax-&gt;byteswap)) {</span>
-<span class="lineNum">     151 </span><span class="lineCov">        118 :     free(chunk_info.data);</span>
-<span class="lineNum">     152 </span><span class="lineCov">        118 :         return AMBIX_ERR_SUCCESS;</span>
-<span class="lineNum">     153 </span>            :       }
-<span class="lineNum">     154 </span>            :     } else
-<span class="lineNum">     155 </span><span class="lineNoCov">          0 :       continue;</span>
-<span class="lineNum">     156 </span>            :   }
-<span class="lineNum">     157 </span>            : 
-<span class="lineNum">     158 </span><span class="lineCov">         81 :   if(chunk_info.data)</span>
-<span class="lineNum">     159 </span><span class="lineNoCov">          0 :     free(chunk_info.data) ;</span>
-<span class="lineNum">     160 </span><span class="lineCov">         81 :   return AMBIX_ERR_UNKNOWN;</span>
-<span class="lineNum">     161 </span>            : 
-<span class="lineNum">     162 </span>            : #elif defined HAVE_SF_UUID_INFO
-<span class="lineNum">     163 </span>            :   SF_UUID_INFO uuid;
-<span class="lineNum">     164 </span>            :   SNDFILE*file=PRIVATE(ax)-&gt;sf_file;
-<span class="lineNum">     165 </span>            : 
-<span class="lineNum">     166 </span>            :   memset(&amp;uuid, 0, sizeof(uuid));
-<span class="lineNum">     167 </span>            :   strncpy(uuid.id, _ambix_getUUID(1), 16);
-<span class="lineNum">     168 </span>            :   if ( !sf_command(file, SFC_GET_UUID, &amp;uuid, sizeof(uuid)) )   {
-<span class="lineNum">     169 </span>            :     // extended
-<span class="lineNum">     170 </span>            :     if(_ambix_uuid1_to_matrix(uuid.data, uuid.data_size, &amp;ax-&gt;matrix, ax-&gt;byteswap)) {
-<span class="lineNum">     171 </span>            :       return AMBIX_ERR_SUCCESS;
-<span class="lineNum">     172 </span>            :     }
-<span class="lineNum">     173 </span>            :   }
-<span class="lineNum">     174 </span>            : #endif
-<span class="lineNum">     175 </span>            :   return AMBIX_ERR_UNKNOWN;
-<span class="lineNum">     176 </span>            : }
-<span class="lineNum">     177 </span>            : 
-<span class="lineNum">     178 </span>            : 
-<a name="179"><span class="lineNum">     179 </span>            : </a>
-<span class="lineNum">     180 </span>            : 
-<span class="lineNum">     181 </span><span class="lineCov">        199 : ambix_err_t _ambix_open (ambix_t*ambix, const char *path, const ambix_filemode_t mode, const ambix_info_t*ambixinfo) {</span>
-<span class="lineNum">     182 </span><span class="lineCov">        199 :   int sfmode=0;</span>
-<span class="lineNum">     183 </span><span class="lineCov">        199 :   int caf=0;</span>
-<span class="lineNum">     184 </span><span class="lineCov">        199 :   int is_ambix=0;</span>
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span><span class="lineCov">        118 :     chunk_info.data = malloc (chunk_info.datalen) ;</span>
+<span class="lineNum">     145 </span><span class="lineCov">        118 :     if(!chunk_info.data) {</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :       return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     147 </span>            :     }
+<span class="lineNum">     148 </span><span class="lineCov">        118 :     err = sf_get_chunk_data (iterator, &amp;chunk_info) ;</span>
+<span class="lineNum">     149 </span><span class="lineCov">        118 :     if(err != SF_ERR_NO_ERROR) {</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">     151 </span>            :     }
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span><span class="lineCov">        118 :     chunkver=_ambix_checkUUID((const char*)chunk_info.data);</span>
+<span class="lineNum">     154 </span><span class="lineCov">        118 :     if(1==chunkver) {</span>
+<span class="lineNum">     155 </span><span class="lineCov">        118 :       if(_ambix_uuid1_to_matrix(((const char*)chunk_info.data+16), chunk_info.datalen-16, &amp;ax-&gt;matrix, ax-&gt;byteswap)) {</span>
+<span class="lineNum">     156 </span><span class="lineCov">        118 :     free(chunk_info.data);</span>
+<span class="lineNum">     157 </span><span class="lineCov">        118 :         return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     158 </span>            :       }
+<span class="lineNum">     159 </span>            :     } else
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">     161 </span>            :   }
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span><span class="lineCov">         82 :   if(chunk_info.data)</span>
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :     free(chunk_info.data) ;</span>
+<span class="lineNum">     165 </span><span class="lineCov">         82 :   return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            : #elif defined HAVE_SF_UUID_INFO
+<span class="lineNum">     168 </span>            :   SF_UUID_INFO uuid;
+<span class="lineNum">     169 </span>            :   SNDFILE*file=PRIVATE(ax)-&gt;sf_file;
+<span class="lineNum">     170 </span>            : 
+<span class="lineNum">     171 </span>            :   memset(&amp;uuid, 0, sizeof(uuid));
+<span class="lineNum">     172 </span>            :   strncpy(uuid.id, _ambix_getUUID(1), 16);
+<span class="lineNum">     173 </span>            :   if ( !sf_command(file, SFC_GET_UUID, &amp;uuid, sizeof(uuid)) )   {
+<span class="lineNum">     174 </span>            :     // extended
+<span class="lineNum">     175 </span>            :     if(_ambix_uuid1_to_matrix(uuid.data, uuid.data_size, &amp;ax-&gt;matrix, ax-&gt;byteswap)) {
+<span class="lineNum">     176 </span>            :       return AMBIX_ERR_SUCCESS;
+<span class="lineNum">     177 </span>            :     }
+<span class="lineNum">     178 </span>            :   }
+<span class="lineNum">     179 </span>            : #endif
+<span class="lineNum">     180 </span>            :   return AMBIX_ERR_UNKNOWN;
+<span class="lineNum">     181 </span>            : }
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span>            : 
+<a name="184"><span class="lineNum">     184 </span>            : </a>
 <span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span><span class="lineCov">        199 :   ambix-&gt;private_data=calloc(1, sizeof(ambixsndfile_private_t));</span>
-<span class="lineNum">     187 </span><span class="lineCov">        199 :   ambix2sndfile_info(ambixinfo, &amp;PRIVATE(ambix)-&gt;sf_info);</span>
-<span class="lineNum">     188 </span>            : 
-<span class="lineNum">     189 </span><span class="lineCov">        199 :   if((mode &amp; AMBIX_READ) &amp;&amp; (mode &amp; AMBIX_WRITE))</span>
-<span class="lineNum">     190 </span><span class="lineNoCov">          0 :     sfmode= SFM_RDWR;</span>
-<span class="lineNum">     191 </span><span class="lineCov">        199 :   else if (mode &amp; AMBIX_WRITE)</span>
-<span class="lineNum">     192 </span><span class="lineCov">         69 :     sfmode= SFM_WRITE;</span>
-<span class="lineNum">     193 </span><span class="lineCov">        130 :   else if (mode &amp; AMBIX_READ)</span>
-<span class="lineNum">     194 </span><span class="lineCov">        130 :     sfmode= SFM_READ;</span>
-<span class="lineNum">     195 </span>            : 
-<span class="lineNum">     196 </span><span class="lineCov">        199 :   PRIVATE(ambix)-&gt;sf_file=sf_open(path, sfmode, &amp;PRIVATE(ambix)-&gt;sf_info) ;</span>
-<span class="lineNum">     197 </span><span class="lineCov">        199 :   if(!PRIVATE(ambix)-&gt;sf_file)</span>
-<span class="lineNum">     198 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_INVALID_FILE;</span>
-<span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineCov">        199 :   memset(&amp;ambix-&gt;realinfo, 0, sizeof(*ambixinfo));</span>
-<span class="lineNum">     201 </span><span class="lineCov">        199 :   sndfile2ambix_info(&amp;PRIVATE(ambix)-&gt;sf_info, &amp;ambix-&gt;realinfo);</span>
-<span class="lineNum">     202 </span>            : 
-<span class="lineNum">     203 </span><span class="lineCov">        199 :   ambix-&gt;byteswap=(sf_command(PRIVATE(ambix)-&gt;sf_file, SFC_RAW_DATA_NEEDS_ENDSWAP, NULL, 0) == SF_TRUE);</span>
-<span class="lineNum">     204 </span><span class="lineCov">        199 :   ambix-&gt;channels = PRIVATE(ambix)-&gt;sf_info.channels;</span>
-<span class="lineNum">     205 </span>            : 
-<span class="lineNum">     206 </span><span class="lineCov">        199 :   caf=((SF_FORMAT_CAF == (SF_FORMAT_TYPEMASK &amp; PRIVATE(ambix)-&gt;sf_info.format)) != 0);</span>
-<span class="lineNum">     207 </span><span class="lineCov">        199 :   if(caf) {</span>
-<span class="lineNum">     208 </span><span class="lineCov">        199 :     is_ambix=1;</span>
-<span class="lineNum">     209 </span>            : 
-<span class="lineNum">     210 </span><span class="lineCov">        199 :     if(read_uuidchunk(ambix) == AMBIX_ERR_SUCCESS) {</span>
-<span class="lineNum">     211 </span><span class="lineCov">        118 :       ambix-&gt;format=AMBIX_EXTENDED;</span>
-<span class="lineNum">     212 </span>            :     } else {
-<span class="lineNum">     213 </span><span class="lineCov">         81 :       ambix-&gt;format=AMBIX_BASIC;</span>
-<span class="lineNum">     214 </span>            :     }
-<span class="lineNum">     215 </span>            :   } else {
-<span class="lineNum">     216 </span>            :     // check whether this is an .amb file or the like...
-<span class="lineNum">     217 </span>            :     if(0) {
-<span class="lineNum">     218 </span><span class="lineNoCov">          0 :     } else if(sf_command(PRIVATE(ambix)-&gt;sf_file, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT) {</span>
-<span class="lineNum">     219 </span>            :       /*
-<span class="lineNum">     220 </span>            :         The four B-format signals are interleaved for each sample frame in the order W,X,Y,Z.
-<span class="lineNum">     221 </span>            : 
-<span class="lineNum">     222 </span>            :         If the extended six-channel B-Format is used, the U and V signals will occupy the
-<span class="lineNum">     223 </span>            :         fifth and sixth slots: W,X,Y,Z,U,V.
-<span class="lineNum">     224 </span>            : 
-<span class="lineNum">     225 </span>            :         If horizontal-only B-format  is to be represented, a three or five-channel file
-<span class="lineNum">     226 </span>            :         will suffice, with signals interleaved as W,X,Y (First Order), or W,X,Y,U,V (Second-order).
-<span class="lineNum">     227 </span>            :         However, four and -six-channel files are also acceptable, with the Z channel empty.
-<span class="lineNum">     228 </span>            :         Higher-order configurations are possible in theory, but are not addressed here.
-<span class="lineNum">     229 </span>            :         A decoder program should either 'degrade gracefully', or reject formats it cannot handle.
-<span class="lineNum">     230 </span>            : 
-<span class="lineNum">     231 </span>            :         For all B-format configurations, the dwChannelMask field should be set to zero.
-<span class="lineNum">     232 </span>            : 
-<span class="lineNum">     233 </span>            :         Though strictly speaking an optional chunk, it is recommended that the PEAK chunk be
-<span class="lineNum">     234 </span>            :         used for all B-Format files. Apart from its general utility, it has the special virtue
-<span class="lineNum">     235 </span>            :         for B-format in that applications can determine from the peak value for the Z channel
-<span class="lineNum">     236 </span>            :         whether the file is indeed full periphonic B-format (with height information), or
-<span class="lineNum">     237 </span>            :         'Horizontal-only' (Z channel present but empty).
-<span class="lineNum">     238 </span>            :       */
-<span class="lineNum">     239 </span><span class="lineNoCov">          0 :       switch(ambix-&gt;channels) {</span>
-<span class="lineNum">     240 </span>            :       case  3: /* h   = 1st order 2-D */
-<span class="lineNum">     241 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(1), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     242 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     243 </span>            :       case  4: /* f   = 1st order 3-D */
-<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(1), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     246 </span>            :       case  5: /* hh  = 2nd order 2-D */
-<span class="lineNum">     247 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(2), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     248 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     249 </span>            :       case  6: /* fh  = 2nd order 2-D + 1st order 3-D (formerly called 2.5 order) */
-<span class="lineNum">     250 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(2), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     251 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     252 </span>            :       case  7: /* hhh = 3rd order 2-D */
-<span class="lineNum">     253 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     254 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     255 </span>            :       case  8: /* fhh = 3rd order 2-D + 1st order 3-D */
-<span class="lineNum">     256 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     257 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     258 </span>            :       case  9: /* ff  = 2nd order 3-D */
-<span class="lineNum">     259 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(2), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     260 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     261 </span>            :       case 11: /* ffh = 3rd order 2-D + 2nd order 3-D */
-<span class="lineNum">     262 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     263 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     264 </span>            :       case 16: /* fff = 3rd order 3-D */
-<span class="lineNum">     265 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
-<span class="lineNum">     266 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     267 </span>            :       }
-<span class="lineNum">     268 </span><span class="lineNoCov">          0 :       if(NULL != ambix_matrix_fill(&amp;ambix-&gt;matrix, AMBIX_MATRIX_FUMA)) {</span>
-<span class="lineNum">     269 </span><span class="lineNoCov">          0 :         is_ambix=1;</span>
-<span class="lineNum">     270 </span><span class="lineNoCov">          0 :         ambix-&gt;format=AMBIX_EXTENDED;</span>
-<span class="lineNum">     271 </span>            :       } else {
-<span class="lineNum">     272 </span><span class="lineNoCov">          0 :         is_ambix=0;</span>
-<span class="lineNum">     273 </span><span class="lineNoCov">          0 :         ambix-&gt;format=AMBIX_NONE;</span>
-<span class="lineNum">     274 </span>            :       }
-<span class="lineNum">     275 </span>            :     } else {
-<span class="lineNum">     276 </span><span class="lineNoCov">          0 :       is_ambix=0;</span>
-<span class="lineNum">     277 </span><span class="lineNoCov">          0 :       ambix-&gt;format=AMBIX_NONE;</span>
-<span class="lineNum">     278 </span>            :     }
-<span class="lineNum">     279 </span>            :   }
-<span class="lineNum">     280 </span>            : 
-<span class="lineNum">     281 </span><span class="lineCov">        199 :   ambix-&gt;is_AMBIX=is_ambix;</span>
-<span class="lineNum">     282 </span>            :   if(0) {
-<span class="lineNum">     283 </span>            :     print_sfinfo( &amp;PRIVATE(ambix)-&gt;sf_info);
+<span class="lineNum">     186 </span><span class="lineCov">        200 : ambix_err_t _ambix_open (ambix_t*ambix, const char *path, const ambix_filemode_t mode, const ambix_info_t*ambixinfo) {</span>
+<span class="lineNum">     187 </span><span class="lineCov">        200 :   int sfmode=0;</span>
+<span class="lineNum">     188 </span><span class="lineCov">        200 :   int caf=0;</span>
+<span class="lineNum">     189 </span><span class="lineCov">        200 :   int is_ambix=0;</span>
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span><span class="lineCov">        200 :   ambix-&gt;private_data=calloc(1, sizeof(ambixsndfile_private_t));</span>
+<span class="lineNum">     192 </span><span class="lineCov">        200 :   ambix2sndfile_info(ambixinfo, &amp;PRIVATE(ambix)-&gt;sf_info);</span>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineCov">        200 :   if((mode &amp; AMBIX_READ) &amp;&amp; (mode &amp; AMBIX_WRITE))</span>
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :     sfmode= SFM_RDWR;</span>
+<span class="lineNum">     196 </span><span class="lineCov">        200 :   else if (mode &amp; AMBIX_WRITE)</span>
+<span class="lineNum">     197 </span><span class="lineCov">         69 :     sfmode= SFM_WRITE;</span>
+<span class="lineNum">     198 </span><span class="lineCov">        131 :   else if (mode &amp; AMBIX_READ)</span>
+<span class="lineNum">     199 </span><span class="lineCov">        131 :     sfmode= SFM_READ;</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span><span class="lineCov">        200 :   PRIVATE(ambix)-&gt;sf_file=sf_open(path, sfmode, &amp;PRIVATE(ambix)-&gt;sf_info) ;</span>
+<span class="lineNum">     202 </span><span class="lineCov">        200 :   if(!PRIVATE(ambix)-&gt;sf_file)</span>
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_INVALID_FILE;</span>
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span><span class="lineCov">        200 :   memset(&amp;ambix-&gt;realinfo, 0, sizeof(*ambixinfo));</span>
+<span class="lineNum">     206 </span><span class="lineCov">        200 :   sndfile2ambix_info(&amp;PRIVATE(ambix)-&gt;sf_info, &amp;ambix-&gt;realinfo);</span>
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span><span class="lineCov">        200 :   ambix-&gt;byteswap=(sf_command(PRIVATE(ambix)-&gt;sf_file, SFC_RAW_DATA_NEEDS_ENDSWAP, NULL, 0) == SF_TRUE);</span>
+<span class="lineNum">     209 </span><span class="lineCov">        200 :   ambix-&gt;channels = PRIVATE(ambix)-&gt;sf_info.channels;</span>
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span><span class="lineCov">        200 :   caf=((SF_FORMAT_CAF == (SF_FORMAT_TYPEMASK &amp; PRIVATE(ambix)-&gt;sf_info.format)) != 0);</span>
+<span class="lineNum">     212 </span><span class="lineCov">        200 :   if(caf) {</span>
+<span class="lineNum">     213 </span><span class="lineCov">        200 :     is_ambix=1;</span>
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span><span class="lineCov">        200 :     if(read_uuidchunk(ambix) == AMBIX_ERR_SUCCESS) {</span>
+<span class="lineNum">     216 </span><span class="lineCov">        118 :       ambix-&gt;format=AMBIX_EXTENDED;</span>
+<span class="lineNum">     217 </span>            :     } else {
+<span class="lineNum">     218 </span><span class="lineCov">         82 :       ambix-&gt;format=AMBIX_BASIC;</span>
+<span class="lineNum">     219 </span>            :     }
+<span class="lineNum">     220 </span>            :   } else {
+<span class="lineNum">     221 </span>            :     // check whether this is an .amb file or the like...
+<span class="lineNum">     222 </span>            :     if(0) {
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :     } else if(sf_command(PRIVATE(ambix)-&gt;sf_file, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT) {</span>
+<span class="lineNum">     224 </span>            :       /*
+<span class="lineNum">     225 </span>            :         The four B-format signals are interleaved for each sample frame in the order W,X,Y,Z.
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            :         If the extended six-channel B-Format is used, the U and V signals will occupy the
+<span class="lineNum">     228 </span>            :         fifth and sixth slots: W,X,Y,Z,U,V.
+<span class="lineNum">     229 </span>            : 
+<span class="lineNum">     230 </span>            :         If horizontal-only B-format  is to be represented, a three or five-channel file
+<span class="lineNum">     231 </span>            :         will suffice, with signals interleaved as W,X,Y (First Order), or W,X,Y,U,V (Second-order).
+<span class="lineNum">     232 </span>            :         However, four and -six-channel files are also acceptable, with the Z channel empty.
+<span class="lineNum">     233 </span>            :         Higher-order configurations are possible in theory, but are not addressed here.
+<span class="lineNum">     234 </span>            :         A decoder program should either 'degrade gracefully', or reject formats it cannot handle.
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            :         For all B-format configurations, the dwChannelMask field should be set to zero.
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span>            :         Though strictly speaking an optional chunk, it is recommended that the PEAK chunk be
+<span class="lineNum">     239 </span>            :         used for all B-Format files. Apart from its general utility, it has the special virtue
+<span class="lineNum">     240 </span>            :         for B-format in that applications can determine from the peak value for the Z channel
+<span class="lineNum">     241 </span>            :         whether the file is indeed full periphonic B-format (with height information), or
+<span class="lineNum">     242 </span>            :         'Horizontal-only' (Z channel present but empty).
+<span class="lineNum">     243 </span>            :       */
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :       switch(ambix-&gt;channels) {</span>
+<span class="lineNum">     245 </span>            :       case  3: /* h   = 1st order 2-D */
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(1), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     248 </span>            :       case  4: /* f   = 1st order 3-D */
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(1), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     251 </span>            :       case  5: /* hh  = 2nd order 2-D */
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(2), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     254 </span>            :       case  6: /* fh  = 2nd order 2-D + 1st order 3-D (formerly called 2.5 order) */
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(2), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     257 </span>            :       case  7: /* hhh = 3rd order 2-D */
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     259 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     260 </span>            :       case  8: /* fhh = 3rd order 2-D + 1st order 3-D */
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     262 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     263 </span>            :       case  9: /* ff  = 2nd order 3-D */
+<span class="lineNum">     264 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(2), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     265 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     266 </span>            :       case 11: /* ffh = 3rd order 2-D + 2nd order 3-D */
+<span class="lineNum">     267 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     268 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     269 </span>            :       case 16: /* fff = 3rd order 3-D */
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :         ambix_matrix_init(ambix_order2channels(3), ambix-&gt;channels, &amp;ambix-&gt;matrix);</span>
+<span class="lineNum">     271 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     272 </span>            :       }
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :       if(NULL != ambix_matrix_fill(&amp;ambix-&gt;matrix, AMBIX_MATRIX_FUMA)) {</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :         is_ambix=1;</span>
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :         ambix-&gt;format=AMBIX_EXTENDED;</span>
+<span class="lineNum">     276 </span>            :       } else {
+<span class="lineNum">     277 </span><span class="lineNoCov">          0 :         is_ambix=0;</span>
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :         ambix-&gt;format=AMBIX_NONE;</span>
+<span class="lineNum">     279 </span>            :       }
+<span class="lineNum">     280 </span>            :     } else {
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :       is_ambix=0;</span>
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 :       ambix-&gt;format=AMBIX_NONE;</span>
+<span class="lineNum">     283 </span>            :     }
 <span class="lineNum">     284 </span>            :   }
 <span class="lineNum">     285 </span>            : 
-<span class="lineNum">     286 </span><span class="lineCov">        199 :   return AMBIX_ERR_SUCCESS;</span>
-<a name="287"><span class="lineNum">     287 </span>            : }</a>
-<span class="lineNum">     288 </span>            : 
-<span class="lineNum">     289 </span><span class="lineCov">        199 : ambix_err_t _ambix_close    (ambix_t*ambix) {</span>
-<span class="lineNum">     290 </span><span class="lineCov">        199 :   if(PRIVATE(ambix)-&gt;sf_file)</span>
-<span class="lineNum">     291 </span><span class="lineCov">        199 :     sf_close(PRIVATE(ambix)-&gt;sf_file);</span>
-<span class="lineNum">     292 </span><span class="lineCov">        199 :   PRIVATE(ambix)-&gt;sf_file=NULL;</span>
+<span class="lineNum">     286 </span><span class="lineCov">        200 :   ambix-&gt;is_AMBIX=is_ambix;</span>
+<span class="lineNum">     287 </span>            : #ifdef DEBUG_SFINFO
+<span class="lineNum">     288 </span>            :     print_sfinfo( &amp;PRIVATE(ambix)-&gt;sf_info);
+<span class="lineNum">     289 </span>            : #endif
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span><span class="lineCov">        200 :   return AMBIX_ERR_SUCCESS;</span>
+<a name="292"><span class="lineNum">     292 </span>            : }</a>
 <span class="lineNum">     293 </span>            : 
-<span class="lineNum">     294 </span>            : #if defined HAVE_SF_SET_CHUNK &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
-<span class="lineNum">     295 </span><span class="lineCov">        199 :   if((PRIVATE(ambix)-&gt;sf_chunk).data)</span>
-<span class="lineNum">     296 </span><span class="lineCov">         63 :     free((PRIVATE(ambix)-&gt;sf_chunk).data);</span>
-<span class="lineNum">     297 </span>            : #endif
+<span class="lineNum">     294 </span><span class="lineCov">        200 : ambix_err_t _ambix_close    (ambix_t*ambix) {</span>
+<span class="lineNum">     295 </span><span class="lineCov">        200 :   if(PRIVATE(ambix)-&gt;sf_file)</span>
+<span class="lineNum">     296 </span><span class="lineCov">        200 :     sf_close(PRIVATE(ambix)-&gt;sf_file);</span>
+<span class="lineNum">     297 </span><span class="lineCov">        200 :   PRIVATE(ambix)-&gt;sf_file=NULL;</span>
 <span class="lineNum">     298 </span>            : 
-<span class="lineNum">     299 </span><span class="lineCov">        199 :   free(PRIVATE(ambix));</span>
-<span class="lineNum">     300 </span><span class="lineCov">        199 :   return AMBIX_ERR_SUCCESS;</span>
-<a name="301"><span class="lineNum">     301 </span>            : }</a>
-<span class="lineNum">     302 </span>            : 
-<span class="lineNum">     303 </span><span class="lineCov">          1 : int64_t _ambix_seek (ambix_t* ambix, int64_t frames, int bias) {</span>
-<span class="lineNum">     304 </span><span class="lineCov">          1 :   int whence=0;</span>
-<span class="lineNum">     305 </span><span class="lineCov">          1 :   if(bias &amp; AMBIX_RDRW) {</span>
-<span class="lineNum">     306 </span><span class="lineNoCov">          0 :     whence |= SFM_RDWR;</span>
-<span class="lineNum">     307 </span>            :   } else {
-<span class="lineNum">     308 </span><span class="lineCov">          1 :     whence |= (bias &amp; AMBIX_READ )?SFM_READ:0;</span>
-<span class="lineNum">     309 </span><span class="lineCov">          1 :     whence |= (bias &amp; AMBIX_WRITE)?SFM_WRITE:0;</span>
-<span class="lineNum">     310 </span>            :   }
-<span class="lineNum">     311 </span>            : 
-<span class="lineNum">     312 </span><span class="lineCov">          1 :   whence |= (bias &amp; SEEK_SET);</span>
-<span class="lineNum">     313 </span><span class="lineCov">          1 :   whence |= (bias &amp; SEEK_CUR);</span>
-<span class="lineNum">     314 </span><span class="lineCov">          1 :   whence |= (bias &amp; SEEK_END);</span>
-<span class="lineNum">     315 </span>            : 
-<span class="lineNum">     316 </span><span class="lineCov">          1 :   if(PRIVATE(ambix)-&gt;sf_file)</span>
-<span class="lineNum">     317 </span><span class="lineCov">          1 :     return (int64_t)sf_seek(PRIVATE(ambix)-&gt;sf_file, (sf_count_t)frames, whence);</span>
-<span class="lineNum">     318 </span><span class="lineNoCov">          0 :   return -1;</span>
-<a name="319"><span class="lineNum">     319 </span>            : }</a>
+<span class="lineNum">     299 </span>            : #if defined HAVE_SF_SET_CHUNK &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
+<span class="lineNum">     300 </span><span class="lineCov">        200 :   if((PRIVATE(ambix)-&gt;sf_chunk).data)</span>
+<span class="lineNum">     301 </span><span class="lineCov">         63 :     free((PRIVATE(ambix)-&gt;sf_chunk).data);</span>
+<span class="lineNum">     302 </span>            : #endif
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span><span class="lineCov">        200 :   free(PRIVATE(ambix));</span>
+<span class="lineNum">     305 </span><span class="lineCov">        200 :   return AMBIX_ERR_SUCCESS;</span>
+<a name="306"><span class="lineNum">     306 </span>            : }</a>
+<span class="lineNum">     307 </span>            : 
+<span class="lineNum">     308 </span><span class="lineCov">          1 : int64_t _ambix_seek (ambix_t* ambix, int64_t frames, int bias) {</span>
+<span class="lineNum">     309 </span><span class="lineCov">          1 :   int whence=0;</span>
+<span class="lineNum">     310 </span><span class="lineCov">          1 :   if(bias &amp; AMBIX_RDRW) {</span>
+<span class="lineNum">     311 </span><span class="lineNoCov">          0 :     whence |= SFM_RDWR;</span>
+<span class="lineNum">     312 </span>            :   } else {
+<span class="lineNum">     313 </span><span class="lineCov">          1 :     whence |= (bias &amp; AMBIX_READ )?SFM_READ:0;</span>
+<span class="lineNum">     314 </span><span class="lineCov">          1 :     whence |= (bias &amp; AMBIX_WRITE)?SFM_WRITE:0;</span>
+<span class="lineNum">     315 </span>            :   }
+<span class="lineNum">     316 </span>            : 
+<span class="lineNum">     317 </span><span class="lineCov">          1 :   whence |= (bias &amp; SEEK_SET);</span>
+<span class="lineNum">     318 </span><span class="lineCov">          1 :   whence |= (bias &amp; SEEK_CUR);</span>
+<span class="lineNum">     319 </span><span class="lineCov">          1 :   whence |= (bias &amp; SEEK_END);</span>
 <span class="lineNum">     320 </span>            : 
-<span class="lineNum">     321 </span><span class="lineNoCov">          0 : SNDFILE*_ambix_get_sndfile  (ambix_t*ambix) {</span>
-<a name="322"><span class="lineNum">     322 </span><span class="lineNoCov">          0 :   return PRIVATE(ambix)-&gt;sf_file;</span></a>
-<span class="lineNum">     323 </span>            : }
-<span class="lineNum">     324 </span><span class="lineCov">          4 : int64_t _ambix_readf_int16   (ambix_t*ambix, int16_t*data, int64_t frames) {</span>
-<a name="325"><span class="lineNum">     325 </span><span class="lineCov">          4 :   return (int64_t)sf_readf_short(PRIVATE(ambix)-&gt;sf_file, (short*)data, frames) ;</span></a>
-<span class="lineNum">     326 </span>            : }
-<span class="lineNum">     327 </span><span class="lineCov">          4 : int64_t _ambix_readf_int32   (ambix_t*ambix, int32_t*data, int64_t frames) {</span>
-<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          4 :   return (int64_t)sf_readf_int(PRIVATE(ambix)-&gt;sf_file, (int*)data, frames) ;</span></a>
-<span class="lineNum">     329 </span>            : }
-<span class="lineNum">     330 </span><span class="lineCov">        112 : int64_t _ambix_readf_float32   (ambix_t*ambix, float32_t*data, int64_t frames) {</span>
-<a name="331"><span class="lineNum">     331 </span><span class="lineCov">        112 :   return (int64_t)sf_readf_float(PRIVATE(ambix)-&gt;sf_file, (float*)data, frames) ;</span></a>
-<span class="lineNum">     332 </span>            : }
-<span class="lineNum">     333 </span><span class="lineCov">          4 : int64_t _ambix_readf_float64   (ambix_t*ambix, float64_t*data, int64_t frames) {</span>
-<span class="lineNum">     334 </span><span class="lineCov">          4 :   return (int64_t)sf_readf_double(PRIVATE(ambix)-&gt;sf_file, (double*)data, frames) ;</span>
-<a name="335"><span class="lineNum">     335 </span>            : }</a>
-<span class="lineNum">     336 </span>            : 
-<span class="lineNum">     337 </span><span class="lineCov">        432 : int64_t _ambix_writef_int16   (ambix_t*ambix, const int16_t*data, int64_t frames) {</span>
-<a name="338"><span class="lineNum">     338 </span><span class="lineCov">        432 :   return (int64_t)sf_writef_short(PRIVATE(ambix)-&gt;sf_file, (short*)data, frames) ;</span></a>
-<span class="lineNum">     339 </span>            : }
-<span class="lineNum">     340 </span><span class="lineCov">        432 : int64_t _ambix_writef_int32   (ambix_t*ambix, const int32_t*data, int64_t frames) {</span>
-<a name="341"><span class="lineNum">     341 </span><span class="lineCov">        432 :   return (int64_t)sf_writef_int(PRIVATE(ambix)-&gt;sf_file, (int*)data, frames) ;</span></a>
-<span class="lineNum">     342 </span>            : }
-<span class="lineNum">     343 </span><span class="lineCov">      22853 : int64_t _ambix_writef_float32   (ambix_t*ambix, const float32_t*data, int64_t frames) {</span>
-<a name="344"><span class="lineNum">     344 </span><span class="lineCov">      22853 :   return (int64_t)sf_writef_float(PRIVATE(ambix)-&gt;sf_file, (float*)data, frames) ;</span></a>
-<span class="lineNum">     345 </span>            : }
-<span class="lineNum">     346 </span><span class="lineCov">        432 : int64_t _ambix_writef_float64   (ambix_t*ambix, const float64_t*data, int64_t frames) {</span>
-<a name="347"><span class="lineNum">     347 </span><span class="lineCov">        432 :   return (int64_t)sf_writef_double(PRIVATE(ambix)-&gt;sf_file, (double*)data, frames) ;</span></a>
-<span class="lineNum">     348 </span>            : }
-<span class="lineNum">     349 </span><span class="lineCov">         63 : ambix_err_t _ambix_write_uuidchunk(ambix_t*ax, const void*data, int64_t datasize) {</span>
-<span class="lineNum">     350 </span>            : #if defined HAVE_SF_SET_CHUNK &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
-<span class="lineNum">     351 </span>            :   int               err ;
-<span class="lineNum">     352 </span><span class="lineCov">         63 :   SF_CHUNK_INFO*chunk=&amp;PRIVATE(ax)-&gt;sf_chunk;</span>
-<span class="lineNum">     353 </span><span class="lineCov">         63 :   int64_t datasize4 = datasize&gt;&gt;2;</span>
-<span class="lineNum">     354 </span>            : 
-<span class="lineNum">     355 </span><span class="lineCov">         63 :   if(datasize4*4 &lt; datasize)</span>
-<span class="lineNum">     356 </span><span class="lineNoCov">          0 :     datasize4++;</span>
-<span class="lineNum">     357 </span><span class="lineCov">         63 :   memset (chunk, 0, sizeof (*chunk)) ;</span>
-<span class="lineNum">     358 </span><span class="lineCov">         63 :   snprintf (chunk-&gt;id, sizeof (chunk-&gt;id), &quot;uuid&quot;) ;</span>
-<span class="lineNum">     359 </span><span class="lineCov">         63 :   chunk-&gt;id_size = 4 ;</span>
-<span class="lineNum">     360 </span><span class="lineCov">         63 :   if(chunk-&gt;data)</span>
-<span class="lineNum">     361 </span><span class="lineNoCov">          0 :     free(chunk-&gt;data);</span>
-<span class="lineNum">     362 </span>            : 
-<span class="lineNum">     363 </span><span class="lineCov">         63 :   chunk-&gt;data = calloc(datasize4, 4);</span>
-<span class="lineNum">     364 </span>            : 
-<span class="lineNum">     365 </span><span class="lineCov">         63 :   memcpy(chunk-&gt;data, data, datasize);</span>
-<span class="lineNum">     366 </span><span class="lineCov">         63 :   chunk-&gt;datalen = datasize ;</span>
-<span class="lineNum">     367 </span><span class="lineCov">         63 :   err = sf_set_chunk (PRIVATE(ax)-&gt;sf_file, chunk) ;</span>
-<span class="lineNum">     368 </span><span class="lineCov">         63 :   if(SF_ERR_NO_ERROR != err)</span>
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_UNKNOWN;</span>
-<span class="lineNum">     370 </span><span class="lineCov">         63 :   return AMBIX_ERR_SUCCESS;</span>
-<span class="lineNum">     371 </span>            : #elif defined HAVE_SF_UUID_INFO
-<span class="lineNum">     372 </span>            :   SF_UUID_INFO uuid;
-<span class="lineNum">     373 </span>            :   memcpy(uuid.id, data, 16);
-<span class="lineNum">     374 </span>            :   uuid.data=(void*)(data+16);
-<span class="lineNum">     375 </span>            :   uuid.data_size=datasize-16;
-<span class="lineNum">     376 </span>            :   if(!sf_command(PRIVATE(ax)-&gt;sf_file, SFC_SET_UUID, &amp;uuid, sizeof(uuid))) {
-<span class="lineNum">     377 </span>            :     return  AMBIX_ERR_SUCCESS;
-<span class="lineNum">     378 </span>            :   }
-<span class="lineNum">     379 </span>            : #endif
-<span class="lineNum">     380 </span>            :   return  AMBIX_ERR_UNKNOWN;
-<span class="lineNum">     381 </span>            : }
+<span class="lineNum">     321 </span><span class="lineCov">          1 :   if(PRIVATE(ambix)-&gt;sf_file)</span>
+<span class="lineNum">     322 </span><span class="lineCov">          1 :     return (int64_t)sf_seek(PRIVATE(ambix)-&gt;sf_file, (sf_count_t)frames, whence);</span>
+<span class="lineNum">     323 </span><span class="lineNoCov">          0 :   return -1;</span>
+<a name="324"><span class="lineNum">     324 </span>            : }</a>
+<span class="lineNum">     325 </span>            : 
+<span class="lineNum">     326 </span><span class="lineCov">          1 : SNDFILE*_ambix_get_sndfile  (ambix_t*ambix) {</span>
+<a name="327"><span class="lineNum">     327 </span><span class="lineCov">          1 :   return PRIVATE(ambix)-&gt;sf_file;</span></a>
+<span class="lineNum">     328 </span>            : }
+<span class="lineNum">     329 </span><span class="lineCov">          4 : int64_t _ambix_readf_int16   (ambix_t*ambix, int16_t*data, int64_t frames) {</span>
+<a name="330"><span class="lineNum">     330 </span><span class="lineCov">          4 :   return (int64_t)sf_readf_short(PRIVATE(ambix)-&gt;sf_file, (short*)data, frames) ;</span></a>
+<span class="lineNum">     331 </span>            : }
+<span class="lineNum">     332 </span><span class="lineCov">          4 : int64_t _ambix_readf_int32   (ambix_t*ambix, int32_t*data, int64_t frames) {</span>
+<a name="333"><span class="lineNum">     333 </span><span class="lineCov">          4 :   return (int64_t)sf_readf_int(PRIVATE(ambix)-&gt;sf_file, (int*)data, frames) ;</span></a>
+<span class="lineNum">     334 </span>            : }
+<span class="lineNum">     335 </span><span class="lineCov">        112 : int64_t _ambix_readf_float32   (ambix_t*ambix, float32_t*data, int64_t frames) {</span>
+<a name="336"><span class="lineNum">     336 </span><span class="lineCov">        112 :   return (int64_t)sf_readf_float(PRIVATE(ambix)-&gt;sf_file, (float*)data, frames) ;</span></a>
+<span class="lineNum">     337 </span>            : }
+<span class="lineNum">     338 </span><span class="lineCov">          4 : int64_t _ambix_readf_float64   (ambix_t*ambix, float64_t*data, int64_t frames) {</span>
+<span class="lineNum">     339 </span><span class="lineCov">          4 :   return (int64_t)sf_readf_double(PRIVATE(ambix)-&gt;sf_file, (double*)data, frames) ;</span>
+<a name="340"><span class="lineNum">     340 </span>            : }</a>
+<span class="lineNum">     341 </span>            : 
+<span class="lineNum">     342 </span><span class="lineCov">        432 : int64_t _ambix_writef_int16   (ambix_t*ambix, const int16_t*data, int64_t frames) {</span>
+<a name="343"><span class="lineNum">     343 </span><span class="lineCov">        432 :   return (int64_t)sf_writef_short(PRIVATE(ambix)-&gt;sf_file, (short*)data, frames) ;</span></a>
+<span class="lineNum">     344 </span>            : }
+<span class="lineNum">     345 </span><span class="lineCov">        432 : int64_t _ambix_writef_int32   (ambix_t*ambix, const int32_t*data, int64_t frames) {</span>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">        432 :   return (int64_t)sf_writef_int(PRIVATE(ambix)-&gt;sf_file, (int*)data, frames) ;</span></a>
+<span class="lineNum">     347 </span>            : }
+<span class="lineNum">     348 </span><span class="lineCov">      22853 : int64_t _ambix_writef_float32   (ambix_t*ambix, const float32_t*data, int64_t frames) {</span>
+<a name="349"><span class="lineNum">     349 </span><span class="lineCov">      22853 :   return (int64_t)sf_writef_float(PRIVATE(ambix)-&gt;sf_file, (float*)data, frames) ;</span></a>
+<span class="lineNum">     350 </span>            : }
+<span class="lineNum">     351 </span><span class="lineCov">        432 : int64_t _ambix_writef_float64   (ambix_t*ambix, const float64_t*data, int64_t frames) {</span>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">        432 :   return (int64_t)sf_writef_double(PRIVATE(ambix)-&gt;sf_file, (double*)data, frames) ;</span></a>
+<span class="lineNum">     353 </span>            : }
+<span class="lineNum">     354 </span><span class="lineCov">         63 : ambix_err_t _ambix_write_uuidchunk(ambix_t*ax, const void*data, int64_t datasize) {</span>
+<span class="lineNum">     355 </span>            : #if defined HAVE_SF_SET_CHUNK &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
+<span class="lineNum">     356 </span>            :   int               err ;
+<span class="lineNum">     357 </span><span class="lineCov">         63 :   SF_CHUNK_INFO*chunk=&amp;PRIVATE(ax)-&gt;sf_chunk;</span>
+<span class="lineNum">     358 </span><span class="lineCov">         63 :   int64_t datasize4 = datasize&gt;&gt;2;</span>
+<span class="lineNum">     359 </span>            : 
+<span class="lineNum">     360 </span><span class="lineCov">         63 :   if(datasize4*4 &lt; datasize)</span>
+<span class="lineNum">     361 </span><span class="lineNoCov">          0 :     datasize4++;</span>
+<span class="lineNum">     362 </span><span class="lineCov">         63 :   memset (chunk, 0, sizeof (*chunk)) ;</span>
+<span class="lineNum">     363 </span><span class="lineCov">         63 :   snprintf (chunk-&gt;id, sizeof (chunk-&gt;id), &quot;uuid&quot;) ;</span>
+<span class="lineNum">     364 </span><span class="lineCov">         63 :   chunk-&gt;id_size = 4 ;</span>
+<span class="lineNum">     365 </span><span class="lineCov">         63 :   if(chunk-&gt;data)</span>
+<span class="lineNum">     366 </span><span class="lineNoCov">          0 :     free(chunk-&gt;data);</span>
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span><span class="lineCov">         63 :   chunk-&gt;data = calloc(datasize4, 4);</span>
+<span class="lineNum">     369 </span>            : 
+<span class="lineNum">     370 </span><span class="lineCov">         63 :   memcpy(chunk-&gt;data, data, datasize);</span>
+<span class="lineNum">     371 </span><span class="lineCov">         63 :   chunk-&gt;datalen = datasize ;</span>
+<span class="lineNum">     372 </span><span class="lineCov">         63 :   err = sf_set_chunk (PRIVATE(ax)-&gt;sf_file, chunk) ;</span>
+<span class="lineNum">     373 </span><span class="lineCov">         63 :   if(SF_ERR_NO_ERROR != err)</span>
+<span class="lineNum">     374 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_UNKNOWN;</span>
+<span class="lineNum">     375 </span><span class="lineCov">         63 :   return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     376 </span>            : #elif defined HAVE_SF_UUID_INFO
+<span class="lineNum">     377 </span>            :   SF_UUID_INFO uuid;
+<span class="lineNum">     378 </span>            :   memcpy(uuid.id, data, 16);
+<span class="lineNum">     379 </span>            :   uuid.data=(void*)(data+16);
+<span class="lineNum">     380 </span>            :   uuid.data_size=datasize-16;
+<span class="lineNum">     381 </span>            :   if(!sf_command(PRIVATE(ax)-&gt;sf_file, SFC_SET_UUID, &amp;uuid, sizeof(uuid))) {
+<span class="lineNum">     382 </span>            :     return  AMBIX_ERR_SUCCESS;
+<span class="lineNum">     383 </span>            :   }
+<span class="lineNum">     384 </span>            : #endif
+<span class="lineNum">     385 </span>            :   return  AMBIX_ERR_UNKNOWN;
+<span class="lineNum">     386 </span>            : }
 </pre>
       </td>
     </tr>

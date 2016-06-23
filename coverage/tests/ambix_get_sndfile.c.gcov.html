@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - libambix test coverage - tests/ambix_seek.c</title>
+  <title>LCOV - libambix test coverage - tests/ambix_get_sndfile.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -19,7 +19,7 @@
         <table cellpadding=1 border=0 width="100%">
           <tr>
             <td width="10%" class="headerItem">Current view:</td>
-            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - ambix_seek.c<span style="font-size: 80%;"> (source / <a href="ambix_seek.c.func.html">functions</a>)</span></td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - ambix_get_sndfile.c<span style="font-size: 80%;"> (source / <a href="ambix_get_sndfile.c.func.html">functions</a>)</span></td>
             <td width="5%"></td>
             <td width="15%"></td>
             <td width="10%" class="headerCovTableHead">Hit</td>
@@ -65,22 +65,27 @@
 <span class="lineNum">       3 </span>            : 
 <span class="lineNum">       4 </span><span class="lineCov">          1 : int main()</span>
 <span class="lineNum">       5 </span>            : {
-<span class="lineNum">       6 </span><span class="lineCov">          1 :   int result=0;</span>
-<span class="lineNum">       7 </span>            :   
-<span class="lineNum">       8 </span><span class="lineCov">          1 :   ambix_t *ambix = NULL;</span>
-<span class="lineNum">       9 </span><span class="lineCov">          1 :   ambix_info_t *info= calloc(1, sizeof(ambix_info_t));</span>
-<span class="lineNum">      10 </span>            : 
-<span class="lineNum">      11 </span><span class="lineCov">          1 :   ambix=ambix_open(AMBIXTEST_FILE1, AMBIX_READ, info);</span>
-<span class="lineNum">      12 </span><span class="lineCov">          1 :   skip_if(NULL==ambix, __LINE__, &quot;ambix_open(%s, AMBIX_READ, info)&quot;, AMBIXTEST_FILE1);</span>
-<span class="lineNum">      13 </span>            :   
-<span class="lineNum">      14 </span><span class="lineCov">          1 :   result= ambix_seek (ambix, 100, SEEK_CUR);</span>
-<span class="lineNum">      15 </span><span class="lineCov">          1 :   fail_if (result!=100, __LINE__, &quot;File failed to seek correct data&quot;);</span>
-<span class="lineNum">      16 </span>            :   
-<span class="lineNum">      17 </span><span class="lineCov">          1 :   ambix_close(ambix);</span>
-<span class="lineNum">      18 </span>            :   
-<span class="lineNum">      19 </span><span class="lineCov">          1 :   free(info);</span>
-<span class="lineNum">      20 </span><span class="lineCov">          1 :   return 0;</span>
-<span class="lineNum">      21 </span>            : }
+<span class="lineNum">       6 </span><span class="lineCov">          1 :   ambix_t*ambix = NULL;</span>
+<span class="lineNum">       7 </span><span class="lineCov">          1 :   struct SNDFILE_tag *sndfile = NULL;</span>
+<span class="lineNum">       8 </span><span class="lineCov">          1 :   ambix_info_t *info= calloc(1, sizeof(ambix_info_t));</span>
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span><span class="lineCov">          1 :   ambix=ambix_open(AMBIXTEST_FILE1, AMBIX_READ, info);</span>
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span><span class="lineCov">          1 :   fail_if(NULL==ambix, __LINE__, &quot;File was not open&quot;);</span>
+<span class="lineNum">      13 </span><span class="lineCov">          1 :   sndfile = ambix_get_sndfile (ambix);</span>
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : #ifdef HAVE_SNDFILE
+<span class="lineNum">      16 </span>            : #warning LATER: skip, once we have multiple (working) backends
+<span class="lineNum">      17 </span>            :   /* there is no need to use libsndfile even if libsndfile is present */
+<span class="lineNum">      18 </span><span class="lineCov">          1 :   fail_if(NULL==sndfile, __LINE__, &quot;no sndfile handle despite using libsndfile&quot;);</span>
+<span class="lineNum">      19 </span>            : #else
+<span class="lineNum">      20 </span>            :   fail_if(NULL!=sndfile, __LINE__, &quot;got sndfile handle without libsndfile!&quot;);
+<span class="lineNum">      21 </span>            : #endif
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span><span class="lineCov">          1 :   ambix_close (ambix);</span>
+<span class="lineNum">      24 </span><span class="lineCov">          1 :   free(info);</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :   return 0;</span>
+<span class="lineNum">      26 </span>            : }
 </pre>
       </td>
     </tr>

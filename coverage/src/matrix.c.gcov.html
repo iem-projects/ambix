@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-22</td>
+            <td class="headerValue">2016-06-23</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">17</td>
@@ -103,20 +103,20 @@
 <span class="lineNum">      41 </span><span class="lineCov">       2122 :   mtx=NULL;</span>
 <a name="42"><span class="lineNum">      42 </span><span class="lineCov">       2122 : }</span></a>
 <span class="lineNum">      43 </span>            : void
-<span class="lineNum">      44 </span><span class="lineCov">       4980 : ambix_matrix_deinit(ambix_matrix_t*mtx) {</span>
+<span class="lineNum">      44 </span><span class="lineCov">       4982 : ambix_matrix_deinit(ambix_matrix_t*mtx) {</span>
 <span class="lineNum">      45 </span>            :   uint32_t r;
-<span class="lineNum">      46 </span><span class="lineCov">       4980 :   if(mtx-&gt;data) {</span>
+<span class="lineNum">      46 </span><span class="lineCov">       4982 :   if(mtx-&gt;data) {</span>
 <span class="lineNum">      47 </span><span class="lineCov">      21216 :     for(r=0; r&lt;mtx-&gt;rows; r++) {</span>
 <span class="lineNum">      48 </span><span class="lineCov">      18774 :       if(mtx-&gt;data[r])</span>
 <span class="lineNum">      49 </span><span class="lineCov">      18774 :         free(mtx-&gt;data[r]);</span>
 <span class="lineNum">      50 </span><span class="lineCov">      18774 :       mtx-&gt;data[r]=NULL;</span>
 <span class="lineNum">      51 </span>            :     }
 <span class="lineNum">      52 </span>            :   }
-<span class="lineNum">      53 </span><span class="lineCov">       4980 :   free(mtx-&gt;data);</span>
-<span class="lineNum">      54 </span><span class="lineCov">       4980 :   mtx-&gt;data=NULL;</span>
-<span class="lineNum">      55 </span><span class="lineCov">       4980 :   mtx-&gt;rows=0;</span>
-<span class="lineNum">      56 </span><span class="lineCov">       4980 :   mtx-&gt;cols=0;</span>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       4980 : }</span></a>
+<span class="lineNum">      53 </span><span class="lineCov">       4982 :   free(mtx-&gt;data);</span>
+<span class="lineNum">      54 </span><span class="lineCov">       4982 :   mtx-&gt;data=NULL;</span>
+<span class="lineNum">      55 </span><span class="lineCov">       4982 :   mtx-&gt;rows=0;</span>
+<span class="lineNum">      56 </span><span class="lineCov">       4982 :   mtx-&gt;cols=0;</span>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       4982 : }</span></a>
 <span class="lineNum">      58 </span>            : ambix_matrix_t*
 <span class="lineNum">      59 </span><span class="lineCov">       2448 : ambix_matrix_init(uint32_t rows, uint32_t cols, ambix_matrix_t*orgmtx) {</span>
 <span class="lineNum">      60 </span><span class="lineCov">       2448 :   ambix_matrix_t*mtx=orgmtx;</span>
@@ -409,7 +409,7 @@
 <span class="lineNum">     347 </span><span class="lineCov">         67 :   if(result)</span>
 <span class="lineNum">     348 </span><span class="lineCov">         67 :     return result;</span>
 <span class="lineNum">     349 </span>            : 
-<span class="lineNum">     350 </span>            :   /* if that fails (should never happen), gall back to gauss-jordan */
+<span class="lineNum">     350 </span>            :   /* if that fails (should never happen), fall back to gauss-jordan */
 <span class="lineNum">     351 </span><span class="lineNoCov">          0 :   if (A-&gt;rows==A-&gt;cols) {</span>
 <span class="lineNum">     352 </span><span class="lineNoCov">          0 :     ambix_matrix_t*Ax = ambix_matrix_copy(A, NULL);</span>
 <span class="lineNum">     353 </span><span class="lineNoCov">          0 :     result = _ambix_matrix_invert_gaussjordan(Ax, P, eps); // do normal inverse if square matrix</span>
