@@ -31,9 +31,9 @@
             <td class="headerValue">libambix test coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">65</td>
+            <td class="headerCovTableEntry">71</td>
             <td class="headerCovTableEntry">105</td>
-            <td class="headerCovTableEntryLo">61.9 %</td>
+            <td class="headerCovTableEntryLo">67.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
@@ -190,45 +190,45 @@
 <span class="lineNum">     128 </span>            :  * \copyright LGPL &gt;= 2
 <a name="129"><span class="lineNum">     129 </span>            :  * \note origin survival 2.39-3 https://cran.r-project.org/web/packages/survival/index.html</a>
 <span class="lineNum">     130 </span>            :  */
-<span class="lineNum">     131 </span><span class="lineCov">         67 : static int _am_cholesky2_decomp(ambix_matrix_t*mtx, float32_t toler)</span>
+<span class="lineNum">     131 </span><span class="lineCov">         69 : static int _am_cholesky2_decomp(ambix_matrix_t*mtx, float32_t toler)</span>
 <span class="lineNum">     132 </span>            : {
-<span class="lineNum">     133 </span><span class="lineCov">         67 :   const uint32_t columns = mtx-&gt;cols;</span>
-<span class="lineNum">     134 </span><span class="lineCov">         67 :   float32_t**matrix= mtx-&gt;data;</span>
+<span class="lineNum">     133 </span><span class="lineCov">         69 :   const uint32_t columns = mtx-&gt;cols;</span>
+<span class="lineNum">     134 </span><span class="lineCov">         69 :   float32_t**matrix= mtx-&gt;data;</span>
 <span class="lineNum">     135 </span>            :   float32_t temp;
 <span class="lineNum">     136 </span>            :   int i, j, k;
 <span class="lineNum">     137 </span>            :   float32_t eps, pivot;
 <span class="lineNum">     138 </span>            :   int rank;
 <span class="lineNum">     139 </span>            :   int nonneg;
 <span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineCov">         67 :   nonneg = 1;</span>
-<span class="lineNum">     142 </span><span class="lineCov">         67 :   eps = 0;</span>
-<span class="lineNum">     143 </span><span class="lineCov">        327 :   for (i = 0; i &lt; columns; i++) {</span>
-<span class="lineNum">     144 </span><span class="lineCov">        260 :     if (matrix[i][i] &gt; eps)</span>
-<span class="lineNum">     145 </span><span class="lineCov">         87 :       eps = matrix[i][i];</span>
-<span class="lineNum">     146 </span><span class="lineCov">        640 :     for (j = (i + 1); j &lt; columns; j++)</span>
-<span class="lineNum">     147 </span><span class="lineCov">        380 :       matrix[j][i] = matrix[i][j];</span>
+<span class="lineNum">     141 </span><span class="lineCov">         69 :   nonneg = 1;</span>
+<span class="lineNum">     142 </span><span class="lineCov">         69 :   eps = 0;</span>
+<span class="lineNum">     143 </span><span class="lineCov">        337 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     144 </span><span class="lineCov">        268 :     if (matrix[i][i] &gt; eps)</span>
+<span class="lineNum">     145 </span><span class="lineCov">         88 :       eps = matrix[i][i];</span>
+<span class="lineNum">     146 </span><span class="lineCov">        660 :     for (j = (i + 1); j &lt; columns; j++)</span>
+<span class="lineNum">     147 </span><span class="lineCov">        392 :       matrix[j][i] = matrix[i][j];</span>
 <span class="lineNum">     148 </span>            :   }
-<span class="lineNum">     149 </span><span class="lineCov">         67 :   eps *= toler;</span>
+<span class="lineNum">     149 </span><span class="lineCov">         69 :   eps *= toler;</span>
 <span class="lineNum">     150 </span>            : 
-<span class="lineNum">     151 </span><span class="lineCov">         67 :   rank = 0;</span>
-<span class="lineNum">     152 </span><span class="lineCov">        327 :   for (i = 0; i &lt; columns; i++) {</span>
-<span class="lineNum">     153 </span><span class="lineCov">        260 :     pivot = matrix[i][i];</span>
-<span class="lineNum">     154 </span><span class="lineCov">        260 :     if (pivot &lt; eps) {</span>
-<span class="lineNum">     155 </span><span class="lineNoCov">          0 :       matrix[i][i] = 0;</span>
-<span class="lineNum">     156 </span><span class="lineNoCov">          0 :       if (pivot &lt; -8 * eps)</span>
-<span class="lineNum">     157 </span><span class="lineNoCov">          0 :     nonneg = -1;</span>
+<span class="lineNum">     151 </span><span class="lineCov">         69 :   rank = 0;</span>
+<span class="lineNum">     152 </span><span class="lineCov">        337 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     153 </span><span class="lineCov">        268 :     pivot = matrix[i][i];</span>
+<span class="lineNum">     154 </span><span class="lineCov">        268 :     if (pivot &lt; eps) {</span>
+<span class="lineNum">     155 </span><span class="lineCov">          3 :       matrix[i][i] = 0;</span>
+<span class="lineNum">     156 </span><span class="lineCov">          3 :       if (pivot &lt; -8 * eps)</span>
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :         nonneg = -1;</span>
 <span class="lineNum">     158 </span>            :     } else {
-<span class="lineNum">     159 </span><span class="lineCov">        260 :       rank++;</span>
-<span class="lineNum">     160 </span><span class="lineCov">        640 :       for (j = (i + 1); j &lt; columns; j++) {</span>
-<span class="lineNum">     161 </span><span class="lineCov">        380 :     temp = matrix[j][i] / pivot;</span>
-<span class="lineNum">     162 </span><span class="lineCov">        380 :     matrix[j][i] = temp;</span>
-<span class="lineNum">     163 </span><span class="lineCov">        380 :     matrix[j][j] -= temp * temp * pivot;</span>
-<span class="lineNum">     164 </span><span class="lineCov">        628 :     for (k = (j + 1); k &lt; columns; k++)</span>
-<span class="lineNum">     165 </span><span class="lineCov">        248 :       matrix[k][j] -= temp * matrix[k][i];</span>
+<span class="lineNum">     159 </span><span class="lineCov">        265 :       rank++;</span>
+<span class="lineNum">     160 </span><span class="lineCov">        654 :       for (j = (i + 1); j &lt; columns; j++) {</span>
+<span class="lineNum">     161 </span><span class="lineCov">        389 :         temp = matrix[j][i] / pivot;</span>
+<span class="lineNum">     162 </span><span class="lineCov">        389 :         matrix[j][i] = temp;</span>
+<span class="lineNum">     163 </span><span class="lineCov">        389 :         matrix[j][j] -= temp * temp * pivot;</span>
+<span class="lineNum">     164 </span><span class="lineCov">        644 :         for (k = (j + 1); k &lt; columns; k++)</span>
+<span class="lineNum">     165 </span><span class="lineCov">        255 :           matrix[k][j] -= temp * matrix[k][i];</span>
 <span class="lineNum">     166 </span>            :       }
 <span class="lineNum">     167 </span>            :     }
 <span class="lineNum">     168 </span>            :   }
-<span class="lineNum">     169 </span><span class="lineCov">         67 :   return (rank * nonneg);</span>
+<span class="lineNum">     169 </span><span class="lineCov">         69 :   return (rank * nonneg);</span>
 <span class="lineNum">     170 </span>            : }
 <span class="lineNum">     171 </span>            : /* inplace inverse */
 <span class="lineNum">     172 </span>            : /** inplace inversion of a cholesky2 decomposed matrix
@@ -237,10 +237,10 @@
 <span class="lineNum">     175 </span>            :  * \copyright LGPL &gt;= 2
 <a name="176"><span class="lineNum">     176 </span>            :  * \note origin survival 2.39-3 https://cran.r-project.org/web/packages/survival/index.html</a>
 <span class="lineNum">     177 </span>            :  */
-<span class="lineNum">     178 </span><span class="lineCov">         67 : static void _am_cholesky2_inverse(ambix_matrix_t*mtx)</span>
+<span class="lineNum">     178 </span><span class="lineCov">         69 : static void _am_cholesky2_inverse(ambix_matrix_t*mtx)</span>
 <span class="lineNum">     179 </span>            : {
-<span class="lineNum">     180 </span><span class="lineCov">         67 :   const int columns = mtx-&gt;cols;;</span>
-<span class="lineNum">     181 </span><span class="lineCov">         67 :   float32_t**matrix = mtx-&gt;data;</span>
+<span class="lineNum">     180 </span><span class="lineCov">         69 :   const int columns = mtx-&gt;cols;;</span>
+<span class="lineNum">     181 </span><span class="lineCov">         69 :   float32_t**matrix = mtx-&gt;data;</span>
 <span class="lineNum">     182 </span>            :   register float32_t temp;
 <span class="lineNum">     183 </span>            :   register int i, j, k;
 <span class="lineNum">     184 </span>            : 
@@ -248,13 +248,13 @@
 <span class="lineNum">     186 </span>            :   ** invert the cholesky in the lower triangle
 <span class="lineNum">     187 </span>            :   **   take full advantage of the cholesky's diagonal of 1's
 <span class="lineNum">     188 </span>            :   */
-<span class="lineNum">     189 </span><span class="lineCov">        327 :   for (i = 0; i &lt; columns; i++) {</span>
-<span class="lineNum">     190 </span><span class="lineCov">        260 :     if (matrix[i][i] &gt; 0) {</span>
-<span class="lineNum">     191 </span><span class="lineCov">        260 :       matrix[i][i] = 1 / matrix[i][i]; /*this line inverts D */</span>
-<span class="lineNum">     192 </span><span class="lineCov">        640 :       for (j = (i + 1); j &lt; columns; j++) {</span>
-<span class="lineNum">     193 </span><span class="lineCov">        380 :     matrix[j][i] = -matrix[j][i];</span>
-<span class="lineNum">     194 </span><span class="lineCov">        628 :     for (k = 0; k &lt; i; k++) /* sweep operator */</span>
-<span class="lineNum">     195 </span><span class="lineCov">        248 :       matrix[j][k] += matrix[j][i] * matrix[i][k];</span>
+<span class="lineNum">     189 </span><span class="lineCov">        337 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     190 </span><span class="lineCov">        268 :     if (matrix[i][i] &gt; 0) {</span>
+<span class="lineNum">     191 </span><span class="lineCov">        261 :       matrix[i][i] = 1 / matrix[i][i]; /*this line inverts D */</span>
+<span class="lineNum">     192 </span><span class="lineCov">        644 :       for (j = (i + 1); j &lt; columns; j++) {</span>
+<span class="lineNum">     193 </span><span class="lineCov">        383 :         matrix[j][i] = -matrix[j][i];</span>
+<span class="lineNum">     194 </span><span class="lineCov">        631 :         for (k = 0; k &lt; i; k++) /* sweep operator */</span>
+<span class="lineNum">     195 </span><span class="lineCov">        248 :           matrix[j][k] += matrix[j][i] * matrix[i][k];</span>
 <span class="lineNum">     196 </span>            :       }
 <span class="lineNum">     197 </span>            :     }
 <span class="lineNum">     198 </span>            :   }
@@ -264,59 +264,59 @@
 <span class="lineNum">     202 </span>            :   ** calculate F'DF (inverse of cholesky decomp process) to get inverse
 <span class="lineNum">     203 </span>            :   **   of original matrix
 <span class="lineNum">     204 </span>            :   */
-<span class="lineNum">     205 </span><span class="lineCov">        327 :   for (i = 0; i &lt; columns; i++) {</span>
-<span class="lineNum">     206 </span><span class="lineCov">        260 :     if (matrix[i][i] == 0) { /* singular row */</span>
-<span class="lineNum">     207 </span><span class="lineNoCov">          0 :       for (j = 0; j &lt; i; j++)</span>
-<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     matrix[j][i] = 0;</span>
-<span class="lineNum">     209 </span><span class="lineNoCov">          0 :       for (j = i; j &lt; columns; j++)</span>
-<span class="lineNum">     210 </span><span class="lineNoCov">          0 :     matrix[i][j] = 0;</span>
+<span class="lineNum">     205 </span><span class="lineCov">        337 :   for (i = 0; i &lt; columns; i++) {</span>
+<span class="lineNum">     206 </span><span class="lineCov">        268 :     if (matrix[i][i] == 0) { /* singular row */</span>
+<span class="lineNum">     207 </span><span class="lineCov">         10 :       for (j = 0; j &lt; i; j++)</span>
+<span class="lineNum">     208 </span><span class="lineCov">          6 :         matrix[j][i] = 0;</span>
+<span class="lineNum">     209 </span><span class="lineCov">         14 :       for (j = i; j &lt; columns; j++)</span>
+<span class="lineNum">     210 </span><span class="lineCov">         10 :         matrix[i][j] = 0;</span>
 <span class="lineNum">     211 </span>            :     } else {
-<span class="lineNum">     212 </span><span class="lineCov">        640 :       for (j = (i + 1); j &lt; columns; j++) {</span>
-<span class="lineNum">     213 </span><span class="lineCov">        380 :     temp = matrix[j][i] * matrix[j][j];</span>
-<span class="lineNum">     214 </span><span class="lineCov">        380 :     if (j != i)</span>
-<span class="lineNum">     215 </span><span class="lineCov">        380 :       matrix[i][j] = temp;</span>
-<span class="lineNum">     216 </span><span class="lineCov">       1008 :     for (k = i; k &lt; j; k++)</span>
-<span class="lineNum">     217 </span><span class="lineCov">        628 :       matrix[i][k] += temp * matrix[j][k];</span>
+<span class="lineNum">     212 </span><span class="lineCov">        650 :       for (j = (i + 1); j &lt; columns; j++) {</span>
+<span class="lineNum">     213 </span><span class="lineCov">        386 :         temp = matrix[j][i] * matrix[j][j];</span>
+<span class="lineNum">     214 </span><span class="lineCov">        386 :         if (j != i)</span>
+<span class="lineNum">     215 </span><span class="lineCov">        386 :           matrix[i][j] = temp;</span>
+<span class="lineNum">     216 </span><span class="lineCov">       1024 :         for (k = i; k &lt; j; k++)</span>
+<span class="lineNum">     217 </span><span class="lineCov">        638 :           matrix[i][k] += temp * matrix[j][k];</span>
 <span class="lineNum">     218 </span>            :       }
 <span class="lineNum">     219 </span>            :     }
 <span class="lineNum">     220 </span>            :   }
 <span class="lineNum">     221 </span>            : 
 <span class="lineNum">     222 </span>            :   // ugly fix to return only inverse
-<span class="lineNum">     223 </span><span class="lineCov">        260 :   for (i = 1; i &lt; columns; i++)</span>
-<span class="lineNum">     224 </span><span class="lineCov">        573 :     for (j = 0; j &lt; i; j++)</span>
-<span class="lineNum">     225 </span><span class="lineCov">        380 :       matrix[i][j] = matrix[j][i];</span>
-<span class="lineNum">     226 </span><span class="lineCov">         67 : }</span>
+<span class="lineNum">     223 </span><span class="lineCov">        268 :   for (i = 1; i &lt; columns; i++)</span>
+<span class="lineNum">     224 </span><span class="lineCov">        591 :     for (j = 0; j &lt; i; j++)</span>
+<span class="lineNum">     225 </span><span class="lineCov">        392 :       matrix[i][j] = matrix[j][i];</span>
+<span class="lineNum">     226 </span><span class="lineCov">         69 : }</span>
 <span class="lineNum">     227 </span>            : 
 <span class="lineNum">     228 </span>            : /*
 <span class="lineNum">     229 </span>            :  * calculate the inverse of any (rectangular) real-valued matrix using cholesky decomposition
 <a name="230"><span class="lineNum">     230 </span>            :  */</a>
 <span class="lineNum">     231 </span>            : ambix_matrix_t*
-<span class="lineNum">     232 </span><span class="lineCov">         67 : _ambix_matrix_pinvert_cholesky(const ambix_matrix_t*input, ambix_matrix_t*inverse, float32_t tolerance) {</span>
+<span class="lineNum">     232 </span><span class="lineCov">         69 : _ambix_matrix_pinvert_cholesky(const ambix_matrix_t*input, ambix_matrix_t*inverse, float32_t tolerance) {</span>
 <span class="lineNum">     233 </span>            :   /* (rows&gt;cols)?(inv(x'*x)*x'):(x'*inv(x*x')) */
-<span class="lineNum">     234 </span><span class="lineCov">         67 :   float32_t toler = tolerance;</span>
-<span class="lineNum">     235 </span><span class="lineCov">         67 :   ambix_matrix_t*trans = _ambix_matrix_transpose(input, 0);</span>
-<span class="lineNum">     236 </span><span class="lineCov">         67 :   ambix_matrix_t*chinv=0;</span>
-<span class="lineNum">     237 </span><span class="lineCov">         67 :   ambix_matrix_t*result=0;</span>
+<span class="lineNum">     234 </span><span class="lineCov">         69 :   float32_t toler = tolerance;</span>
+<span class="lineNum">     235 </span><span class="lineCov">         69 :   ambix_matrix_t*trans = _ambix_matrix_transpose(input, 0);</span>
+<span class="lineNum">     236 </span><span class="lineCov">         69 :   ambix_matrix_t*chinv=0;</span>
+<span class="lineNum">     237 </span><span class="lineCov">         69 :   ambix_matrix_t*result=0;</span>
 <span class="lineNum">     238 </span>            :   do {
-<span class="lineNum">     239 </span><span class="lineCov">         67 :     if(!trans)break;</span>
-<span class="lineNum">     240 </span><span class="lineCov">         67 :     if(input-&gt;rows &gt; input-&gt;cols) {</span>
+<span class="lineNum">     239 </span><span class="lineCov">         69 :     if(!trans)break;</span>
+<span class="lineNum">     240 </span><span class="lineCov">         69 :     if(input-&gt;rows &gt; input-&gt;cols) {</span>
 <span class="lineNum">     241 </span><span class="lineCov">          4 :       chinv=_ambix_matrix_multiply(trans, input, chinv);</span>
 <span class="lineNum">     242 </span><span class="lineCov">          4 :       if(!chinv)break;</span>
 <span class="lineNum">     243 </span><span class="lineCov">          4 :       _am_cholesky2_decomp(chinv, toler);</span>
 <span class="lineNum">     244 </span><span class="lineCov">          4 :       _am_cholesky2_inverse(chinv);</span>
 <span class="lineNum">     245 </span><span class="lineCov">          4 :       result=_ambix_matrix_multiply(chinv, trans, inverse);</span>
 <span class="lineNum">     246 </span>            :     } else {
-<span class="lineNum">     247 </span><span class="lineCov">         63 :       chinv=_ambix_matrix_multiply(input, trans, chinv);</span>
-<span class="lineNum">     248 </span><span class="lineCov">         63 :       if(!chinv)break;</span>
-<span class="lineNum">     249 </span><span class="lineCov">         63 :       _am_cholesky2_decomp(chinv, toler);</span>
-<span class="lineNum">     250 </span><span class="lineCov">         63 :       _am_cholesky2_inverse(chinv);</span>
-<span class="lineNum">     251 </span><span class="lineCov">         63 :       result=_ambix_matrix_multiply(trans, chinv, inverse);</span>
+<span class="lineNum">     247 </span><span class="lineCov">         65 :       chinv=_ambix_matrix_multiply(input, trans, chinv);</span>
+<span class="lineNum">     248 </span><span class="lineCov">         65 :       if(!chinv)break;</span>
+<span class="lineNum">     249 </span><span class="lineCov">         65 :       _am_cholesky2_decomp(chinv, toler);</span>
+<span class="lineNum">     250 </span><span class="lineCov">         65 :       _am_cholesky2_inverse(chinv);</span>
+<span class="lineNum">     251 </span><span class="lineCov">         65 :       result=_ambix_matrix_multiply(trans, chinv, inverse);</span>
 <span class="lineNum">     252 </span>            :     }
 <span class="lineNum">     253 </span>            :   } while(0);
-<span class="lineNum">     254 </span><span class="lineCov">         67 :   if(trans)ambix_matrix_destroy(trans);</span>
-<span class="lineNum">     255 </span><span class="lineCov">         67 :   if(chinv)ambix_matrix_destroy(chinv);</span>
+<span class="lineNum">     254 </span><span class="lineCov">         69 :   if(trans)ambix_matrix_destroy(trans);</span>
+<span class="lineNum">     255 </span><span class="lineCov">         69 :   if(chinv)ambix_matrix_destroy(chinv);</span>
 <span class="lineNum">     256 </span>            : 
-<span class="lineNum">     257 </span><span class="lineCov">         67 :   return result;</span>
+<span class="lineNum">     257 </span><span class="lineCov">         69 :   return result;</span>
 <span class="lineNum">     258 </span>            : }
 </pre>
       </td>

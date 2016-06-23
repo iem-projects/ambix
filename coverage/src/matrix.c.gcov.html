@@ -97,68 +97,68 @@
 <span class="lineNum">      35 </span><span class="lineCov">          6 :   return ambix_matrix_init(0, 0, NULL);</span>
 <a name="36"><span class="lineNum">      36 </span>            : }</a>
 <span class="lineNum">      37 </span>            : void
-<span class="lineNum">      38 </span><span class="lineCov">       2122 : ambix_matrix_destroy(ambix_matrix_t*mtx) {</span>
-<span class="lineNum">      39 </span><span class="lineCov">       2122 :   ambix_matrix_deinit(mtx);</span>
-<span class="lineNum">      40 </span><span class="lineCov">       2122 :   free(mtx);</span>
-<span class="lineNum">      41 </span><span class="lineCov">       2122 :   mtx=NULL;</span>
-<a name="42"><span class="lineNum">      42 </span><span class="lineCov">       2122 : }</span></a>
+<span class="lineNum">      38 </span><span class="lineCov">       2132 : ambix_matrix_destroy(ambix_matrix_t*mtx) {</span>
+<span class="lineNum">      39 </span><span class="lineCov">       2132 :   ambix_matrix_deinit(mtx);</span>
+<span class="lineNum">      40 </span><span class="lineCov">       2132 :   free(mtx);</span>
+<span class="lineNum">      41 </span><span class="lineCov">       2132 :   mtx=NULL;</span>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">       2132 : }</span></a>
 <span class="lineNum">      43 </span>            : void
-<span class="lineNum">      44 </span><span class="lineCov">       4982 : ambix_matrix_deinit(ambix_matrix_t*mtx) {</span>
+<span class="lineNum">      44 </span><span class="lineCov">       5004 : ambix_matrix_deinit(ambix_matrix_t*mtx) {</span>
 <span class="lineNum">      45 </span>            :   uint32_t r;
-<span class="lineNum">      46 </span><span class="lineCov">       4982 :   if(mtx-&gt;data) {</span>
-<span class="lineNum">      47 </span><span class="lineCov">      21216 :     for(r=0; r&lt;mtx-&gt;rows; r++) {</span>
-<span class="lineNum">      48 </span><span class="lineCov">      18774 :       if(mtx-&gt;data[r])</span>
-<span class="lineNum">      49 </span><span class="lineCov">      18774 :         free(mtx-&gt;data[r]);</span>
-<span class="lineNum">      50 </span><span class="lineCov">      18774 :       mtx-&gt;data[r]=NULL;</span>
+<span class="lineNum">      46 </span><span class="lineCov">       5004 :   if(mtx-&gt;data) {</span>
+<span class="lineNum">      47 </span><span class="lineCov">      21276 :     for(r=0; r&lt;mtx-&gt;rows; r++) {</span>
+<span class="lineNum">      48 </span><span class="lineCov">      18822 :       if(mtx-&gt;data[r])</span>
+<span class="lineNum">      49 </span><span class="lineCov">      18822 :         free(mtx-&gt;data[r]);</span>
+<span class="lineNum">      50 </span><span class="lineCov">      18822 :       mtx-&gt;data[r]=NULL;</span>
 <span class="lineNum">      51 </span>            :     }
 <span class="lineNum">      52 </span>            :   }
-<span class="lineNum">      53 </span><span class="lineCov">       4982 :   free(mtx-&gt;data);</span>
-<span class="lineNum">      54 </span><span class="lineCov">       4982 :   mtx-&gt;data=NULL;</span>
-<span class="lineNum">      55 </span><span class="lineCov">       4982 :   mtx-&gt;rows=0;</span>
-<span class="lineNum">      56 </span><span class="lineCov">       4982 :   mtx-&gt;cols=0;</span>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       4982 : }</span></a>
+<span class="lineNum">      53 </span><span class="lineCov">       5004 :   free(mtx-&gt;data);</span>
+<span class="lineNum">      54 </span><span class="lineCov">       5004 :   mtx-&gt;data=NULL;</span>
+<span class="lineNum">      55 </span><span class="lineCov">       5004 :   mtx-&gt;rows=0;</span>
+<span class="lineNum">      56 </span><span class="lineCov">       5004 :   mtx-&gt;cols=0;</span>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       5004 : }</span></a>
 <span class="lineNum">      58 </span>            : ambix_matrix_t*
-<span class="lineNum">      59 </span><span class="lineCov">       2448 : ambix_matrix_init(uint32_t rows, uint32_t cols, ambix_matrix_t*orgmtx) {</span>
-<span class="lineNum">      60 </span><span class="lineCov">       2448 :   ambix_matrix_t*mtx=orgmtx;</span>
+<span class="lineNum">      59 </span><span class="lineCov">       2460 : ambix_matrix_init(uint32_t rows, uint32_t cols, ambix_matrix_t*orgmtx) {</span>
+<span class="lineNum">      60 </span><span class="lineCov">       2460 :   ambix_matrix_t*mtx=orgmtx;</span>
 <span class="lineNum">      61 </span>            :   uint32_t r;
-<span class="lineNum">      62 </span><span class="lineCov">       2448 :   if(!mtx) {</span>
-<span class="lineNum">      63 </span><span class="lineCov">       1818 :     mtx=(ambix_matrix_t*)calloc(1, sizeof(ambix_matrix_t));</span>
-<span class="lineNum">      64 </span><span class="lineCov">       1818 :     if(!mtx)</span>
+<span class="lineNum">      62 </span><span class="lineCov">       2460 :   if(!mtx) {</span>
+<span class="lineNum">      63 </span><span class="lineCov">       1822 :     mtx=(ambix_matrix_t*)calloc(1, sizeof(ambix_matrix_t));</span>
+<span class="lineNum">      64 </span><span class="lineCov">       1822 :     if(!mtx)</span>
 <span class="lineNum">      65 </span><span class="lineNoCov">          0 :       return NULL;</span>
-<span class="lineNum">      66 </span><span class="lineCov">       1818 :     mtx-&gt;data=NULL;</span>
+<span class="lineNum">      66 </span><span class="lineCov">       1822 :     mtx-&gt;data=NULL;</span>
 <span class="lineNum">      67 </span>            :   }
-<span class="lineNum">      68 </span><span class="lineCov">       2448 :   ambix_matrix_deinit(mtx);</span>
+<span class="lineNum">      68 </span><span class="lineCov">       2460 :   ambix_matrix_deinit(mtx);</span>
 <span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span><span class="lineCov">       2448 :   mtx-&gt;rows=rows;</span>
-<span class="lineNum">      71 </span><span class="lineCov">       2448 :   mtx-&gt;cols=cols;</span>
-<span class="lineNum">      72 </span><span class="lineCov">       2448 :   if(rows&gt;0 &amp;&amp; cols &gt; 0) {</span>
-<span class="lineNum">      73 </span><span class="lineCov">       2442 :     mtx-&gt;data=(float32_t**)calloc(rows, sizeof(float32_t*));</span>
-<span class="lineNum">      74 </span><span class="lineCov">      21216 :     for(r=0; r&lt;rows; r++) {</span>
-<span class="lineNum">      75 </span><span class="lineCov">      18774 :       mtx-&gt;data[r]=(float32_t*)calloc(cols, sizeof(float32_t));</span>
+<span class="lineNum">      70 </span><span class="lineCov">       2460 :   mtx-&gt;rows=rows;</span>
+<span class="lineNum">      71 </span><span class="lineCov">       2460 :   mtx-&gt;cols=cols;</span>
+<span class="lineNum">      72 </span><span class="lineCov">       2460 :   if(rows&gt;0 &amp;&amp; cols &gt; 0) {</span>
+<span class="lineNum">      73 </span><span class="lineCov">       2454 :     mtx-&gt;data=(float32_t**)calloc(rows, sizeof(float32_t*));</span>
+<span class="lineNum">      74 </span><span class="lineCov">      21276 :     for(r=0; r&lt;rows; r++) {</span>
+<span class="lineNum">      75 </span><span class="lineCov">      18822 :       mtx-&gt;data[r]=(float32_t*)calloc(cols, sizeof(float32_t));</span>
 <span class="lineNum">      76 </span>            :     }
 <span class="lineNum">      77 </span>            :   }
 <span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineCov">       2448 :   return mtx;</span>
+<span class="lineNum">      79 </span><span class="lineCov">       2460 :   return mtx;</span>
 <span class="lineNum">      80 </span>            : }
 <a name="81"><span class="lineNum">      81 </span>            : </a>
 <span class="lineNum">      82 </span>            : ambix_matrix_t*
-<span class="lineNum">      83 </span><span class="lineCov">         67 : _ambix_matrix_transpose(const ambix_matrix_t*matrix, ambix_matrix_t*xirtam) {</span>
+<span class="lineNum">      83 </span><span class="lineCov">         69 : _ambix_matrix_transpose(const ambix_matrix_t*matrix, ambix_matrix_t*xirtam) {</span>
 <span class="lineNum">      84 </span>            :   uint32_t rows, cols, r, c;
 <span class="lineNum">      85 </span>            :   float32_t**mtx, **xtm;
-<span class="lineNum">      86 </span><span class="lineCov">         67 :   if(!xirtam)</span>
-<span class="lineNum">      87 </span><span class="lineCov">         67 :     xirtam=ambix_matrix_init(matrix-&gt;cols, matrix-&gt;rows, NULL);</span>
+<span class="lineNum">      86 </span><span class="lineCov">         69 :   if(!xirtam)</span>
+<span class="lineNum">      87 </span><span class="lineCov">         69 :     xirtam=ambix_matrix_init(matrix-&gt;cols, matrix-&gt;rows, NULL);</span>
 <span class="lineNum">      88 </span>            : 
-<span class="lineNum">      89 </span><span class="lineCov">         67 :   rows=matrix-&gt;rows;</span>
-<span class="lineNum">      90 </span><span class="lineCov">         67 :   cols=matrix-&gt;cols;</span>
+<span class="lineNum">      89 </span><span class="lineCov">         69 :   rows=matrix-&gt;rows;</span>
+<span class="lineNum">      90 </span><span class="lineCov">         69 :   cols=matrix-&gt;cols;</span>
 <span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span><span class="lineCov">         67 :   mtx=matrix-&gt;data;</span>
-<span class="lineNum">      93 </span><span class="lineCov">         67 :   xtm=xirtam-&gt;data;</span>
+<span class="lineNum">      92 </span><span class="lineCov">         69 :   mtx=matrix-&gt;data;</span>
+<span class="lineNum">      93 </span><span class="lineCov">         69 :   xtm=xirtam-&gt;data;</span>
 <span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span><span class="lineCov">        332 :   for(r=0; r&lt;rows; r++)</span>
-<span class="lineNum">      96 </span><span class="lineCov">       1559 :     for(c=0; c&lt;cols; c++)</span>
-<span class="lineNum">      97 </span><span class="lineCov">       1294 :       xtm[c][r]=mtx[r][c];</span>
+<span class="lineNum">      95 </span><span class="lineCov">        342 :   for(r=0; r&lt;rows; r++)</span>
+<span class="lineNum">      96 </span><span class="lineCov">       1599 :     for(c=0; c&lt;cols; c++)</span>
+<span class="lineNum">      97 </span><span class="lineCov">       1326 :       xtm[c][r]=mtx[r][c];</span>
 <span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span><span class="lineCov">         67 :   return xirtam;</span>
+<span class="lineNum">      99 </span><span class="lineCov">         69 :   return xirtam;</span>
 <span class="lineNum">     100 </span>            : }
 <a name="101"><span class="lineNum">     101 </span>            : </a>
 <span class="lineNum">     102 </span>            : ambix_err_t
@@ -247,74 +247,74 @@
 <span class="lineNum">     185 </span>            : 
 <a name="186"><span class="lineNum">     186 </span>            : </a>
 <span class="lineNum">     187 </span>            : ambix_matrix_t*
-<span class="lineNum">     188 </span><span class="lineCov">        291 : _ambix_matrix_multiply(const ambix_matrix_t*left, const ambix_matrix_t*right, ambix_matrix_t*dest) {</span>
+<span class="lineNum">     188 </span><span class="lineCov">        297 : _ambix_matrix_multiply(const ambix_matrix_t*left, const ambix_matrix_t*right, ambix_matrix_t*dest) {</span>
 <span class="lineNum">     189 </span>            :   uint32_t r, c, rows, cols, common;
 <span class="lineNum">     190 </span>            :   float32_t**ldat,**rdat,**ddat;
 <span class="lineNum">     191 </span>            :   float32_t lv, rv;
-<span class="lineNum">     192 </span><span class="lineCov">        291 :   if(!left || !right)</span>
+<span class="lineNum">     192 </span><span class="lineCov">        297 :   if(!left || !right)</span>
 <span class="lineNum">     193 </span><span class="lineCov">          3 :     return NULL;</span>
 <span class="lineNum">     194 </span>            : 
-<span class="lineNum">     195 </span><span class="lineCov">        288 :   if(left-&gt;cols != right-&gt;rows)</span>
+<span class="lineNum">     195 </span><span class="lineCov">        294 :   if(left-&gt;cols != right-&gt;rows)</span>
 <span class="lineNum">     196 </span><span class="lineCov">          1 :     return NULL;</span>
 <span class="lineNum">     197 </span>            : 
-<span class="lineNum">     198 </span><span class="lineCov">        287 :   if(!dest)</span>
-<span class="lineNum">     199 </span><span class="lineCov">        285 :     dest=(ambix_matrix_t*)calloc(1, sizeof(ambix_matrix_t));</span>
+<span class="lineNum">     198 </span><span class="lineCov">        293 :   if(!dest)</span>
+<span class="lineNum">     199 </span><span class="lineCov">        291 :     dest=(ambix_matrix_t*)calloc(1, sizeof(ambix_matrix_t));</span>
 <span class="lineNum">     200 </span>            : 
-<span class="lineNum">     201 </span><span class="lineCov">        287 :   if((dest-&gt;rows != left-&gt;rows) || (dest-&gt;cols != right-&gt;cols))</span>
-<span class="lineNum">     202 </span><span class="lineCov">        285 :     ambix_matrix_init(left-&gt;rows, right-&gt;cols, dest);</span>
+<span class="lineNum">     201 </span><span class="lineCov">        293 :   if((dest-&gt;rows != left-&gt;rows) || (dest-&gt;cols != right-&gt;cols))</span>
+<span class="lineNum">     202 </span><span class="lineCov">        291 :     ambix_matrix_init(left-&gt;rows, right-&gt;cols, dest);</span>
 <span class="lineNum">     203 </span>            : 
-<span class="lineNum">     204 </span><span class="lineCov">        287 :   rows=dest-&gt;rows;</span>
-<span class="lineNum">     205 </span><span class="lineCov">        287 :   cols=dest-&gt;cols;</span>
-<span class="lineNum">     206 </span><span class="lineCov">        287 :   common=left-&gt;cols;</span>
+<span class="lineNum">     204 </span><span class="lineCov">        293 :   rows=dest-&gt;rows;</span>
+<span class="lineNum">     205 </span><span class="lineCov">        293 :   cols=dest-&gt;cols;</span>
+<span class="lineNum">     206 </span><span class="lineCov">        293 :   common=left-&gt;cols;</span>
 <span class="lineNum">     207 </span>            : 
-<span class="lineNum">     208 </span><span class="lineCov">        287 :   ldat=left-&gt;data;</span>
-<span class="lineNum">     209 </span><span class="lineCov">        287 :   rdat=right-&gt;data;</span>
-<span class="lineNum">     210 </span><span class="lineCov">        287 :   ddat=dest-&gt;data;</span>
+<span class="lineNum">     208 </span><span class="lineCov">        293 :   ldat=left-&gt;data;</span>
+<span class="lineNum">     209 </span><span class="lineCov">        293 :   rdat=right-&gt;data;</span>
+<span class="lineNum">     210 </span><span class="lineCov">        293 :   ddat=dest-&gt;data;</span>
 <span class="lineNum">     211 </span>            : 
-<span class="lineNum">     212 </span><span class="lineCov">       2260 :   for(r=0; r&lt;rows; r++)</span>
-<span class="lineNum">     213 </span><span class="lineCov">      23107 :     for(c=0; c&lt;cols; c++) {</span>
-<span class="lineNum">     214 </span><span class="lineCov">      21134 :       double sum=0.;</span>
+<span class="lineNum">     212 </span><span class="lineCov">       2290 :   for(r=0; r&lt;rows; r++)</span>
+<span class="lineNum">     213 </span><span class="lineCov">      23227 :     for(c=0; c&lt;cols; c++) {</span>
+<span class="lineNum">     214 </span><span class="lineCov">      21230 :       double sum=0.;</span>
 <span class="lineNum">     215 </span>            :       uint32_t i;
-<span class="lineNum">     216 </span><span class="lineCov">     329191 :       for(i=0; i&lt;common; i++) {</span>
-<span class="lineNum">     217 </span><span class="lineCov">     308057 :         lv=ldat[r][i];</span>
-<span class="lineNum">     218 </span><span class="lineCov">     308057 :         rv=rdat[i][c];</span>
-<span class="lineNum">     219 </span><span class="lineCov">     308057 :         sum+=lv*rv;</span>
+<span class="lineNum">     216 </span><span class="lineCov">     329671 :       for(i=0; i&lt;common; i++) {</span>
+<span class="lineNum">     217 </span><span class="lineCov">     308441 :         lv=ldat[r][i];</span>
+<span class="lineNum">     218 </span><span class="lineCov">     308441 :         rv=rdat[i][c];</span>
+<span class="lineNum">     219 </span><span class="lineCov">     308441 :         sum+=lv*rv;</span>
 <span class="lineNum">     220 </span>            :       }
-<span class="lineNum">     221 </span><span class="lineCov">      21134 :       ddat[r][c]=(float32_t)sum;</span>
+<span class="lineNum">     221 </span><span class="lineCov">      21230 :       ddat[r][c]=(float32_t)sum;</span>
 <span class="lineNum">     222 </span>            :     }
 <span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span><span class="lineCov">        287 :   return dest;</span>
+<span class="lineNum">     224 </span><span class="lineCov">        293 :   return dest;</span>
 <span class="lineNum">     225 </span>            : }
 <a name="226"><span class="lineNum">     226 </span>            : </a>
 <span class="lineNum">     227 </span>            : ambix_matrix_t*
-<span class="lineNum">     228 </span><span class="lineCov">       1594 : ambix_matrix_fill(ambix_matrix_t*matrix, ambix_matrixtype_t typ) {</span>
-<span class="lineNum">     229 </span><span class="lineCov">       1594 :   int32_t rows=matrix-&gt;rows;</span>
-<span class="lineNum">     230 </span><span class="lineCov">       1594 :   int32_t cols=matrix-&gt;cols;</span>
+<span class="lineNum">     228 </span><span class="lineCov">       1598 : ambix_matrix_fill(ambix_matrix_t*matrix, ambix_matrixtype_t typ) {</span>
+<span class="lineNum">     229 </span><span class="lineCov">       1598 :   int32_t rows=matrix-&gt;rows;</span>
+<span class="lineNum">     230 </span><span class="lineCov">       1598 :   int32_t cols=matrix-&gt;cols;</span>
 <span class="lineNum">     231 </span>            :   int32_t r, c;
-<span class="lineNum">     232 </span><span class="lineCov">       1594 :   float32_t**mtx=matrix-&gt;data;</span>
-<span class="lineNum">     233 </span><span class="lineCov">       1594 :   ambix_matrix_t*result=NULL;</span>
+<span class="lineNum">     232 </span><span class="lineCov">       1598 :   float32_t**mtx=matrix-&gt;data;</span>
+<span class="lineNum">     233 </span><span class="lineCov">       1598 :   ambix_matrix_t*result=NULL;</span>
 <span class="lineNum">     234 </span>            : 
-<span class="lineNum">     235 </span><span class="lineCov">       1594 :   switch(typ) {</span>
+<span class="lineNum">     235 </span><span class="lineCov">       1598 :   switch(typ) {</span>
 <span class="lineNum">     236 </span>            :   default:
 <span class="lineNum">     237 </span><span class="lineCov">          1 :     return NULL;</span>
 <span class="lineNum">     238 </span>            :   case (AMBIX_MATRIX_ZERO):
-<span class="lineNum">     239 </span><span class="lineCov">       8590 :     for(r=0; r&lt;rows; r++) {</span>
-<span class="lineNum">     240 </span><span class="lineCov">      75237 :       for(c=0; c&lt;cols; c++)</span>
-<span class="lineNum">     241 </span><span class="lineCov">      67577 :         mtx[r][c]=0.;</span>
+<span class="lineNum">     239 </span><span class="lineCov">       8595 :     for(r=0; r&lt;rows; r++) {</span>
+<span class="lineNum">     240 </span><span class="lineCov">      75257 :       for(c=0; c&lt;cols; c++)</span>
+<span class="lineNum">     241 </span><span class="lineCov">      67593 :         mtx[r][c]=0.;</span>
 <span class="lineNum">     242 </span>            :     }
-<span class="lineNum">     243 </span><span class="lineCov">        930 :     break;</span>
+<span class="lineNum">     243 </span><span class="lineCov">        931 :     break;</span>
 <span class="lineNum">     244 </span>            :   case (AMBIX_MATRIX_ONE):
-<span class="lineNum">     245 </span><span class="lineCov">       2030 :     for(r=0; r&lt;rows; r++) {</span>
-<span class="lineNum">     246 </span><span class="lineCov">      16224 :       for(c=0; c&lt;cols; c++)</span>
-<span class="lineNum">     247 </span><span class="lineCov">      14420 :         mtx[r][c]=1.;</span>
+<span class="lineNum">     245 </span><span class="lineCov">       2035 :     for(r=0; r&lt;rows; r++) {</span>
+<span class="lineNum">     246 </span><span class="lineCov">      16244 :       for(c=0; c&lt;cols; c++)</span>
+<span class="lineNum">     247 </span><span class="lineCov">      14436 :         mtx[r][c]=1.;</span>
 <span class="lineNum">     248 </span>            :     }
-<span class="lineNum">     249 </span><span class="lineCov">        226 :     break;</span>
+<span class="lineNum">     249 </span><span class="lineCov">        227 :     break;</span>
 <span class="lineNum">     250 </span>            :   case (AMBIX_MATRIX_IDENTITY):
-<span class="lineNum">     251 </span><span class="lineCov">       2757 :     for(r=0; r&lt;rows; r++) {</span>
-<span class="lineNum">     252 </span><span class="lineCov">      23716 :       for(c=0; c&lt;cols; c++)</span>
-<span class="lineNum">     253 </span><span class="lineCov">      21278 :         mtx[r][c]=(float32_t)((r==c)?1.:0.);</span>
+<span class="lineNum">     251 </span><span class="lineCov">       2767 :     for(r=0; r&lt;rows; r++) {</span>
+<span class="lineNum">     252 </span><span class="lineCov">      23756 :       for(c=0; c&lt;cols; c++)</span>
+<span class="lineNum">     253 </span><span class="lineCov">      21310 :         mtx[r][c]=(float32_t)((r==c)?1.:0.);</span>
 <span class="lineNum">     254 </span>            :     }
-<span class="lineNum">     255 </span><span class="lineCov">        319 :     break;</span>
+<span class="lineNum">     255 </span><span class="lineCov">        321 :     break;</span>
 <span class="lineNum">     256 </span>            : 
 <span class="lineNum">     257 </span>            :   case (AMBIX_MATRIX_FUMA): /* Furse Malham -&gt; ACN/SN3D */
 <span class="lineNum">     258 </span><span class="lineCov">         36 :     result=_matrix_fuma2ambix(cols);</span>
@@ -394,20 +394,20 @@
 <span class="lineNum">     332 </span>            :   }
 <span class="lineNum">     333 </span><span class="lineCov">         11 :     break;</span>
 <span class="lineNum">     334 </span>            :   }
-<span class="lineNum">     335 </span><span class="lineCov">       1575 :   if(result) ambix_matrix_destroy(result);</span>
+<span class="lineNum">     335 </span><span class="lineCov">       1579 :   if(result) ambix_matrix_destroy(result);</span>
 <span class="lineNum">     336 </span>            : 
-<span class="lineNum">     337 </span><span class="lineCov">       1575 :   return matrix;</span>
+<span class="lineNum">     337 </span><span class="lineCov">       1579 :   return matrix;</span>
 <span class="lineNum">     338 </span>            : }
 <a name="339"><span class="lineNum">     339 </span>            : </a>
 <span class="lineNum">     340 </span>            : ambix_matrix_t*
-<span class="lineNum">     341 </span><span class="lineCov">         67 : _ambix_matrix_pinv(const ambix_matrix_t*A, ambix_matrix_t*P) {</span>
-<span class="lineNum">     342 </span><span class="lineCov">         67 :   const float32_t eps=1e-7;</span>
-<span class="lineNum">     343 </span><span class="lineCov">         67 :   ambix_matrix_t *result = NULL;</span>
+<span class="lineNum">     341 </span><span class="lineCov">         69 : _ambix_matrix_pinv(const ambix_matrix_t*A, ambix_matrix_t*P) {</span>
+<span class="lineNum">     342 </span><span class="lineCov">         69 :   const float32_t eps=1e-7;</span>
+<span class="lineNum">     343 </span><span class="lineCov">         69 :   ambix_matrix_t *result = NULL;</span>
 <span class="lineNum">     344 </span>            : 
 <span class="lineNum">     345 </span>            :   /* try cholesky inversion */
-<span class="lineNum">     346 </span><span class="lineCov">         67 :   result=_ambix_matrix_pinvert_cholesky(A, P, eps);</span>
-<span class="lineNum">     347 </span><span class="lineCov">         67 :   if(result)</span>
-<span class="lineNum">     348 </span><span class="lineCov">         67 :     return result;</span>
+<span class="lineNum">     346 </span><span class="lineCov">         69 :   result=_ambix_matrix_pinvert_cholesky(A, P, eps);</span>
+<span class="lineNum">     347 </span><span class="lineCov">         69 :   if(result)</span>
+<span class="lineNum">     348 </span><span class="lineCov">         69 :     return result;</span>
 <span class="lineNum">     349 </span>            : 
 <span class="lineNum">     350 </span>            :   /* if that fails (should never happen), fall back to gauss-jordan */
 <span class="lineNum">     351 </span><span class="lineNoCov">          0 :   if (A-&gt;rows==A-&gt;cols) {</span>
@@ -426,19 +426,19 @@
 <span class="lineNum">     364 </span><span class="lineNoCov">          0 :       At = _ambix_matrix_transpose(A, At);</span>
 <span class="lineNum">     365 </span>            : 
 <span class="lineNum">     366 </span><span class="lineNoCov">          0 :       if (A-&gt;rows &gt; A-&gt;cols) {</span>
-<span class="lineNum">     367 </span><span class="lineNoCov">          0 :     temp = _ambix_matrix_multiply(At, A, NULL);</span>
-<span class="lineNum">     368 </span><span class="lineNoCov">          0 :     if (!temp)break;</span>
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     temp2 = _ambix_matrix_invert_gaussjordan(temp, temp2, eps);</span>
-<span class="lineNum">     370 </span><span class="lineNoCov">          0 :     if (!temp2)break;</span>
+<span class="lineNum">     367 </span><span class="lineNoCov">          0 :         temp = _ambix_matrix_multiply(At, A, NULL);</span>
+<span class="lineNum">     368 </span><span class="lineNoCov">          0 :         if (!temp)break;</span>
+<span class="lineNum">     369 </span><span class="lineNoCov">          0 :         temp2 = _ambix_matrix_invert_gaussjordan(temp, temp2, eps);</span>
+<span class="lineNum">     370 </span><span class="lineNoCov">          0 :         if (!temp2)break;</span>
 <span class="lineNum">     371 </span>            : 
-<span class="lineNum">     372 </span><span class="lineNoCov">          0 :     result = _ambix_matrix_multiply(temp2, At, P);</span>
+<span class="lineNum">     372 </span><span class="lineNoCov">          0 :         result = _ambix_matrix_multiply(temp2, At, P);</span>
 <span class="lineNum">     373 </span>            :       } else {
-<span class="lineNum">     374 </span><span class="lineNoCov">          0 :     temp = _ambix_matrix_multiply(A, At, NULL);</span>
-<span class="lineNum">     375 </span><span class="lineNoCov">          0 :     if (!temp)break;</span>
-<span class="lineNum">     376 </span><span class="lineNoCov">          0 :     temp2 = _ambix_matrix_invert_gaussjordan(temp, temp2, eps);</span>
-<span class="lineNum">     377 </span><span class="lineNoCov">          0 :     if (!temp2)break;</span>
+<span class="lineNum">     374 </span><span class="lineNoCov">          0 :         temp = _ambix_matrix_multiply(A, At, NULL);</span>
+<span class="lineNum">     375 </span><span class="lineNoCov">          0 :         if (!temp)break;</span>
+<span class="lineNum">     376 </span><span class="lineNoCov">          0 :         temp2 = _ambix_matrix_invert_gaussjordan(temp, temp2, eps);</span>
+<span class="lineNum">     377 </span><span class="lineNoCov">          0 :         if (!temp2)break;</span>
 <span class="lineNum">     378 </span>            : 
-<span class="lineNum">     379 </span><span class="lineNoCov">          0 :     result = _ambix_matrix_multiply(At, temp2, P);</span>
+<span class="lineNum">     379 </span><span class="lineNoCov">          0 :         result = _ambix_matrix_multiply(At, temp2, P);</span>
 <span class="lineNum">     380 </span>            :       }
 <span class="lineNum">     381 </span>            :     } while (0);
 <span class="lineNum">     382 </span><span class="lineNoCov">          0 :     if(At)   ambix_matrix_destroy(At);</span>
@@ -570,12 +570,12 @@
 <span class="lineNum">     508 </span>            : 
 <a name="509"><span class="lineNum">     509 </span>            : </a>
 <span class="lineNum">     510 </span>            : ambix_matrix_t*
-<span class="lineNum">     511 </span><span class="lineCov">         12 : ambix_matrix_pinv(const ambix_matrix_t*A, ambix_matrix_t*P) {</span>
-<span class="lineNum">     512 </span><span class="lineCov">         12 :   return _ambix_matrix_pinv(A, P);</span>
+<span class="lineNum">     511 </span><span class="lineCov">         14 : ambix_matrix_pinv(const ambix_matrix_t*A, ambix_matrix_t*P) {</span>
+<span class="lineNum">     512 </span><span class="lineCov">         14 :   return _ambix_matrix_pinv(A, P);</span>
 <a name="513"><span class="lineNum">     513 </span>            : }</a>
 <span class="lineNum">     514 </span>            : ambix_matrix_t*
-<span class="lineNum">     515 </span><span class="lineCov">         37 : ambix_matrix_multiply(const ambix_matrix_t*left, const ambix_matrix_t*right, ambix_matrix_t*dest) {</span>
-<span class="lineNum">     516 </span><span class="lineCov">         37 :   return _ambix_matrix_multiply(left, right, dest);</span>
+<span class="lineNum">     515 </span><span class="lineCov">         39 : ambix_matrix_multiply(const ambix_matrix_t*left, const ambix_matrix_t*right, ambix_matrix_t*dest) {</span>
+<span class="lineNum">     516 </span><span class="lineCov">         39 :   return _ambix_matrix_multiply(left, right, dest);</span>
 <span class="lineNum">     517 </span>            : }
 </pre>
       </td>

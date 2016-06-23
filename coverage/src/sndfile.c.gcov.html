@@ -178,7 +178,7 @@
 <span class="lineNum">     116 </span>            : static int
 <span class="lineNum">     117 </span><span class="lineCov">        200 : read_uuidchunk(ambix_t*ax) {</span>
 <span class="lineNum">     118 </span>            : #if defined HAVE_SF_GET_CHUNK_ITERATOR &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
-<span class="lineNum">     119 </span>            :   int               err ;
+<span class="lineNum">     119 </span>            :   int                           err ;
 <span class="lineNum">     120 </span>            :   SF_CHUNK_INFO chunk_info ;
 <span class="lineNum">     121 </span><span class="lineCov">        200 :   SNDFILE*file=PRIVATE(ax)-&gt;sf_file;</span>
 <span class="lineNum">     122 </span>            :   SF_CHUNK_ITERATOR *iterator;
@@ -215,7 +215,7 @@
 <span class="lineNum">     153 </span><span class="lineCov">        118 :     chunkver=_ambix_checkUUID((const char*)chunk_info.data);</span>
 <span class="lineNum">     154 </span><span class="lineCov">        118 :     if(1==chunkver) {</span>
 <span class="lineNum">     155 </span><span class="lineCov">        118 :       if(_ambix_uuid1_to_matrix(((const char*)chunk_info.data+16), chunk_info.datalen-16, &amp;ax-&gt;matrix, ax-&gt;byteswap)) {</span>
-<span class="lineNum">     156 </span><span class="lineCov">        118 :     free(chunk_info.data);</span>
+<span class="lineNum">     156 </span><span class="lineCov">        118 :         free(chunk_info.data);</span>
 <span class="lineNum">     157 </span><span class="lineCov">        118 :         return AMBIX_ERR_SUCCESS;</span>
 <span class="lineNum">     158 </span>            :       }
 <span class="lineNum">     159 </span>            :     } else
@@ -254,11 +254,11 @@
 <span class="lineNum">     192 </span><span class="lineCov">        200 :   ambix2sndfile_info(ambixinfo, &amp;PRIVATE(ambix)-&gt;sf_info);</span>
 <span class="lineNum">     193 </span>            : 
 <span class="lineNum">     194 </span><span class="lineCov">        200 :   if((mode &amp; AMBIX_READ) &amp;&amp; (mode &amp; AMBIX_WRITE))</span>
-<span class="lineNum">     195 </span><span class="lineNoCov">          0 :     sfmode= SFM_RDWR;</span>
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :     sfmode=     SFM_RDWR;</span>
 <span class="lineNum">     196 </span><span class="lineCov">        200 :   else if (mode &amp; AMBIX_WRITE)</span>
-<span class="lineNum">     197 </span><span class="lineCov">         69 :     sfmode= SFM_WRITE;</span>
+<span class="lineNum">     197 </span><span class="lineCov">         69 :     sfmode=     SFM_WRITE;</span>
 <span class="lineNum">     198 </span><span class="lineCov">        131 :   else if (mode &amp; AMBIX_READ)</span>
-<span class="lineNum">     199 </span><span class="lineCov">        131 :     sfmode= SFM_READ;</span>
+<span class="lineNum">     199 </span><span class="lineCov">        131 :     sfmode=     SFM_READ;</span>
 <span class="lineNum">     200 </span>            : 
 <span class="lineNum">     201 </span><span class="lineCov">        200 :   PRIVATE(ambix)-&gt;sf_file=sf_open(path, sfmode, &amp;PRIVATE(ambix)-&gt;sf_info) ;</span>
 <span class="lineNum">     202 </span><span class="lineCov">        200 :   if(!PRIVATE(ambix)-&gt;sf_file)</span>
@@ -353,7 +353,7 @@
 <span class="lineNum">     291 </span><span class="lineCov">        200 :   return AMBIX_ERR_SUCCESS;</span>
 <a name="292"><span class="lineNum">     292 </span>            : }</a>
 <span class="lineNum">     293 </span>            : 
-<span class="lineNum">     294 </span><span class="lineCov">        200 : ambix_err_t _ambix_close    (ambix_t*ambix) {</span>
+<span class="lineNum">     294 </span><span class="lineCov">        200 : ambix_err_t     _ambix_close    (ambix_t*ambix) {</span>
 <span class="lineNum">     295 </span><span class="lineCov">        200 :   if(PRIVATE(ambix)-&gt;sf_file)</span>
 <span class="lineNum">     296 </span><span class="lineCov">        200 :     sf_close(PRIVATE(ambix)-&gt;sf_file);</span>
 <span class="lineNum">     297 </span><span class="lineCov">        200 :   PRIVATE(ambix)-&gt;sf_file=NULL;</span>
@@ -385,7 +385,7 @@
 <span class="lineNum">     323 </span><span class="lineNoCov">          0 :   return -1;</span>
 <a name="324"><span class="lineNum">     324 </span>            : }</a>
 <span class="lineNum">     325 </span>            : 
-<span class="lineNum">     326 </span><span class="lineCov">          1 : SNDFILE*_ambix_get_sndfile  (ambix_t*ambix) {</span>
+<span class="lineNum">     326 </span><span class="lineCov">          1 : SNDFILE*_ambix_get_sndfile      (ambix_t*ambix) {</span>
 <a name="327"><span class="lineNum">     327 </span><span class="lineCov">          1 :   return PRIVATE(ambix)-&gt;sf_file;</span></a>
 <span class="lineNum">     328 </span>            : }
 <span class="lineNum">     329 </span><span class="lineCov">          4 : int64_t _ambix_readf_int16   (ambix_t*ambix, int16_t*data, int64_t frames) {</span>
@@ -415,7 +415,7 @@
 <span class="lineNum">     353 </span>            : }
 <span class="lineNum">     354 </span><span class="lineCov">         63 : ambix_err_t _ambix_write_uuidchunk(ambix_t*ax, const void*data, int64_t datasize) {</span>
 <span class="lineNum">     355 </span>            : #if defined HAVE_SF_SET_CHUNK &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
-<span class="lineNum">     356 </span>            :   int               err ;
+<span class="lineNum">     356 </span>            :   int                           err ;
 <span class="lineNum">     357 </span><span class="lineCov">         63 :   SF_CHUNK_INFO*chunk=&amp;PRIVATE(ax)-&gt;sf_chunk;</span>
 <span class="lineNum">     358 </span><span class="lineCov">         63 :   int64_t datasize4 = datasize&gt;&gt;2;</span>
 <span class="lineNum">     359 </span>            : 

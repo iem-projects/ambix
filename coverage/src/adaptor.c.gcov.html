@@ -209,26 +209,26 @@
 <span class="lineNum">     147 </span>            :   ambix_err_t _ambix_mergeAdaptormatrix_##type(const type##_t*ambi_data, const ambix_matrix_t*matrix, \
 <span class="lineNum">     148 </span>            :                                                const type##_t*otherdata, uint32_t source2channels, \
 <span class="lineNum">     149 </span>            :                                                type##_t*destination, int64_t frames) { \
-<span class="lineNum">     150 </span>            :     float32_t**mtx=matrix-&gt;data;                 \
-<span class="lineNum">     151 </span>            :     const uint32_t fullambichannels=matrix-&gt;cols;            \
-<span class="lineNum">     152 </span>            :     const uint32_t ambixchannels=matrix-&gt;rows;               \
-<span class="lineNum">     153 </span>            :     int64_t f;                              \
-<span class="lineNum">     154 </span>            :     for(f=0; f&lt;frames; f++) {                        \
-<span class="lineNum">     155 </span>            :       /* encode ambisonics-&gt;ambix and store in destination */        \
-<span class="lineNum">     156 </span>            :       uint32_t outchan, inchan;                     \
-<span class="lineNum">     157 </span>            :       const type##_t*src = ambi_data+fullambichannels*f;        \
-<span class="lineNum">     158 </span>            :       for(outchan=0; outchan&lt;ambixchannels; outchan++) {     \
-<span class="lineNum">     159 </span>            :     float32_t sum=0.;                       \
-<span class="lineNum">     160 </span>            :     for(inchan=0; inchan&lt;fullambichannels; inchan++) {       \
-<span class="lineNum">     161 </span>            :       sum+=mtx[outchan][inchan] * src[inchan];          \
-<span class="lineNum">     162 </span>            :     }                               \
-<span class="lineNum">     163 </span>            :     *destination++=(type##_t)sum;                   \
-<span class="lineNum">     164 </span>            :       }                                 \
-<span class="lineNum">     165 </span>            :       /* store the otherchannels */                 \
-<span class="lineNum">     166 </span>            :       for(inchan=0; inchan&lt;source2channels; inchan++)            \
-<span class="lineNum">     167 </span>            :     *destination++=*otherdata++;                    \
-<span class="lineNum">     168 </span>            :     }                                   \
-<span class="lineNum">     169 </span>            :     return AMBIX_ERR_SUCCESS;                       \
+<span class="lineNum">     150 </span>            :     float32_t**mtx=matrix-&gt;data;                                        \
+<span class="lineNum">     151 </span>            :     const uint32_t fullambichannels=matrix-&gt;cols;                       \
+<span class="lineNum">     152 </span>            :     const uint32_t ambixchannels=matrix-&gt;rows;                          \
+<span class="lineNum">     153 </span>            :     int64_t f;                                                          \
+<span class="lineNum">     154 </span>            :     for(f=0; f&lt;frames; f++) {                                           \
+<span class="lineNum">     155 </span>            :       /* encode ambisonics-&gt;ambix and store in destination */           \
+<span class="lineNum">     156 </span>            :       uint32_t outchan, inchan;                                         \
+<span class="lineNum">     157 </span>            :       const type##_t*src = ambi_data+fullambichannels*f;                \
+<span class="lineNum">     158 </span>            :       for(outchan=0; outchan&lt;ambixchannels; outchan++) {                \
+<span class="lineNum">     159 </span>            :         float32_t sum=0.;                                               \
+<span class="lineNum">     160 </span>            :         for(inchan=0; inchan&lt;fullambichannels; inchan++) {              \
+<span class="lineNum">     161 </span>            :           sum+=mtx[outchan][inchan] * src[inchan];                      \
+<span class="lineNum">     162 </span>            :         }                                                               \
+<span class="lineNum">     163 </span>            :         *destination++=(type##_t)sum;                                   \
+<span class="lineNum">     164 </span>            :       }                                                                 \
+<span class="lineNum">     165 </span>            :       /* store the otherchannels */                                     \
+<span class="lineNum">     166 </span>            :       for(inchan=0; inchan&lt;source2channels; inchan++)                   \
+<span class="lineNum">     167 </span>            :         *destination++=*otherdata++;                                    \
+<span class="lineNum">     168 </span>            :     }                                                                   \
+<span class="lineNum">     169 </span>            :     return AMBIX_ERR_SUCCESS;                                           \
 <a name="170"><span class="lineNum">     170 </span>            :   }</a>
 <a name="171"><span class="lineNum">     171 </span>            : </a>
 <a name="172"><span class="lineNum">     172 </span><span class="lineCov">      20689 : _AMBIX_MERGEADAPTOR_MATRIX(float32);</span></a>
