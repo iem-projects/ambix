@@ -158,7 +158,7 @@ if you have opened an ambix basic file as ambix extended, this will return a uni
 </div><div class="memdoc">
 
 <p>Get the libsndfile handle associated with the ambix handle. </p>
-<p>If possible, require an SNDFILE handle if possible; if the ambix handle is not asociated with SNDFILE (e.g. because libambix is compiled without libsndfile support), NULL is returned.</p>
+<p>If possible, require an SNDFILE handle if possible; if the ambix handle is not associated with SNDFILE (e.g. because libambix is compiled without libsndfile support), NULL is returned.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ambix</td><td>The handle to an ambix file</td></tr>
@@ -285,7 +285,7 @@ when opening a file for writing, the caller must set the fields; if ambixinfo.am
 </div><div class="memdoc">
 
 <p>Set a matrix to be pre-multiplied. </p>
-<p>Adds an (additional) adaptor matrix to the processing. Depending on the mode of operation this can have different meanings! When READing an ambix '<a class="el" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abb44830701a07dc50814f69ec74050d5">AMBIX_BASIC</a>' file, this tells the library to do an (additional) matrix-multiplication When reconstructing the full ambisonics set; you can use use this to get the ambisonics channels in a format other than SN3D/ACN (e.g. using an ambix to Furse-Malham adaptor matrix) or getting the loudspeaker feeds directly (by supplying a decoder matrix); in this case, the matrix MUST have ambix-&gt;ambichannels columns. When WRITEing an ambix '<a class="el" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abdb142f028c2b82558a73552d8f7f59d">AMBIX_EXTENDED</a>' file, this tells the library to store the matrix as the adaptor matrix within the file.</p>
+<p>Adds an (additional) adaptor matrix to the processing. Depending on the mode of operation this can have different meanings! When READing an ambix '<a class="el" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abb44830701a07dc50814f69ec74050d5">AMBIX_BASIC</a>' file, this tells the library to do an (additional) matrix-multiplication When reconstructing the full ambisonics set; you can use this to get the ambisonics channels in a format other than SN3D/ACN (e.g. using an ambix to Furse-Malham adaptor matrix) or getting the loudspeaker feeds directly (by supplying a decoder matrix); in this case, the matrix MUST have ambix-&gt;ambichannels columns. When WRITEing an ambix '<a class="el" href="ambix_8h.html#aa079d38c1d269ac5dfbe4dd4251b3e42abdb142f028c2b82558a73552d8f7f59d">AMBIX_EXTENDED</a>' file, this tells the library to store the matrix as the adaptor matrix within the file.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ambix</td><td>The handle to an ambix file</td></tr>
