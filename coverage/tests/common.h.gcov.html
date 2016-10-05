@@ -93,8 +93,8 @@
 <span class="lineNum">      31 </span>            : #endif
 <a name="32"><span class="lineNum">      32 </span>            : </a>
 <a name="33"><span class="lineNum">      33 </span>            : #include &lt;stdlib.h&gt;</a>
-<a name="34"><span class="lineNum">      34 </span><span class="lineCov">         79 : static inline int my_exit(int i) {exit(i); return i;}</span></a>
-<a name="35"><span class="lineNum">      35 </span><span class="lineCov">         72 : static inline int pass(void) {return my_exit(0); }</span></a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">         80 : static inline int my_exit(int i) {exit(i); return i;}</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">         73 : static inline int pass(void) {return my_exit(0); }</span></a>
 <span class="lineNum">      36 </span><span class="lineCov">          2 : static inline int fail(void) {return my_exit(1); }</span>
 <span class="lineNum">      37 </span><span class="lineCov">          5 : static inline int skip(void) {return my_exit(77); }</span>
 <span class="lineNum">      38 </span>            : 
@@ -128,9 +128,9 @@
 <span class="lineNum">      66 </span>            :   } ;
 <a name="67"><span class="lineNum">      67 </span><span class="lineCov">       2257 :   return test;</span></a>
 <span class="lineNum">      68 </span>            : } /* skip_if */
-<span class="lineNum">      69 </span><span class="lineCov">  346899058 : static inline int fail_if (int test, int line, const char *format, ...)</span>
+<span class="lineNum">      69 </span><span class="lineCov">  346899079 : static inline int fail_if (int test, int line, const char *format, ...)</span>
 <span class="lineNum">      70 </span>            : {
-<span class="lineNum">      71 </span><span class="lineCov">  346899058 :   if (test) {</span>
+<span class="lineNum">      71 </span><span class="lineCov">  346899079 :   if (test) {</span>
 <span class="lineNum">      72 </span>            :     va_list argptr ;
 <span class="lineNum">      73 </span><span class="lineCov">          1 :     printf(&quot;@%d: &quot;, line);</span>
 <span class="lineNum">      74 </span><span class="lineCov">          1 :     va_start (argptr, format) ;</span>
@@ -139,7 +139,7 @@
 <span class="lineNum">      77 </span><span class="lineCov">          1 :     printf(&quot;\n&quot;);</span>
 <span class="lineNum">      78 </span><span class="lineCov">          1 :     return fail();</span>
 <span class="lineNum">      79 </span>            :   } ;
-<span class="lineNum">      80 </span><span class="lineCov">  346899057 :   return test;</span>
+<span class="lineNum">      80 </span><span class="lineCov">  346899078 :   return test;</span>
 <span class="lineNum">      81 </span>            : } /* fail_if */
 <span class="lineNum">      82 </span>            : static inline int print_if (int test, int line, const char *format, ...)
 <span class="lineNum">      83 </span>            : {

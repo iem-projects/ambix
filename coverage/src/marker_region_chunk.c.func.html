@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - libambix test coverage - src/utils.c - functions</title>
+  <title>LCOV - libambix test coverage - src/marker_region_chunk.c - functions</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -19,7 +19,7 @@
         <table cellpadding=1 border=0 width="100%">
           <tr>
             <td width="10%" class="headerItem">Current view:</td>
-            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - utils.c<span style="font-size: 80%;"> (<a href="utils.c.gcov.html">source</a> / functions)</span></td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - marker_region_chunk.c<span style="font-size: 80%;"> (<a href="marker_region_chunk.c.gcov.html">source</a> / functions)</span></td>
             <td width="5%"></td>
             <td width="15%"></td>
             <td width="10%" class="headerCovTableHead">Hit</td>
@@ -31,17 +31,17 @@
             <td class="headerValue">libambix test coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">72</td>
-            <td class="headerCovTableEntry">76</td>
-            <td class="headerCovTableEntryHi">94.7 %</td>
+            <td class="headerCovTableEntry">248</td>
+            <td class="headerCovTableEntry">264</td>
+            <td class="headerCovTableEntryHi">93.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
             <td class="headerValue">2016-10-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">9</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
@@ -57,47 +57,43 @@
     <tr><td><br></td></tr>
     <tr>
       <td width="80%" class="tableHead">Function Name <span class="tableHeadSort"><img src="../glass.png" width=10 height=14 alt="Sort by function name" title="Sort by function name" border=0></span></td>
-      <td width="20%" class="tableHead">Hit count <span class="tableHeadSort"><a href="utils.c.func-sort-c.html"><img src="../updown.png" width=10 height=14 alt="Sort by hit count" title="Sort by hit count" border=0></a></span></td>
+      <td width="20%" class="tableHead">Hit count <span class="tableHeadSort"><a href="marker_region_chunk.c.func-sort-c.html"><img src="../updown.png" width=10 height=14 alt="Sort by hit count" title="Sort by hit count" border=0></a></span></td>
     </tr>
     <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#93">_ambix_print_ambix</a></td>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#190">_ambix_read_markersregions</a></td>
+              <td class="coverFnHi">202</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#381">_ambix_write_markersregions</a></td>
+              <td class="coverFnHi">64</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#367">add_string_to_data</a></td>
+              <td class="coverFnHi">6</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#178">get_string_from_buffer</a></td>
+              <td class="coverFnHi">6</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#159">swap_marker</a></td>
+              <td class="coverFnHi">18</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#155">swap_marker_chunk</a></td>
               <td class="coverFnHi">2</td>
             </tr>
     <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#46">_ambix_print_info</a></td>
-              <td class="coverFnHi">4</td>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#165">swap_region</a></td>
+              <td class="coverFnHi">6</td>
             </tr>
     <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#74">_ambix_print_markers</a></td>
-              <td class="coverFnHi">1</td>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#170">swap_region_chunk</a></td>
+              <td class="coverFnHi">65</td>
             </tr>
     <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#57">_ambix_print_matrix</a></td>
-              <td class="coverFnHi">5</td>
-            </tr>
-    <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#83">_ambix_print_regions</a></td>
-              <td class="coverFnHi">1</td>
-            </tr>
-    <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#124">_ambix_swap4array</a></td>
-              <td class="coverFnHi">283</td>
-            </tr>
-    <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#131">_ambix_swap8array</a></td>
-              <td class="coverFnHi">30</td>
-            </tr>
-    <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#30">ambix_channels2order</a></td>
-              <td class="coverFnHi">24600</td>
-            </tr>
-    <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#41">ambix_is_fullset</a></td>
-              <td class="coverFnHi">24374</td>
-            </tr>
-    <tr>
-              <td class="coverFn"><a href="utils.c.gcov.html#26">ambix_order2channels</a></td>
-              <td class="coverFnHi">24489</td>
+              <td class="coverFn"><a href="marker_region_chunk.c.gcov.html#174">swap_stringid</a></td>
+              <td class="coverFnHi">12</td>
             </tr>
   </table>
   <br>

@@ -103,20 +103,20 @@
 <span class="lineNum">      41 </span><span class="lineCov">       2132 :   mtx=NULL;</span>
 <a name="42"><span class="lineNum">      42 </span><span class="lineCov">       2132 : }</span></a>
 <span class="lineNum">      43 </span>            : void
-<span class="lineNum">      44 </span><span class="lineCov">       5004 : ambix_matrix_deinit(ambix_matrix_t*mtx) {</span>
+<span class="lineNum">      44 </span><span class="lineCov">       5008 : ambix_matrix_deinit(ambix_matrix_t*mtx) {</span>
 <span class="lineNum">      45 </span>            :   uint32_t r;
-<span class="lineNum">      46 </span><span class="lineCov">       5004 :   if(mtx-&gt;data) {</span>
+<span class="lineNum">      46 </span><span class="lineCov">       5008 :   if(mtx-&gt;data) {</span>
 <span class="lineNum">      47 </span><span class="lineCov">      21276 :     for(r=0; r&lt;mtx-&gt;rows; r++) {</span>
 <span class="lineNum">      48 </span><span class="lineCov">      18822 :       if(mtx-&gt;data[r])</span>
 <span class="lineNum">      49 </span><span class="lineCov">      18822 :         free(mtx-&gt;data[r]);</span>
 <span class="lineNum">      50 </span><span class="lineCov">      18822 :       mtx-&gt;data[r]=NULL;</span>
 <span class="lineNum">      51 </span>            :     }
 <span class="lineNum">      52 </span>            :   }
-<span class="lineNum">      53 </span><span class="lineCov">       5004 :   free(mtx-&gt;data);</span>
-<span class="lineNum">      54 </span><span class="lineCov">       5004 :   mtx-&gt;data=NULL;</span>
-<span class="lineNum">      55 </span><span class="lineCov">       5004 :   mtx-&gt;rows=0;</span>
-<span class="lineNum">      56 </span><span class="lineCov">       5004 :   mtx-&gt;cols=0;</span>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       5004 : }</span></a>
+<span class="lineNum">      53 </span><span class="lineCov">       5008 :   free(mtx-&gt;data);</span>
+<span class="lineNum">      54 </span><span class="lineCov">       5008 :   mtx-&gt;data=NULL;</span>
+<span class="lineNum">      55 </span><span class="lineCov">       5008 :   mtx-&gt;rows=0;</span>
+<span class="lineNum">      56 </span><span class="lineCov">       5008 :   mtx-&gt;cols=0;</span>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       5008 : }</span></a>
 <span class="lineNum">      58 </span>            : ambix_matrix_t*
 <span class="lineNum">      59 </span><span class="lineCov">       2460 : ambix_matrix_init(uint32_t rows, uint32_t cols, ambix_matrix_t*orgmtx) {</span>
 <span class="lineNum">      60 </span><span class="lineCov">       2460 :   ambix_matrix_t*mtx=orgmtx;</span>

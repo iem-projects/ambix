@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - libambix test coverage - tests/markers_regions.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - markers_regions.c<span style="font-size: 80%;"> (source / <a href="markers_regions.c.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">libambix test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-10-05</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;common.h&quot;</a>
+<span class="lineNum">       2 </span>            : #include &quot;data.h&quot;
+<span class="lineNum">       3 </span>            : 
+<a name="4"><span class="lineNum">       4 </span>            : #include &lt;string.h&gt;</a>
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
+<span class="lineNum">       7 </span><span class="lineCov">          1 :   const char*markerfile=FILENAME_FILE;</span>
+<span class="lineNum">       8 </span><span class="lineCov">          1 :   ambix_t*ambix=NULL;</span>
+<span class="lineNum">       9 </span>            :   ambix_info_t info;
+<span class="lineNum">      10 </span><span class="lineCov">          1 :   memset(&amp;info, 0, sizeof(info));</span>
+<span class="lineNum">      11 </span><span class="lineCov">          1 :   uint32_t frames=441000;</span>
+<span class="lineNum">      12 </span><span class="lineCov">          1 :   uint32_t channels=4;</span>
+<span class="lineNum">      13 </span>            :   int64_t err64;
+<span class="lineNum">      14 </span>            :   float32_t*data;
+<span class="lineNum">      15 </span>            :   
+<span class="lineNum">      16 </span><span class="lineCov">          1 :   info.fileformat=AMBIX_BASIC;</span>
+<span class="lineNum">      17 </span><span class="lineCov">          1 :   info.ambichannels=channels;</span>
+<span class="lineNum">      18 </span><span class="lineCov">          1 :   info.extrachannels=0;</span>
+<span class="lineNum">      19 </span><span class="lineCov">          1 :   info.samplerate=44100;</span>
+<span class="lineNum">      20 </span><span class="lineCov">          1 :   info.sampleformat=AMBIX_SAMPLEFORMAT_FLOAT32;</span>
+<span class="lineNum">      21 </span>            :   
+<span class="lineNum">      22 </span><span class="lineCov">          1 :   data=(float32_t*)calloc(channels*frames, sizeof(float32_t));</span>
+<span class="lineNum">      23 </span>            :   
+<span class="lineNum">      24 </span><span class="lineCov">          1 :   ambix=ambix_open(markerfile, AMBIX_WRITE, &amp;info);</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :   fail_if(NULL==ambix, __LINE__, &quot;File was not open&quot;);</span>
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            :   /* add some markers */
+<span class="lineNum">      28 </span>            :   ambix_marker_t marker_1;
+<span class="lineNum">      29 </span><span class="lineCov">          1 :   memset(&amp;marker_1, 0, sizeof(ambix_marker_t));</span>
+<span class="lineNum">      30 </span><span class="lineCov">          1 :   marker_1.position = 1.0;</span>
+<span class="lineNum">      31 </span><span class="lineCov">          1 :   strncpy(marker_1.name, &quot;this is marker #1&quot;, 255);</span>
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            :   ambix_marker_t marker_2;
+<span class="lineNum">      34 </span><span class="lineCov">          1 :   memset(&amp;marker_2, 0, sizeof(ambix_marker_t));</span>
+<span class="lineNum">      35 </span><span class="lineCov">          1 :   marker_2.position = 2.0;</span>
+<span class="lineNum">      36 </span><span class="lineCov">          1 :   strncpy(marker_2.name, &quot;this is marker #2&quot;, 255);</span>
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            :   ambix_marker_t marker_3;
+<span class="lineNum">      40 </span><span class="lineCov">          1 :   memset(&amp;marker_3, 0, sizeof(ambix_marker_t));</span>
+<span class="lineNum">      41 </span><span class="lineCov">          1 :   marker_3.position = 3.0;</span>
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span><span class="lineCov">          1 :   fail_if(0!=ambix_add_marker(ambix, &amp;marker_1), __LINE__, &quot;Could not add marker&quot;);</span>
+<span class="lineNum">      44 </span><span class="lineCov">          1 :   fail_if(0!=ambix_add_marker(ambix, &amp;marker_2), __LINE__, &quot;Could not add marker&quot;);</span>
+<span class="lineNum">      45 </span><span class="lineCov">          1 :   fail_if(0!=ambix_add_marker(ambix, &amp;marker_3), __LINE__, &quot;Could not add marker&quot;);</span>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :   /* add some regions */
+<span class="lineNum">      48 </span>            :   ambix_region_t region_1;
+<span class="lineNum">      49 </span><span class="lineCov">          1 :   memset(&amp;region_1, 0, sizeof(ambix_region_t));</span>
+<span class="lineNum">      50 </span><span class="lineCov">          1 :   region_1.start_position = 1.0;</span>
+<span class="lineNum">      51 </span><span class="lineCov">          1 :   region_1.end_position = 2.0;</span>
+<span class="lineNum">      52 </span><span class="lineCov">          1 :   strncpy(region_1.name, &quot;this is region #1&quot;, 255);</span>
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            :   ambix_region_t region_2;
+<span class="lineNum">      55 </span><span class="lineCov">          1 :   memset(&amp;region_2, 0, sizeof(ambix_region_t));</span>
+<span class="lineNum">      56 </span><span class="lineCov">          1 :   region_2.start_position = 3.0;</span>
+<span class="lineNum">      57 </span><span class="lineCov">          1 :   region_2.end_position = 4.0;</span>
+<span class="lineNum">      58 </span><span class="lineCov">          1 :   strncpy(region_2.name, &quot;this is region #2&quot;, 255);</span>
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :   ambix_region_t region_3;
+<span class="lineNum">      61 </span><span class="lineCov">          1 :   memset(&amp;region_3, 0, sizeof(ambix_region_t));</span>
+<span class="lineNum">      62 </span><span class="lineCov">          1 :   region_3.start_position = 3.0;</span>
+<span class="lineNum">      63 </span><span class="lineCov">          1 :   region_3.end_position = 4.0;</span>
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span><span class="lineCov">          1 :   fail_if(0!=ambix_add_region(ambix, &amp;region_1), __LINE__, &quot;Could not add region&quot;);</span>
+<span class="lineNum">      66 </span><span class="lineCov">          1 :   fail_if(0!=ambix_add_region(ambix, &amp;region_2), __LINE__, &quot;Could not add region&quot;);</span>
+<span class="lineNum">      67 </span><span class="lineCov">          1 :   fail_if(0!=ambix_add_region(ambix, &amp;region_3), __LINE__, &quot;Could not add region&quot;);</span>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :   /* write testsamples */
+<span class="lineNum">      70 </span><span class="lineCov">          1 :   err64=ambix_writef_float32(ambix, data, NULL, frames);</span>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineCov">          1 :   ambix_close(ambix);</span>
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :   /* open the file again and see wheter the markers and regions have been saved and can be read */
+<span class="lineNum">      76 </span><span class="lineCov">          1 :   memset(&amp;info, 0, sizeof(info));</span>
+<span class="lineNum">      77 </span><span class="lineCov">          1 :   ambix=ambix_open(markerfile, AMBIX_READ, &amp;info);</span>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineCov">          1 :   fail_if(0 == ambix_get_num_markers(ambix), __LINE__, &quot;No markers in file&quot;);</span>
+<span class="lineNum">      80 </span><span class="lineCov">          1 :   fail_if(0 == ambix_get_num_regions(ambix), __LINE__, &quot;No regions in file&quot;);</span>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            :   ambix_marker_t *marker_1_retr;
+<span class="lineNum">      83 </span>            :   ambix_marker_t *marker_2_retr;
+<span class="lineNum">      84 </span>            :   ambix_marker_t *marker_3_retr;
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :   ambix_region_t *region_1_retr;
+<span class="lineNum">      87 </span>            :   ambix_region_t *region_2_retr;
+<span class="lineNum">      88 </span>            :   ambix_region_t *region_3_retr;
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineCov">          1 :   marker_1_retr=ambix_get_marker(ambix, 0);</span>
+<span class="lineNum">      91 </span><span class="lineCov">          1 :   marker_2_retr=ambix_get_marker(ambix, 1);</span>
+<span class="lineNum">      92 </span><span class="lineCov">          1 :   marker_3_retr=ambix_get_marker(ambix, 2);</span>
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span><span class="lineCov">          1 :   region_1_retr=ambix_get_region(ambix, 0);</span>
+<span class="lineNum">      95 </span><span class="lineCov">          1 :   region_2_retr=ambix_get_region(ambix, 1);</span>
+<span class="lineNum">      96 </span><span class="lineCov">          1 :   region_3_retr=ambix_get_region(ambix, 2);</span>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineCov">          1 :   fail_if(marker_1_retr==NULL, __LINE__, &quot;Could not retrieve marker 1&quot;);</span>
+<span class="lineNum">      99 </span><span class="lineCov">          1 :   fail_if(marker_2_retr==NULL, __LINE__, &quot;Could not retrieve marker 2&quot;);</span>
+<span class="lineNum">     100 </span><span class="lineCov">          1 :   fail_if(marker_3_retr==NULL, __LINE__, &quot;Could not retrieve marker 3&quot;);</span>
+<span class="lineNum">     101 </span><span class="lineCov">          1 :   fail_if(region_1_retr==NULL, __LINE__, &quot;Could not retrieve region 1&quot;);</span>
+<span class="lineNum">     102 </span><span class="lineCov">          1 :   fail_if(region_2_retr==NULL, __LINE__, &quot;Could not retrieve region 2&quot;);</span>
+<span class="lineNum">     103 </span><span class="lineCov">          1 :   fail_if(region_3_retr==NULL, __LINE__, &quot;Could not retrieve region 3&quot;);</span>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span><span class="lineCov">          1 :   fail_if(memcmp(&amp;marker_1, marker_1_retr, sizeof(ambix_marker_t)), __LINE__, &quot;Marker 1 does not match&quot;);</span>
+<span class="lineNum">     106 </span><span class="lineCov">          1 :   fail_if(memcmp(&amp;marker_2, marker_2_retr, sizeof(ambix_marker_t)), __LINE__, &quot;Marker 2 does not match&quot;);</span>
+<span class="lineNum">     107 </span><span class="lineCov">          1 :   fail_if(memcmp(&amp;marker_3, marker_3_retr, sizeof(ambix_marker_t)), __LINE__, &quot;Marker 3 does not match&quot;);</span>
+<span class="lineNum">     108 </span><span class="lineCov">          1 :   fail_if(memcmp(&amp;region_1, region_1_retr, sizeof(ambix_region_t)), __LINE__, &quot;Region 1 does not match&quot;);</span>
+<span class="lineNum">     109 </span><span class="lineCov">          1 :   fail_if(memcmp(&amp;region_2, region_2_retr, sizeof(ambix_region_t)), __LINE__, &quot;Region 2 does not match&quot;);</span>
+<span class="lineNum">     110 </span><span class="lineCov">          1 :   fail_if(memcmp(&amp;region_3, region_3_retr, sizeof(ambix_region_t)), __LINE__, &quot;Region 3 does not match&quot;);</span>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineCov">          1 :   if(data)</span>
+<span class="lineNum">     113 </span><span class="lineCov">          1 :     free(data);</span>
+<span class="lineNum">     114 </span><span class="lineCov">          1 :   ambix_close(ambix);</span>
+<span class="lineNum">     115 </span><span class="lineCov">          1 :   ambixtest_rmfile(markerfile);</span>
+<span class="lineNum">     116 </span><span class="lineCov">          1 :   return pass();</span>
+<span class="lineNum">     117 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

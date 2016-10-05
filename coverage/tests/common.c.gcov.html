@@ -350,32 +350,32 @@
 <span class="lineNum">     288 </span>            : }
 <a name="289"><span class="lineNum">     289 </span>            : </a>
 <span class="lineNum">     290 </span>            : 
-<span class="lineNum">     291 </span><span class="lineCov">         69 : int ambixtest_rmfile(const char*path) {</span>
+<span class="lineNum">     291 </span><span class="lineCov">         70 : int ambixtest_rmfile(const char*path) {</span>
 <span class="lineNum">     292 </span>            :   /* only remove if AMBIXTEST_KEEPFILES is not set */
-<span class="lineNum">     293 </span><span class="lineCov">         69 :   if(NULL==getenv(&quot;AMBIXTEST_KEEPFILES&quot;))return unlink(path);</span>
+<span class="lineNum">     293 </span><span class="lineCov">         70 :   if(NULL==getenv(&quot;AMBIXTEST_KEEPFILES&quot;))return unlink(path);</span>
 <a name="294"><span class="lineNum">     294 </span><span class="lineNoCov">          0 :   return 0;</span></a>
 <span class="lineNum">     295 </span>            : }
-<span class="lineNum">     296 </span><span class="lineCov">         69 : int ambixtest_uniquenumber() {</span>
+<span class="lineNum">     296 </span><span class="lineCov">         70 : int ambixtest_uniquenumber() {</span>
 <span class="lineNum">     297 </span>            : #ifdef HAVE_UNISTD_H
-<span class="lineNum">     298 </span><span class="lineCov">         69 :   return getpid();</span>
+<span class="lineNum">     298 </span><span class="lineCov">         70 :   return getpid();</span>
 <span class="lineNum">     299 </span>            : #endif
 <a name="300"><span class="lineNum">     300 </span>            :   return 0;</a>
 <span class="lineNum">     301 </span>            : }
-<span class="lineNum">     302 </span><span class="lineCov">         69 : const char*getbasename(const char*fullpath) {</span>
-<span class="lineNum">     303 </span><span class="lineCov">         69 :   char*pos=NULL;</span>
-<span class="lineNum">     304 </span><span class="lineCov">         69 :   if(!fullpath)return &quot;&quot;;</span>
-<span class="lineNum">     305 </span><span class="lineCov">         69 :   pos=strrchr(fullpath, '/');</span>
-<span class="lineNum">     306 </span><span class="lineCov">         69 :   if(pos)return pos+1;</span>
-<a name="307"><span class="lineNum">     307 </span><span class="lineCov">         69 :   return fullpath;</span></a>
+<span class="lineNum">     302 </span><span class="lineCov">         70 : const char*getbasename(const char*fullpath) {</span>
+<span class="lineNum">     303 </span><span class="lineCov">         70 :   char*pos=NULL;</span>
+<span class="lineNum">     304 </span><span class="lineCov">         70 :   if(!fullpath)return &quot;&quot;;</span>
+<span class="lineNum">     305 </span><span class="lineCov">         70 :   pos=strrchr(fullpath, '/');</span>
+<span class="lineNum">     306 </span><span class="lineCov">         70 :   if(pos)return pos+1;</span>
+<a name="307"><span class="lineNum">     307 </span><span class="lineCov">         70 :   return fullpath;</span></a>
 <span class="lineNum">     308 </span>            : }
-<span class="lineNum">     309 </span><span class="lineCov">         69 : char*ambixtest_getfname(char*inbuf, size_t length, const char*path_, const char*basename_, const char*ext_) {</span>
+<span class="lineNum">     309 </span><span class="lineCov">         70 : char*ambixtest_getfname(char*inbuf, size_t length, const char*path_, const char*basename_, const char*ext_) {</span>
 <span class="lineNum">     310 </span>            :   static unsigned int count=0;
-<span class="lineNum">     311 </span><span class="lineCov">         69 :   const char*ext=(ext_)?ext_:&quot;.caf&quot;;</span>
-<span class="lineNum">     312 </span><span class="lineCov">         69 :   const char*path=(path_)?path_:&quot;&quot;;</span>
-<span class="lineNum">     313 </span><span class="lineCov">         69 :   const char*basename=getbasename(basename_);</span>
-<span class="lineNum">     314 </span><span class="lineCov">         69 :   snprintf(inbuf, length, &quot;%s%s-%d.%d%s&quot;, path, basename, ambixtest_uniquenumber(), count, ext);</span>
-<span class="lineNum">     315 </span><span class="lineCov">         69 :   count++;</span>
-<span class="lineNum">     316 </span><span class="lineCov">         69 :   return inbuf;</span>
+<span class="lineNum">     311 </span><span class="lineCov">         70 :   const char*ext=(ext_)?ext_:&quot;.caf&quot;;</span>
+<span class="lineNum">     312 </span><span class="lineCov">         70 :   const char*path=(path_)?path_:&quot;&quot;;</span>
+<span class="lineNum">     313 </span><span class="lineCov">         70 :   const char*basename=getbasename(basename_);</span>
+<span class="lineNum">     314 </span><span class="lineCov">         70 :   snprintf(inbuf, length, &quot;%s%s-%d.%d%s&quot;, path, basename, ambixtest_uniquenumber(), count, ext);</span>
+<span class="lineNum">     315 </span><span class="lineCov">         70 :   count++;</span>
+<span class="lineNum">     316 </span><span class="lineCov">         70 :   return inbuf;</span>
 <span class="lineNum">     317 </span>            : }
 </pre>
       </td>
