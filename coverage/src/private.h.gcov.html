@@ -407,10 +407,10 @@
 <span class="lineNum">     345 </span>            :  * @param n a 32bit chunk in the wrong byte order
 <a name="346"><span class="lineNum">     346 </span>            :  * @return byte-swapped data</a>
 <span class="lineNum">     347 </span>            :  */
-<span class="lineNum">     348 </span><span class="lineCov">       4246 : static inline uint32_t swap4(uint32_t n)</span>
+<span class="lineNum">     348 </span><span class="lineCov">       4120 : static inline uint32_t swap4(uint32_t n)</span>
 <span class="lineNum">     349 </span>            : {
-<span class="lineNum">     350 </span><span class="lineCov">      12738 :   return (((n &amp; 0xff) &lt;&lt; 24) | ((n &amp; 0xff00) &lt;&lt; 8) |</span>
-<span class="lineNum">     351 </span><span class="lineCov">       8492 :           ((n &amp; 0xff0000) &gt;&gt; 8) | ((n &amp; 0xff000000) &gt;&gt; 24));</span>
+<span class="lineNum">     350 </span><span class="lineCov">      12360 :   return (((n &amp; 0xff) &lt;&lt; 24) | ((n &amp; 0xff00) &lt;&lt; 8) |</span>
+<span class="lineNum">     351 </span><span class="lineCov">       8240 :           ((n &amp; 0xff0000) &gt;&gt; 8) | ((n &amp; 0xff000000) &gt;&gt; 24));</span>
 <span class="lineNum">     352 </span>            : }
 <span class="lineNum">     353 </span>            : /** @brief byte-swap 64bit data
 <span class="lineNum">     354 </span>            :  * @param n a 64bit chunk in the wrong byte order

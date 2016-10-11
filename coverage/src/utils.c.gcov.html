@@ -185,13 +185,13 @@
 <span class="lineNum">     123 </span>            : }
 <a name="124"><span class="lineNum">     124 </span>            : </a>
 <span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span><span class="lineCov">        283 : void _ambix_swap4array(uint32_t*data, uint64_t datasize) {</span>
+<span class="lineNum">     126 </span><span class="lineCov">        157 : void _ambix_swap4array(uint32_t*data, uint64_t datasize) {</span>
 <span class="lineNum">     127 </span>            :   uint64_t i;
-<span class="lineNum">     128 </span><span class="lineCov">       1893 :   for(i=0; i&lt;datasize; i++) {</span>
-<span class="lineNum">     129 </span><span class="lineCov">       1610 :     uint32_t v=*data;</span>
-<span class="lineNum">     130 </span><span class="lineCov">       1610 :     *data++=swap4(v);</span>
+<span class="lineNum">     128 </span><span class="lineCov">       1641 :   for(i=0; i&lt;datasize; i++) {</span>
+<span class="lineNum">     129 </span><span class="lineCov">       1484 :     uint32_t v=*data;</span>
+<span class="lineNum">     130 </span><span class="lineCov">       1484 :     *data++=swap4(v);</span>
 <a name="131"><span class="lineNum">     131 </span>            :   }</a>
-<span class="lineNum">     132 </span><span class="lineCov">        283 : }</span>
+<span class="lineNum">     132 </span><span class="lineCov">        157 : }</span>
 <span class="lineNum">     133 </span><span class="lineCov">         30 : void _ambix_swap8array(uint64_t*data, uint64_t datasize) {</span>
 <span class="lineNum">     134 </span>            :   uint64_t i;
 <span class="lineNum">     135 </span><span class="lineCov">         60 :   for(i=0; i&lt;datasize; i++) {</span>

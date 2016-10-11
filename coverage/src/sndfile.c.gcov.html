@@ -31,9 +31,9 @@
             <td class="headerValue">libambix test coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">178</td>
+            <td class="headerCovTableEntry">176</td>
             <td class="headerCovTableEntry">225</td>
-            <td class="headerCovTableEntryMed">79.1 %</td>
+            <td class="headerCovTableEntryMed">78.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
@@ -122,7 +122,7 @@
 <span class="lineNum">      60 </span>            : #elif defined HAVE_SF_UUID_INFO
 <a name="61"><span class="lineNum">      61 </span>            : #endif</a>
 <span class="lineNum">      62 </span>            : }ambixsndfile_private_t;
-<span class="lineNum">      63 </span><span class="lineCov">      29897 : static inline ambixsndfile_private_t*PRIVATE(ambix_t*ax) { return ((ambixsndfile_private_t*)(ax-&gt;private_data)); }</span>
+<span class="lineNum">      63 </span><span class="lineCov">      28330 : static inline ambixsndfile_private_t*PRIVATE(ambix_t*ax) { return ((ambixsndfile_private_t*)(ax-&gt;private_data)); }</span>
 <span class="lineNum">      64 </span>            : 
 <a name="65"><span class="lineNum">      65 </span>            : </a>
 <span class="lineNum">      66 </span>            : static  ambix_sampleformat_t
@@ -365,9 +365,9 @@
 <span class="lineNum">     303 </span>            : #if defined HAVE_SF_SET_CHUNK &amp;&amp; defined (HAVE_SF_CHUNK_INFO)
 <span class="lineNum">     304 </span><span class="lineCov">        202 :   if((PRIVATE(ambix)-&gt;sf_chunk).data)</span>
 <span class="lineNum">     305 </span><span class="lineCov">         63 :     free((PRIVATE(ambix)-&gt;sf_chunk).data);</span>
-<span class="lineNum">     306 </span><span class="lineCov">        394 :   for (i=0;i&lt;PRIVATE(ambix)-&gt;sf_numchunks;i++) {</span>
-<span class="lineNum">     307 </span><span class="lineCov">        192 :     if (PRIVATE(ambix)-&gt;sf_otherchunks[i].data)</span>
-<span class="lineNum">     308 </span><span class="lineCov">        192 :       free(PRIVATE(ambix)-&gt;sf_otherchunks[i].data);</span>
+<span class="lineNum">     306 </span><span class="lineCov">        205 :   for (i=0;i&lt;PRIVATE(ambix)-&gt;sf_numchunks;i++) {</span>
+<span class="lineNum">     307 </span><span class="lineCov">          3 :     if (PRIVATE(ambix)-&gt;sf_otherchunks[i].data)</span>
+<span class="lineNum">     308 </span><span class="lineCov">          3 :       free(PRIVATE(ambix)-&gt;sf_otherchunks[i].data);</span>
 <span class="lineNum">     309 </span>            :   }
 <span class="lineNum">     310 </span><span class="lineCov">        202 :   free(PRIVATE(ambix)-&gt;sf_otherchunks);</span>
 <span class="lineNum">     311 </span>            : #endif
@@ -455,88 +455,89 @@
 <span class="lineNum">     393 </span>            : #endif
 <a name="394"><span class="lineNum">     394 </span>            :   return  AMBIX_ERR_UNKNOWN;</a>
 <span class="lineNum">     395 </span>            : }
-<span class="lineNum">     396 </span><span class="lineCov">        192 : ambix_err_t _ambix_write_chunk(ambix_t*ax, uint32_t id, const void*data, int64_t datasize) {</span>
+<span class="lineNum">     396 </span><span class="lineCov">          3 : ambix_err_t _ambix_write_chunk(ambix_t*ax, uint32_t id, const void*data, int64_t datasize) {</span>
 <span class="lineNum">     397 </span>            : #if defined (HAVE_SF_SET_CHUNK)
 <span class="lineNum">     398 </span>            :   int err ;
-<span class="lineNum">     399 </span><span class="lineCov">        192 :   int64_t datasize4 = datasize&gt;&gt;2;</span>
+<span class="lineNum">     399 </span><span class="lineCov">          3 :   int64_t datasize4 = datasize&gt;&gt;2;</span>
 <span class="lineNum">     400 </span>            : 
-<span class="lineNum">     401 </span><span class="lineCov">        192 :   SF_CHUNK_INFO *chunks = NULL;</span>
-<span class="lineNum">     402 </span><span class="lineCov">        192 :   SF_CHUNK_INFO *chunk  = NULL;</span>
-<span class="lineNum">     403 </span><span class="lineCov">        192 :   unsigned int numchunks=(PRIVATE(ax)-&gt;sf_numchunks);</span>
+<span class="lineNum">     401 </span><span class="lineCov">          3 :   SF_CHUNK_INFO *chunks = NULL;</span>
+<span class="lineNum">     402 </span><span class="lineCov">          3 :   SF_CHUNK_INFO *chunk  = NULL;</span>
+<span class="lineNum">     403 </span><span class="lineCov">          3 :   unsigned int numchunks=(PRIVATE(ax)-&gt;sf_numchunks);</span>
 <span class="lineNum">     404 </span>            : 
-<span class="lineNum">     405 </span><span class="lineCov">        192 :   if(datasize4*4 &lt; datasize)</span>
+<span class="lineNum">     405 </span><span class="lineCov">          3 :   if(datasize4*4 &lt; datasize)</span>
 <span class="lineNum">     406 </span><span class="lineCov">          1 :     datasize4++;</span>
 <span class="lineNum">     407 </span>            : 
 <span class="lineNum">     408 </span>            :   /* (re-)allocate memory for the new chunk - data has to be kept until file closes! */
-<span class="lineNum">     409 </span><span class="lineCov">        192 :   if (0 == numchunks) {</span>
-<span class="lineNum">     410 </span><span class="lineCov">         64 :     chunks = (SF_CHUNK_INFO*)calloc(1, sizeof(*chunks));</span>
+<span class="lineNum">     409 </span><span class="lineCov">          3 :   if (0 == numchunks) {</span>
+<span class="lineNum">     410 </span><span class="lineCov">          1 :     chunks = (SF_CHUNK_INFO*)calloc(1, sizeof(*chunks));</span>
 <span class="lineNum">     411 </span>            :   } else {
-<span class="lineNum">     412 </span><span class="lineCov">        128 :     chunks = (SF_CHUNK_INFO*)realloc(PRIVATE(ax)-&gt;sf_otherchunks, (numchunks+1)*sizeof(*chunks));</span>
+<span class="lineNum">     412 </span><span class="lineCov">          2 :     chunks = (SF_CHUNK_INFO*)realloc(PRIVATE(ax)-&gt;sf_otherchunks, (numchunks+1)*sizeof(*chunks));</span>
 <span class="lineNum">     413 </span>            :   }
-<span class="lineNum">     414 </span><span class="lineCov">        192 :   if (NULL == chunks)</span>
+<span class="lineNum">     414 </span><span class="lineCov">          3 :   if (NULL == chunks)</span>
 <span class="lineNum">     415 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_UNKNOWN;</span>
-<span class="lineNum">     416 </span><span class="lineCov">        192 :   chunk = chunks + numchunks;</span>
-<span class="lineNum">     417 </span><span class="lineCov">        192 :   memset (chunk, 0, sizeof (*chunk)) ;</span>
+<span class="lineNum">     416 </span><span class="lineCov">          3 :   chunk = chunks + numchunks;</span>
+<span class="lineNum">     417 </span><span class="lineCov">          3 :   memset (chunk, 0, sizeof (*chunk)) ;</span>
 <span class="lineNum">     418 </span>            : 
 <span class="lineNum">     419 </span>            :   //snprintf (chunk-&gt;id, 4, id) ;
-<span class="lineNum">     420 </span><span class="lineCov">        192 :   memcpy(chunk-&gt;id, &amp;id, 4);</span>
-<span class="lineNum">     421 </span><span class="lineCov">        192 :   chunk-&gt;id_size = 4 ;</span>
-<span class="lineNum">     422 </span><span class="lineCov">        192 :   if(chunk-&gt;data)</span>
+<span class="lineNum">     420 </span><span class="lineCov">          3 :   memcpy(chunk-&gt;id, &amp;id, 4);</span>
+<span class="lineNum">     421 </span><span class="lineCov">          3 :   chunk-&gt;id_size = 4 ;</span>
+<span class="lineNum">     422 </span><span class="lineCov">          3 :   if(chunk-&gt;data)</span>
 <span class="lineNum">     423 </span><span class="lineNoCov">          0 :     free(chunk-&gt;data);</span>
 <span class="lineNum">     424 </span>            : 
-<span class="lineNum">     425 </span><span class="lineCov">        192 :   chunk-&gt;data = calloc(datasize4, 4);</span>
+<span class="lineNum">     425 </span><span class="lineCov">          3 :   chunk-&gt;data = calloc(datasize4, 4);</span>
 <span class="lineNum">     426 </span>            : 
-<span class="lineNum">     427 </span><span class="lineCov">        192 :   memcpy(chunk-&gt;data, data, datasize);</span>
-<span class="lineNum">     428 </span><span class="lineCov">        192 :   chunk-&gt;datalen = datasize ;</span>
-<span class="lineNum">     429 </span><span class="lineCov">        192 :   err = sf_set_chunk (PRIVATE(ax)-&gt;sf_file, chunk);</span>
+<span class="lineNum">     427 </span><span class="lineCov">          3 :   memcpy(chunk-&gt;data, data, datasize);</span>
+<span class="lineNum">     428 </span><span class="lineCov">          3 :   chunk-&gt;datalen = datasize ;</span>
+<span class="lineNum">     429 </span><span class="lineCov">          3 :   err = sf_set_chunk (PRIVATE(ax)-&gt;sf_file, chunk);</span>
 <span class="lineNum">     430 </span>            : 
-<span class="lineNum">     431 </span><span class="lineCov">        192 :   PRIVATE(ax)-&gt;sf_numchunks += 1;</span>
-<span class="lineNum">     432 </span><span class="lineCov">        192 :   PRIVATE(ax)-&gt;sf_otherchunks = chunks;</span>
+<span class="lineNum">     431 </span><span class="lineCov">          3 :   PRIVATE(ax)-&gt;sf_numchunks += 1;</span>
+<span class="lineNum">     432 </span><span class="lineCov">          3 :   PRIVATE(ax)-&gt;sf_otherchunks = chunks;</span>
 <span class="lineNum">     433 </span>            : 
-<span class="lineNum">     434 </span><span class="lineCov">        192 :   if(SF_ERR_NO_ERROR != err)</span>
+<span class="lineNum">     434 </span><span class="lineCov">          3 :   if(SF_ERR_NO_ERROR != err)</span>
 <span class="lineNum">     435 </span><span class="lineNoCov">          0 :     return AMBIX_ERR_UNKNOWN;</span>
-<span class="lineNum">     436 </span><span class="lineCov">        192 :   return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     436 </span><span class="lineCov">          3 :   return AMBIX_ERR_SUCCESS;</span>
 <span class="lineNum">     437 </span>            : #endif
 <a name="438"><span class="lineNum">     438 </span>            :   return  AMBIX_ERR_UNKNOWN;</a>
 <span class="lineNum">     439 </span>            : }
-<span class="lineNum">     440 </span><span class="lineCov">        727 : void* _ambix_read_chunk(ambix_t*ax, uint32_t id, uint32_t chunk_it, int64_t *datasize) {</span>
+<span class="lineNum">     440 </span><span class="lineCov">        609 : void* _ambix_read_chunk(ambix_t*ax, uint32_t id, uint32_t chunk_it, int64_t *datasize) {</span>
 <span class="lineNum">     441 </span>            : #if defined HAVE_SF_GET_CHUNK_ITERATOR
 <span class="lineNum">     442 </span>            :   int err;
 <span class="lineNum">     443 </span>            :   SF_CHUNK_INFO chunk_info;
 <span class="lineNum">     444 </span>            :   SF_CHUNK_ITERATOR * iterator;
 <span class="lineNum">     445 </span>            :   int i;
-<span class="lineNum">     446 </span><span class="lineCov">        727 :   memset (&amp;chunk_info, 0, sizeof (chunk_info));</span>
-<span class="lineNum">     447 </span><span class="lineCov">        727 :   memcpy(chunk_info.id, &amp;id, 4);</span>
-<span class="lineNum">     448 </span><span class="lineCov">        727 :   chunk_info.id_size = 4;</span>
-<span class="lineNum">     449 </span><span class="lineCov">        727 :   iterator = sf_get_chunk_iterator (PRIVATE(ax)-&gt;sf_file, &amp;chunk_info);</span>
-<span class="lineNum">     450 </span><span class="lineCov">        727 :   if (!iterator) {</span>
-<span class="lineNum">     451 </span><span class="lineCov">        249 :     *datasize = 0;</span>
-<span class="lineNum">     452 </span><span class="lineCov">        249 :     return NULL;</span>
+<span class="lineNum">     446 </span><span class="lineCov">        609 :   memset (&amp;chunk_info, 0, sizeof (chunk_info));</span>
+<span class="lineNum">     447 </span><span class="lineCov">        609 :   memcpy(chunk_info.id, &amp;id, 4);</span>
+<span class="lineNum">     448 </span><span class="lineCov">        609 :   chunk_info.id_size = 4;</span>
+<span class="lineNum">     449 </span><span class="lineCov">        609 :   iterator = sf_get_chunk_iterator (PRIVATE(ax)-&gt;sf_file, &amp;chunk_info);</span>
+<span class="lineNum">     450 </span><span class="lineCov">        609 :   if (!iterator) {</span>
+<span class="lineNum">     451 </span><span class="lineCov">        603 :     *datasize = 0;</span>
+<span class="lineNum">     452 </span><span class="lineCov">        603 :     return NULL;</span>
 <span class="lineNum">     453 </span>            :   }
 <span class="lineNum">     454 </span>            :   // jump to wanted iterator
-<span class="lineNum">     455 </span><span class="lineCov">        478 :   for (i=0; i&lt;chunk_it; i++) {</span>
-<span class="lineNum">     456 </span><span class="lineCov">        121 :     iterator = sf_next_chunk_iterator (iterator) ;</span>
-<span class="lineNum">     457 </span><span class="lineCov">        121 :     if (!iterator) {</span>
-<span class="lineNum">     458 </span><span class="lineCov">        121 :       *datasize = 0;</span>
-<span class="lineNum">     459 </span><span class="lineCov">        121 :       return NULL;</span>
+<span class="lineNum">     455 </span><span class="lineCov">          6 :   for (i=0; i&lt;chunk_it; i++) {</span>
+<span class="lineNum">     456 </span><span class="lineCov">          3 :     iterator = sf_next_chunk_iterator (iterator) ;</span>
+<span class="lineNum">     457 </span><span class="lineCov">          3 :     if (!iterator) {</span>
+<span class="lineNum">     458 </span><span class="lineCov">          3 :       *datasize = 0;</span>
+<span class="lineNum">     459 </span><span class="lineCov">          3 :       return NULL;</span>
 <span class="lineNum">     460 </span>            :     }
 <span class="lineNum">     461 </span>            :   }
-<span class="lineNum">     462 </span><span class="lineCov">        357 :   memset (&amp;chunk_info, 0, sizeof (chunk_info));</span>
-<span class="lineNum">     463 </span><span class="lineCov">        357 :   err = sf_get_chunk_size (iterator, &amp;chunk_info);</span>
-<span class="lineNum">     464 </span><span class="lineCov">        357 :   if (!chunk_info.datalen) {</span>
-<span class="lineNum">     465 </span><span class="lineCov">        236 :     *datasize = 0;</span>
-<span class="lineNum">     466 </span><span class="lineCov">        236 :     return NULL;</span>
+<span class="lineNum">     462 </span><span class="lineCov">          3 :   memset (&amp;chunk_info, 0, sizeof (chunk_info));</span>
+<span class="lineNum">     463 </span><span class="lineCov">          3 :   err = sf_get_chunk_size (iterator, &amp;chunk_info);</span>
+<span class="lineNum">     464 </span><span class="lineCov">          3 :   if (!chunk_info.datalen) {</span>
+<span class="lineNum">     465 </span><span class="lineNoCov">          0 :     *datasize = 0;</span>
+<span class="lineNum">     466 </span><span class="lineNoCov">          0 :     return NULL;</span>
 <span class="lineNum">     467 </span>            :   }
-<span class="lineNum">     468 </span><span class="lineCov">        121 :   chunk_info.data = malloc (chunk_info.datalen); // has to be freed later by the caller!</span>
-<span class="lineNum">     469 </span><span class="lineCov">        121 :   err = sf_get_chunk_data (iterator, &amp;chunk_info);</span>
+<span class="lineNum">     468 </span><span class="lineCov">          3 :   chunk_info.data = malloc (chunk_info.datalen); // has to be freed later by the caller!</span>
+<span class="lineNum">     469 </span><span class="lineCov">          3 :   err = sf_get_chunk_data (iterator, &amp;chunk_info);</span>
 <span class="lineNum">     470 </span>            : 
 <span class="lineNum">     471 </span>            :   // free (chunk_info.data);
-<span class="lineNum">     472 </span><span class="lineCov">        121 :   *datasize = chunk_info.datalen;</span>
-<span class="lineNum">     473 </span><span class="lineCov">        121 :   return chunk_info.data;</span>
+<span class="lineNum">     472 </span><span class="lineCov">          3 :   *datasize = chunk_info.datalen;</span>
+<span class="lineNum">     473 </span><span class="lineCov">          3 :   return chunk_info.data;</span>
 <span class="lineNum">     474 </span>            : #endif
-<span class="lineNum">     475 </span>            :   *datasize = 0;
-<span class="lineNum">     476 </span>            :   return NULL;
-<span class="lineNum">     477 </span>            : }
+<span class="lineNum">     475 </span>            :   /* coverity[unreachable]: reachable in the case of sndfile without set_chunk */
+<span class="lineNum">     476 </span>            :   *datasize = 0;
+<span class="lineNum">     477 </span>            :   return NULL;
+<span class="lineNum">     478 </span>            : }
 </pre>
       </td>
     </tr>

@@ -31,9 +31,9 @@
             <td class="headerValue">libambix test coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">248</td>
-            <td class="headerCovTableEntry">264</td>
-            <td class="headerCovTableEntryHi">93.9 %</td>
+            <td class="headerCovTableEntry">257</td>
+            <td class="headerCovTableEntry">270</td>
+            <td class="headerCovTableEntryHi">95.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
@@ -124,452 +124,462 @@
 <span class="lineNum">      62 </span>            : } kCAF_SMPTE_TimeType; // uint32_t
 <span class="lineNum">      63 </span>            : 
 <span class="lineNum">      64 </span>            : /* this is for the mType field of CAFMarker */
-<span class="lineNum">      65 </span>            : typedef enum {
-<span class="lineNum">      66 </span>            :     kCAFMarkerType_Generic              = 0,
-<span class="lineNum">      67 </span>            :     kCAFMarkerType_ProgramStart         = 'pbeg',
-<span class="lineNum">      68 </span>            :     kCAFMarkerType_ProgramEnd           = 'pend',
-<span class="lineNum">      69 </span>            :     kCAFMarkerType_TrackStart           = 'tbeg',
-<span class="lineNum">      70 </span>            :     kCAFMarkerType_TrackEnd             = 'tend',
-<span class="lineNum">      71 </span>            :     kCAFMarkerType_Index                = 'indx',
-<span class="lineNum">      72 </span>            :     kCAFMarkerType_RegionStart          = 'rbeg',
-<span class="lineNum">      73 </span>            :     kCAFMarkerType_RegionEnd            = 'rend',
-<span class="lineNum">      74 </span>            :     kCAFMarkerType_RegionSyncPoint      = 'rsyc',
-<span class="lineNum">      75 </span>            :     kCAFMarkerType_SelectionStart       = 'sbeg',
-<span class="lineNum">      76 </span>            :     kCAFMarkerType_SelectionEnd         = 'send',
-<span class="lineNum">      77 </span>            :     kCAFMarkerType_EditSourceBegin      = 'cbeg',
-<span class="lineNum">      78 </span>            :     kCAFMarkerType_EditSourceEnd        = 'cend',
-<span class="lineNum">      79 </span>            :     kCAFMarkerType_EditDestinationBegin = 'dbeg',
-<span class="lineNum">      80 </span>            :     kCAFMarkerType_EditDestinationEnd   = 'dend',
-<span class="lineNum">      81 </span>            :     kCAFMarkerType_SustainLoopStart     = 'slbg',
-<span class="lineNum">      82 </span>            :     kCAFMarkerType_SustainLoopEnd       = 'slen',
-<span class="lineNum">      83 </span>            :     kCAFMarkerType_ReleaseLoopStart     = 'rlbg',
-<span class="lineNum">      84 </span>            :     kCAFMarkerType_ReleaseLoopEnd       = 'rlen'
-<span class="lineNum">      85 </span>            : } kCAFMarkerType; // uint32_t
-<span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span>            : /* individual marker struct */
-<span class="lineNum">      88 </span>            : typedef struct {
-<span class="lineNum">      89 </span>            :     uint32_t        mType;
-<span class="lineNum">      90 </span>            :     float64_t       mFramePosition;
-<span class="lineNum">      91 </span>            :     uint32_t        mMarkerID;        // reference to a mStringsIDs for naming
-<span class="lineNum">      92 </span>            :     CAF_SMPTE_Time  mSMPTETime;
-<span class="lineNum">      93 </span>            :     uint32_t        mChannel;
-<span class="lineNum">      94 </span>            : } CAFMarker;
-<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      65 </span>            : #define AMBIX_MAKE_MARKER(a, b, c, d) ((uint32_t) ((((uint32_t) (a)) &lt;&lt; 24) | ((b) &lt;&lt; 16) | ((c) &lt;&lt; 8) | (d)))
+<span class="lineNum">      66 </span>            : typedef enum {
+<span class="lineNum">      67 </span>            :     kCAFMarkerType_Generic              = 0,
+<span class="lineNum">      68 </span>            :     kCAFMarkerType_ProgramStart         = AMBIX_MAKE_MARKER('p', 'b', 'e', 'g'),
+<span class="lineNum">      69 </span>            :     kCAFMarkerType_ProgramEnd           = AMBIX_MAKE_MARKER('p', 'e', 'n', 'd'),
+<span class="lineNum">      70 </span>            :     kCAFMarkerType_TrackStart           = AMBIX_MAKE_MARKER('t', 'b', 'e', 'g'),
+<span class="lineNum">      71 </span>            :     kCAFMarkerType_TrackEnd             = AMBIX_MAKE_MARKER('t', 'e', 'n', 'd'),
+<span class="lineNum">      72 </span>            :     kCAFMarkerType_Index                = AMBIX_MAKE_MARKER('i', 'n', 'd', 'x'),
+<span class="lineNum">      73 </span>            :     kCAFMarkerType_RegionStart          = AMBIX_MAKE_MARKER('r', 'b', 'e', 'g'),
+<span class="lineNum">      74 </span>            :     kCAFMarkerType_RegionEnd            = AMBIX_MAKE_MARKER('r', 'e', 'n', 'd'),
+<span class="lineNum">      75 </span>            :     kCAFMarkerType_RegionSyncPoint      = AMBIX_MAKE_MARKER('r', 's', 'y', 'c'),
+<span class="lineNum">      76 </span>            :     kCAFMarkerType_SelectionStart       = AMBIX_MAKE_MARKER('s', 'b', 'e', 'g'),
+<span class="lineNum">      77 </span>            :     kCAFMarkerType_SelectionEnd         = AMBIX_MAKE_MARKER('s', 'e', 'n', 'd'),
+<span class="lineNum">      78 </span>            :     kCAFMarkerType_EditSourceBegin      = AMBIX_MAKE_MARKER('c', 'b', 'e', 'g'),
+<span class="lineNum">      79 </span>            :     kCAFMarkerType_EditSourceEnd        = AMBIX_MAKE_MARKER('c', 'e', 'n', 'd'),
+<span class="lineNum">      80 </span>            :     kCAFMarkerType_EditDestinationBegin = AMBIX_MAKE_MARKER('d', 'b', 'e', 'g'),
+<span class="lineNum">      81 </span>            :     kCAFMarkerType_EditDestinationEnd   = AMBIX_MAKE_MARKER('d', 'e', 'n', 'd'),
+<span class="lineNum">      82 </span>            :     kCAFMarkerType_SustainLoopStart     = AMBIX_MAKE_MARKER('s', 'l', 'b', 'g'),
+<span class="lineNum">      83 </span>            :     kCAFMarkerType_SustainLoopEnd       = AMBIX_MAKE_MARKER('s', 'l', 'e', 'n'),
+<span class="lineNum">      84 </span>            :     kCAFMarkerType_ReleaseLoopStart     = AMBIX_MAKE_MARKER('r', 'l', 'b', 'g'),
+<span class="lineNum">      85 </span>            :     kCAFMarkerType_ReleaseLoopEnd       = AMBIX_MAKE_MARKER('r', 'l', 'e', 'n'),
+<span class="lineNum">      86 </span>            : } kCAFMarkerType; // uint32_t
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            : /* individual marker struct */
+<span class="lineNum">      89 </span>            : typedef struct {
+<span class="lineNum">      90 </span>            :     kCAFMarkerType  mType;
+<span class="lineNum">      91 </span>            :     float64_t       mFramePosition;
+<span class="lineNum">      92 </span>            :     uint32_t        mMarkerID;        // reference to a mStringsIDs for naming
+<span class="lineNum">      93 </span>            :     CAF_SMPTE_Time  mSMPTETime;
+<span class="lineNum">      94 </span>            :     uint32_t        mChannel;
+<span class="lineNum">      95 </span>            : } CAFMarker;
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span>            : /* chunk holding all markers */
-<span class="lineNum">      98 </span>            : typedef struct {
-<span class="lineNum">      99 </span>            :     uint32_t     mSMPTE_TimeType;
-<span class="lineNum">     100 </span>            :     uint32_t     mNumberMarkers;
-<span class="lineNum">     101 </span>            :     CAFMarker*  mMarkers;
-<span class="lineNum">     102 </span>            : } CAFMarkerChunk;
-<span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span>            : /* ------------------------------------------------ */
-<span class="lineNum">     105 </span>            : /* REGIONS CHUNK */
-<span class="lineNum">     106 </span>            : 
-<span class="lineNum">     107 </span>            : /* used for mFlags in CAFRegion */
-<span class="lineNum">     108 </span>            : typedef enum {
-<span class="lineNum">     109 </span>            :     kCAFRegionFlag_LoopEnable    = 1,
-<span class="lineNum">     110 </span>            :     kCAFRegionFlag_PlayForward   = 2,
-<span class="lineNum">     111 </span>            :     kCAFRegionFlag_PlayBackward  = 4
-<span class="lineNum">     112 </span>            : } kCAFRegionFlag; // uint32_t
-<span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span>            : typedef struct {
-<span class="lineNum">     115 </span>            :     uint32_t    mRegionID;
-<span class="lineNum">     116 </span>            :     uint32_t    mFlags;
-<span class="lineNum">     117 </span>            :     uint32_t    mNumberMarkers;
-<span class="lineNum">     118 </span>            :     CAFMarker* mMarkers;
-<span class="lineNum">     119 </span>            : } CAFRegion;
-<span class="lineNum">     120 </span>            : #define SIZEOF_CAFRegion 12
-<span class="lineNum">     121 </span>            : 
-<span class="lineNum">     122 </span>            : typedef struct {
-<span class="lineNum">     123 </span>            :     uint32_t     mSMPTE_TimeType;
-<span class="lineNum">     124 </span>            :     uint32_t     mNumberRegions;
-<span class="lineNum">     125 </span>            :     CAFRegion*   mRegions;
-<span class="lineNum">     126 </span>            : } CAFRegionChunk;
-<span class="lineNum">     127 </span>            : #define SIZEOF_CAFRegionChunk 8
-<span class="lineNum">     128 </span>            : 
-<span class="lineNum">     129 </span>            : /* ------------------------------------------------ */
-<span class="lineNum">     130 </span>            : /* STRINGS CHUNK - used as labels for Markers and Regions*/
-<span class="lineNum">     131 </span>            : 
-<span class="lineNum">     132 </span>            : typedef struct {
-<span class="lineNum">     133 </span>            :     uint32_t  mStringID;
-<span class="lineNum">     134 </span>            :     int64_t   mStringStartByteOffset;
-<span class="lineNum">     135 </span>            : } CAFStringID;
-<span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span>            : typedef struct {
-<span class="lineNum">     138 </span>            :     uint32_t       mNumEntries; // The number of strings in the mStrings field.
-<span class="lineNum">     139 </span>            :     CAFStringID*   mStringsIDs; // the marker refers to this id with mMarkerID
-<span class="lineNum">     140 </span>            :     unsigned char* mStrings;    // An array of null-terminated UTF8-encoded text strings.
-<span class="lineNum">     141 </span>            : } CAFStrings;
-<span class="lineNum">     142 </span>            : #define SIZEOF_CAFStrings 4
-<span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span>            : #pragma pack(pop)
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span>            : union int_chars {
-<span class="lineNum">     147 </span>            :   uint32_t a;
-<span class="lineNum">     148 </span>            :   char b[4];
-<span class="lineNum">     149 </span>            : };
-<span class="lineNum">     150 </span>            : 
-<span class="lineNum">     151 </span>            : typedef struct {
-<span class="lineNum">     152 </span>            :   uint32_t      num_strings;
-<span class="lineNum">     153 </span>            :   uint32_t      *string_ids;
-<span class="lineNum">     154 </span>            :   unsigned char **strings;
-<a name="155"><span class="lineNum">     155 </span>            : } strings_buffer;</a>
-<span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span><span class="lineCov">          2 : void swap_marker_chunk(CAFMarkerChunk* marker_chunk) {</span>
-<span class="lineNum">     158 </span><span class="lineCov">          2 :   _ambix_swap4array(&amp;marker_chunk-&gt;mSMPTE_TimeType, 1);</span>
-<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          2 :   _ambix_swap4array(&amp;marker_chunk-&gt;mNumberMarkers, 1);</span></a>
-<span class="lineNum">     160 </span><span class="lineCov">          2 : }</span>
-<span class="lineNum">     161 </span><span class="lineCov">         18 : void swap_marker(CAFMarker* marker) {</span>
-<span class="lineNum">     162 </span><span class="lineCov">         18 :   _ambix_swap4array(&amp;marker-&gt;mType, 1);</span>
-<span class="lineNum">     163 </span><span class="lineCov">         18 :   _ambix_swap8array((uint64_t *)&amp;marker-&gt;mFramePosition, 1);</span>
-<span class="lineNum">     164 </span><span class="lineCov">         18 :   _ambix_swap4array(&amp;marker-&gt;mMarkerID, 1);</span>
-<a name="165"><span class="lineNum">     165 </span><span class="lineCov">         18 :   _ambix_swap4array(&amp;marker-&gt;mChannel, 1);</span></a>
-<span class="lineNum">     166 </span><span class="lineCov">         18 : }</span>
-<span class="lineNum">     167 </span><span class="lineCov">          6 : void swap_region(CAFRegion* region) {</span>
-<span class="lineNum">     168 </span><span class="lineCov">          6 :   _ambix_swap4array(&amp;region-&gt;mRegionID, 1);</span>
-<span class="lineNum">     169 </span><span class="lineCov">          6 :   _ambix_swap4array(&amp;region-&gt;mFlags, 1);</span>
-<a name="170"><span class="lineNum">     170 </span><span class="lineCov">          6 :   _ambix_swap4array(&amp;region-&gt;mNumberMarkers, 1);</span></a>
-<span class="lineNum">     171 </span><span class="lineCov">          6 : }</span>
-<span class="lineNum">     172 </span><span class="lineCov">         65 : void swap_region_chunk(CAFRegionChunk* region_chunk) {</span>
-<span class="lineNum">     173 </span><span class="lineCov">         65 :   _ambix_swap4array(&amp;region_chunk-&gt;mSMPTE_TimeType, 1);</span>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">         65 :   _ambix_swap4array(&amp;region_chunk-&gt;mNumberRegions, 1);</span></a>
-<span class="lineNum">     175 </span><span class="lineCov">         65 : }</span>
-<span class="lineNum">     176 </span><span class="lineCov">         12 : void swap_stringid(CAFStringID* caf_stringid) {</span>
-<span class="lineNum">     177 </span><span class="lineCov">         12 :   _ambix_swap4array(&amp;caf_stringid-&gt;mStringID, 1);</span>
-<a name="178"><span class="lineNum">     178 </span><span class="lineCov">         12 :   _ambix_swap8array((uint64_t *)&amp;caf_stringid-&gt;mStringStartByteOffset, 1);</span></a>
-<span class="lineNum">     179 </span><span class="lineCov">         12 : }</span>
-<span class="lineNum">     180 </span><span class="lineCov">          6 : unsigned char* get_string_from_buffer(strings_buffer* buffer, uint32_t id) {</span>
-<span class="lineNum">     181 </span><span class="lineCov">          6 :   if (buffer) {</span>
-<span class="lineNum">     182 </span>            :     uint32_t i;
-<span class="lineNum">     183 </span><span class="lineCov">         21 :     for (i=0; i&lt;buffer-&gt;num_strings;i++) {</span>
-<span class="lineNum">     184 </span><span class="lineCov">         21 :       if (buffer-&gt;string_ids[i] == id)</span>
-<span class="lineNum">     185 </span><span class="lineCov">          6 :         return buffer-&gt;strings[i];</span>
-<span class="lineNum">     186 </span>            :     }
-<span class="lineNum">     187 </span><span class="lineNoCov">          0 :     return NULL;</span>
-<span class="lineNum">     188 </span>            :   } else
-<span class="lineNum">     189 </span><span class="lineNoCov">          0 :     return NULL;</span>
-<a name="190"><span class="lineNum">     190 </span>            : }</a>
-<span class="lineNum">     191 </span>            : 
-<span class="lineNum">     192 </span><span class="lineCov">        202 : ambix_err_t _ambix_read_markersregions(ambix_t*ambix) {</span>
-<span class="lineNum">     193 </span><span class="lineCov">        202 :   int byteswap = ambix-&gt;byteswap;</span>
-<span class="lineNum">     194 </span><span class="lineCov">        202 :   uint32_t chunk_it = 0;</span>
-<span class="lineNum">     195 </span>            :   uint32_t i;
-<span class="lineNum">     196 </span>            : 
-<span class="lineNum">     197 </span><span class="lineCov">        202 :   int64_t strings_datasize = 1;</span>
-<span class="lineNum">     198 </span>            :   union int_chars strg_id;
-<span class="lineNum">     199 </span>            :   strings_buffer mystrings;
-<span class="lineNum">     200 </span><span class="lineCov">        202 :   memset(&amp;mystrings, 0, sizeof(strings_buffer));</span>
-<span class="lineNum">     201 </span>            : 
-<span class="lineNum">     202 </span><span class="lineCov">        202 :   strg_id.b[0] = 's'; strg_id.b[1] = 't'; strg_id.b[2] = 'r'; strg_id.b[3] = 'g';</span>
-<span class="lineNum">     203 </span>            : 
-<span class="lineNum">     204 </span>            :   /* first parse strings and save into a struct for later usage */
-<span class="lineNum">     205 </span><span class="lineCov">        607 :   while (strings_datasize) {</span>
-<span class="lineNum">     206 </span><span class="lineCov">        203 :     void*strings_data = _ambix_read_chunk(ambix, strg_id.a, chunk_it++, &amp;strings_datasize);</span>
-<span class="lineNum">     207 </span><span class="lineCov">        203 :     if (strings_datasize &gt; SIZEOF_CAFStrings) {</span>
-<span class="lineNum">     208 </span><span class="lineCov">          1 :       uint32_t temp_num_strings = 0;</span>
-<span class="lineNum">     209 </span><span class="lineCov">          1 :       int64_t mstrings_datasize = 0;</span>
-<span class="lineNum">     210 </span><span class="lineCov">          1 :       char *strings_ptr = NULL;</span>
-<span class="lineNum">     211 </span><span class="lineCov">          1 :       CAFStringID* caf_stringid = NULL;</span>
-<span class="lineNum">     212 </span><span class="lineCov">          1 :       CAFStrings* strings_chunk = (CAFStrings*)strings_data;</span>
-<span class="lineNum">     213 </span><span class="lineCov">          1 :       if (byteswap)</span>
-<span class="lineNum">     214 </span><span class="lineCov">          1 :         _ambix_swap4array(&amp;strings_chunk-&gt;mNumEntries, 1);</span>
-<span class="lineNum">     215 </span><span class="lineCov">          1 :       if (strings_datasize &lt; (SIZEOF_CAFStrings + strings_chunk-&gt;mNumEntries*sizeof(CAFStringID))) {</span>
-<span class="lineNum">     216 </span><span class="lineNoCov">          0 :         if (strings_data)</span>
-<span class="lineNum">     217 </span><span class="lineNoCov">          0 :           free(strings_data);</span>
-<span class="lineNum">     218 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     219 </span>            :       }
-<span class="lineNum">     220 </span><span class="lineCov">          1 :       temp_num_strings = strings_chunk-&gt;mNumEntries;</span>
-<span class="lineNum">     221 </span><span class="lineCov">          1 :       mstrings_datasize = strings_datasize - (SIZEOF_CAFStrings + temp_num_strings*sizeof(CAFStringID));</span>
-<span class="lineNum">     222 </span>            :       // allocate memory for mystrings
-<span class="lineNum">     223 </span><span class="lineCov">          1 :       if (!mystrings.string_ids) {</span>
-<span class="lineNum">     224 </span><span class="lineCov">          1 :         mystrings.string_ids = malloc((mystrings.num_strings+temp_num_strings)*sizeof(uint32_t));</span>
-<span class="lineNum">     225 </span><span class="lineCov">          1 :         mystrings.strings = malloc((mystrings.num_strings+temp_num_strings)*sizeof(unsigned char*));</span>
-<span class="lineNum">     226 </span>            :       } else {
-<span class="lineNum">     227 </span><span class="lineNoCov">          0 :         mystrings.string_ids = realloc(mystrings.string_ids, (mystrings.num_strings+temp_num_strings)*sizeof(uint32_t));</span>
-<span class="lineNum">     228 </span><span class="lineNoCov">          0 :         mystrings.strings = realloc(mystrings.strings, (mystrings.num_strings+temp_num_strings)*sizeof(unsigned char*));</span>
-<span class="lineNum">     229 </span>            :       }
-<span class="lineNum">     230 </span><span class="lineCov">          1 :       strings_ptr = strings_data;</span>
-<span class="lineNum">     231 </span><span class="lineCov">          1 :       strings_ptr += (4+temp_num_strings*sizeof(CAFStringID)); // start of mStrings</span>
-<span class="lineNum">     232 </span><span class="lineCov">          1 :       caf_stringid = (CAFStringID*)(&amp;strings_data[4]);</span>
-<span class="lineNum">     233 </span><span class="lineCov">          7 :       for (i=0; i&lt;temp_num_strings; i++) {</span>
-<span class="lineNum">     234 </span><span class="lineCov">          6 :         unsigned char* mString = NULL;</span>
-<span class="lineNum">     235 </span><span class="lineCov">          6 :         uint32_t mString_len = 0;</span>
-<span class="lineNum">     236 </span><span class="lineCov">          6 :         if (byteswap)</span>
-<span class="lineNum">     237 </span><span class="lineCov">          6 :           swap_stringid(&amp;caf_stringid[i]);</span>
-<span class="lineNum">     238 </span><span class="lineCov">          6 :         if (caf_stringid[i].mStringStartByteOffset &gt;= mstrings_datasize)</span>
-<span class="lineNum">     239 </span><span class="lineNoCov">          0 :           break; // invalid offset!</span>
-<span class="lineNum">     240 </span><span class="lineCov">          6 :         mString = (unsigned char*) (strings_ptr+caf_stringid[i].mStringStartByteOffset);</span>
-<span class="lineNum">     241 </span><span class="lineCov">          6 :         mystrings.string_ids[mystrings.num_strings] = caf_stringid[i].mStringID;</span>
-<span class="lineNum">     242 </span><span class="lineCov">          6 :         mString_len = strlen((const char *)mString);</span>
-<span class="lineNum">     243 </span><span class="lineCov">          6 :         mystrings.strings[mystrings.num_strings] = calloc((mString_len+1), sizeof(unsigned char));</span>
-<span class="lineNum">     244 </span><span class="lineCov">          6 :         memcpy(mystrings.strings[mystrings.num_strings], mString, mString_len*sizeof(unsigned char));</span>
-<span class="lineNum">     245 </span><span class="lineCov">          6 :         mystrings.num_strings++;</span>
-<span class="lineNum">     246 </span>            :       }
-<span class="lineNum">     247 </span>            :     }
-<span class="lineNum">     248 </span><span class="lineCov">        203 :     if (strings_data)</span>
-<span class="lineNum">     249 </span><span class="lineCov">          1 :       free(strings_data);</span>
-<span class="lineNum">     250 </span>            :   }
-<span class="lineNum">     251 </span>            : 
-<span class="lineNum">     252 </span>            :   /* parse markers */
-<span class="lineNum">     253 </span>            :   do {
-<span class="lineNum">     254 </span><span class="lineCov">        202 :     int64_t marker_datasize = 1;</span>
-<span class="lineNum">     255 </span>            :     union int_chars mark_id;
-<span class="lineNum">     256 </span><span class="lineCov">        202 :     chunk_it = 0;</span>
-<span class="lineNum">     257 </span><span class="lineCov">        202 :     mark_id.b[0] = 'm'; mark_id.b[1] = 'a'; mark_id.b[2] = 'r'; mark_id.b[3] = 'k';</span>
-<span class="lineNum">     258 </span><span class="lineCov">        607 :     while (marker_datasize) {</span>
-<span class="lineNum">     259 </span><span class="lineCov">        203 :       void*marker_data = _ambix_read_chunk(ambix, mark_id.a, chunk_it++, &amp;marker_datasize);</span>
-<span class="lineNum">     260 </span><span class="lineCov">        203 :       if (marker_datasize &gt; 2*sizeof(uint32_t)) {</span>
-<span class="lineNum">     261 </span><span class="lineCov">          1 :         CAFMarkerChunk* marker_chunk = (CAFMarkerChunk*)marker_data;</span>
-<span class="lineNum">     262 </span><span class="lineCov">          1 :         unsigned char* bytePtr = NULL;</span>
-<span class="lineNum">     263 </span><span class="lineCov">          1 :         if (byteswap)</span>
-<span class="lineNum">     264 </span><span class="lineCov">          1 :           swap_marker_chunk(marker_chunk);</span>
-<span class="lineNum">     265 </span><span class="lineCov">          1 :         if (marker_datasize &lt; (marker_chunk-&gt;mNumberMarkers*(sizeof(CAFMarker)) + 2*sizeof(uint32_t))) {</span>
-<span class="lineNum">     266 </span><span class="lineNoCov">          0 :           if (marker_data)</span>
-<span class="lineNum">     267 </span><span class="lineNoCov">          0 :             free(marker_data);</span>
-<span class="lineNum">     268 </span><span class="lineNoCov">          0 :           break;</span>
-<span class="lineNum">     269 </span>            :         }
-<span class="lineNum">     270 </span><span class="lineCov">          1 :         bytePtr = (unsigned char*)marker_data;</span>
-<span class="lineNum">     271 </span><span class="lineCov">          1 :         bytePtr += 2*sizeof(uint32_t);</span>
-<span class="lineNum">     272 </span><span class="lineCov">          4 :         for (i=0; i&lt;marker_chunk-&gt;mNumberMarkers; i++) {</span>
-<span class="lineNum">     273 </span>            :           ambix_marker_t new_ambix_marker;
-<span class="lineNum">     274 </span><span class="lineCov">          3 :           CAFMarker *caf_marker = (CAFMarker*)bytePtr;</span>
-<span class="lineNum">     275 </span><span class="lineCov">          3 :           unsigned char* string = NULL;</span>
-<span class="lineNum">     276 </span><span class="lineCov">          3 :           if (byteswap)</span>
-<span class="lineNum">     277 </span><span class="lineCov">          3 :             swap_marker(caf_marker);</span>
-<span class="lineNum">     278 </span><span class="lineCov">          3 :           memset(&amp;new_ambix_marker, 0, sizeof(ambix_marker_t));</span>
-<span class="lineNum">     279 </span><span class="lineCov">          3 :           new_ambix_marker.position = caf_marker-&gt;mFramePosition;</span>
-<span class="lineNum">     280 </span><span class="lineCov">          3 :           string = get_string_from_buffer(&amp;mystrings, caf_marker-&gt;mMarkerID);</span>
-<span class="lineNum">     281 </span><span class="lineCov">          3 :           if (string) {</span>
-<span class="lineNum">     282 </span><span class="lineCov">          3 :             strncpy(new_ambix_marker.name, (const char *)string, 255);</span>
-<span class="lineNum">     283 </span>            :           }
-<span class="lineNum">     284 </span><span class="lineCov">          3 :           ambix_add_marker(ambix, &amp;new_ambix_marker);</span>
-<span class="lineNum">     285 </span><span class="lineCov">          3 :           bytePtr += sizeof(CAFMarker);</span>
-<span class="lineNum">     286 </span>            :         }
-<span class="lineNum">     287 </span>            :       }
-<span class="lineNum">     288 </span><span class="lineCov">        203 :       if (marker_data)</span>
-<span class="lineNum">     289 </span><span class="lineCov">          1 :         free(marker_data);</span>
-<span class="lineNum">     290 </span>            :     }
-<span class="lineNum">     291 </span>            :   } while(0);
-<span class="lineNum">     292 </span>            : 
-<span class="lineNum">     293 </span>            :   /* parse regions */
-<span class="lineNum">     294 </span>            :   do {
-<span class="lineNum">     295 </span><span class="lineCov">        202 :     void* region_data = NULL;</span>
-<span class="lineNum">     296 </span><span class="lineCov">        202 :     int64_t region_datasize = 1;</span>
-<span class="lineNum">     297 </span>            :     union int_chars regn_id;
-<span class="lineNum">     298 </span><span class="lineCov">        202 :     regn_id.b[0] = 'r'; regn_id.b[1] = 'e'; regn_id.b[2] = 'g'; regn_id.b[3] = 'n';</span>
-<span class="lineNum">     299 </span>            : 
-<span class="lineNum">     300 </span><span class="lineCov">        202 :     chunk_it = 0;</span>
-<span class="lineNum">     301 </span>            : 
-<span class="lineNum">     302 </span><span class="lineCov">        725 :     while (region_datasize) {</span>
-<span class="lineNum">     303 </span><span class="lineCov">        321 :       region_data = _ambix_read_chunk(ambix, regn_id.a, chunk_it++, &amp;region_datasize);</span>
-<span class="lineNum">     304 </span><span class="lineCov">        321 :       if (region_datasize &gt; 2*sizeof(uint32_t)) {</span>
-<span class="lineNum">     305 </span><span class="lineCov">          1 :         int64_t data_read = 0;</span>
-<span class="lineNum">     306 </span><span class="lineCov">          1 :         unsigned char* bytePtr = NULL;</span>
-<span class="lineNum">     307 </span><span class="lineCov">          1 :         CAFRegionChunk* region_chunk = (CAFRegionChunk*)region_data;</span>
-<span class="lineNum">     308 </span><span class="lineCov">          1 :         if (byteswap)</span>
-<span class="lineNum">     309 </span><span class="lineCov">          1 :           swap_region_chunk(region_chunk);</span>
-<span class="lineNum">     310 </span><span class="lineCov">          1 :         if (region_datasize &lt; (region_chunk-&gt;mNumberRegions*(SIZEOF_CAFRegion+sizeof(CAFMarker)) + SIZEOF_CAFRegionChunk)) {</span>
-<span class="lineNum">     311 </span><span class="lineNoCov">          0 :           if (region_data)</span>
-<span class="lineNum">     312 </span><span class="lineNoCov">          0 :             free(region_data);</span>
-<span class="lineNum">     313 </span><span class="lineNoCov">          0 :           break;</span>
-<span class="lineNum">     314 </span>            :         }
-<span class="lineNum">     315 </span><span class="lineCov">          1 :         bytePtr = (unsigned char*)region_data;</span>
-<span class="lineNum">     316 </span><span class="lineCov">          1 :         data_read += 2*sizeof(uint32_t); // SIZEOF_CAFRegionChunk</span>
-<span class="lineNum">     317 </span><span class="lineCov">          4 :         for (i=0; i&lt;region_chunk-&gt;mNumberRegions; i++) {</span>
-<span class="lineNum">     318 </span>            :           uint32_t j;
-<span class="lineNum">     319 </span>            :           ambix_region_t new_ambix_region;
-<span class="lineNum">     320 </span><span class="lineCov">          3 :           CAFRegion *caf_region = NULL;</span>
-<span class="lineNum">     321 </span><span class="lineCov">          3 :           if (region_datasize &lt; data_read + SIZEOF_CAFRegion)</span>
-<span class="lineNum">     322 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     323 </span><span class="lineCov">          3 :           caf_region = (CAFRegion*)&amp;bytePtr[data_read];</span>
-<span class="lineNum">     324 </span><span class="lineCov">          3 :           if (byteswap)</span>
-<span class="lineNum">     325 </span><span class="lineCov">          3 :             swap_region(caf_region);</span>
-<span class="lineNum">     326 </span><span class="lineCov">          3 :           memset(&amp;new_ambix_region, 0, sizeof(ambix_region_t));</span>
-<span class="lineNum">     327 </span>            :           /* iterate over all markers and find startMarker and endMarker */
-<span class="lineNum">     328 </span><span class="lineCov">          3 :           data_read += SIZEOF_CAFRegion;</span>
-<span class="lineNum">     329 </span><span class="lineCov">          9 :           for (j=0; j&lt;caf_region-&gt;mNumberMarkers; j++) {</span>
-<span class="lineNum">     330 </span><span class="lineCov">          6 :             CAFMarker *caf_marker = NULL;</span>
-<span class="lineNum">     331 </span><span class="lineCov">          6 :             if (region_datasize &lt; data_read + sizeof(CAFMarker))</span>
-<span class="lineNum">     332 </span><span class="lineNoCov">          0 :               break;</span>
-<span class="lineNum">     333 </span><span class="lineCov">          6 :             caf_marker = (CAFMarker*)&amp;bytePtr[data_read];</span>
-<span class="lineNum">     334 </span><span class="lineCov">          6 :             if (byteswap)</span>
-<span class="lineNum">     335 </span><span class="lineCov">          6 :               swap_marker(caf_marker);</span>
-<span class="lineNum">     336 </span><span class="lineCov">          6 :             if (caf_marker-&gt;mType == kCAFMarkerType_RegionStart) {</span>
-<span class="lineNum">     337 </span><span class="lineCov">          3 :               unsigned char* string = NULL;</span>
-<span class="lineNum">     338 </span><span class="lineCov">          3 :               new_ambix_region.start_position = caf_marker-&gt;mFramePosition;</span>
-<span class="lineNum">     339 </span><span class="lineCov">          3 :               string = get_string_from_buffer(&amp;mystrings, caf_marker-&gt;mMarkerID);</span>
-<span class="lineNum">     340 </span><span class="lineCov">          3 :               if (string)</span>
-<span class="lineNum">     341 </span><span class="lineCov">          3 :                 strncpy(new_ambix_region.name, (const char *)string, 255);</span>
-<span class="lineNum">     342 </span>            :             }
-<span class="lineNum">     343 </span><span class="lineCov">          3 :             else if (caf_marker-&gt;mType == kCAFMarkerType_RegionEnd)</span>
-<span class="lineNum">     344 </span><span class="lineCov">          3 :               new_ambix_region.end_position = caf_marker-&gt;mFramePosition;</span>
-<span class="lineNum">     345 </span><span class="lineCov">          6 :             data_read += sizeof(CAFMarker);</span>
-<span class="lineNum">     346 </span>            :           }
-<span class="lineNum">     347 </span><span class="lineCov">          3 :           ambix_add_region(ambix, &amp;new_ambix_region);</span>
-<span class="lineNum">     348 </span>            :         }
-<span class="lineNum">     349 </span>            :       }
-<span class="lineNum">     350 </span><span class="lineCov">        321 :       if (region_data)</span>
-<span class="lineNum">     351 </span><span class="lineCov">        119 :         free(region_data);</span>
-<span class="lineNum">     352 </span>            :     }
-<span class="lineNum">     353 </span>            :   } while(0);
-<span class="lineNum">     354 </span>            : 
-<span class="lineNum">     355 </span>            :   /* free allocated strings data */
-<span class="lineNum">     356 </span><span class="lineCov">        202 :   if (mystrings.string_ids)</span>
-<span class="lineNum">     357 </span><span class="lineCov">          1 :     free(mystrings.string_ids);</span>
-<span class="lineNum">     358 </span><span class="lineCov">        208 :   for (i=0; i&lt;mystrings.num_strings; i++) {</span>
-<span class="lineNum">     359 </span><span class="lineCov">          6 :     if (mystrings.strings[i])</span>
-<span class="lineNum">     360 </span><span class="lineCov">          6 :       free(mystrings.strings[i]);</span>
-<span class="lineNum">     361 </span>            :   }
-<span class="lineNum">     362 </span><span class="lineCov">        202 :   if (mystrings.strings)</span>
-<span class="lineNum">     363 </span><span class="lineCov">          1 :     free(mystrings.strings);</span>
-<span class="lineNum">     364 </span><span class="lineCov">        202 :   memset(&amp;mystrings, 0, sizeof(strings_buffer));</span>
-<span class="lineNum">     365 </span>            : 
-<span class="lineNum">     366 </span><span class="lineCov">        202 :   return AMBIX_ERR_UNKNOWN;</span>
-<a name="367"><span class="lineNum">     367 </span>            : }</a>
-<span class="lineNum">     368 </span>            : 
-<span class="lineNum">     369 </span><span class="lineCov">          6 : void add_string_to_data(int id, unsigned char *byte_ptr_stringid, char *name, int64_t *byteoffset_strings, unsigned char *byte_ptr_strings, uint32_t *datasize_strings, int byteswap) {</span>
-<span class="lineNum">     370 </span>            :   /* handle the string */
-<span class="lineNum">     371 </span><span class="lineCov">          6 :   CAFStringID* string_id = (CAFStringID*)byte_ptr_stringid;</span>
-<span class="lineNum">     372 </span><span class="lineCov">          6 :   uint32_t name_len = strlen((const char *)name);</span>
-<span class="lineNum">     373 </span><span class="lineCov">          6 :   string_id-&gt;mStringID = id;</span>
-<span class="lineNum">     374 </span><span class="lineCov">          6 :   string_id-&gt;mStringStartByteOffset = *byteoffset_strings;</span>
-<span class="lineNum">     375 </span><span class="lineCov">          6 :   memcpy(byte_ptr_strings, name, name_len*sizeof(char));</span>
-<span class="lineNum">     376 </span><span class="lineCov">          6 :   byte_ptr_strings[name_len] = 0; // set the last char to NUL</span>
-<span class="lineNum">     377 </span><span class="lineCov">          6 :   *byteoffset_strings += (name_len+1);</span>
-<span class="lineNum">     378 </span><span class="lineCov">          6 :   *datasize_strings += (name_len+1);</span>
-<span class="lineNum">     379 </span><span class="lineCov">          6 :   if (byteswap)</span>
-<span class="lineNum">     380 </span><span class="lineCov">          6 :     swap_stringid(string_id);</span>
-<a name="381"><span class="lineNum">     381 </span><span class="lineCov">          6 : }</span></a>
-<span class="lineNum">     382 </span>            : 
-<span class="lineNum">     383 </span><span class="lineCov">         64 : ambix_err_t _ambix_write_markersregions(ambix_t*ambix) {</span>
-<span class="lineNum">     384 </span>            :   uint32_t i;
-<span class="lineNum">     385 </span><span class="lineCov">         64 :   int byteswap = ambix-&gt;byteswap;</span>
-<span class="lineNum">     386 </span>            : 
-<span class="lineNum">     387 </span><span class="lineCov">         64 :   void *strings_data = NULL;</span>
-<span class="lineNum">     388 </span><span class="lineCov">         64 :   uint32_t num_strings = ambix-&gt;num_markers+ambix-&gt;num_regions;</span>
-<span class="lineNum">     389 </span><span class="lineCov">         64 :   uint32_t datasize_strings = 0;</span>
-<span class="lineNum">     390 </span><span class="lineCov">         64 :   unsigned char* byte_ptr_strings = NULL;</span>
-<span class="lineNum">     391 </span><span class="lineCov">         64 :   unsigned char* byte_ptr_stringid = NULL;</span>
-<span class="lineNum">     392 </span><span class="lineCov">         64 :   int64_t byteoffset_strings = 0;</span>
-<span class="lineNum">     393 </span>            : 
-<span class="lineNum">     394 </span><span class="lineCov">         64 :   void *marker_data = NULL;</span>
-<span class="lineNum">     395 </span><span class="lineCov">         64 :   uint32_t datasize_markers = 0;</span>
-<span class="lineNum">     396 </span>            : 
-<span class="lineNum">     397 </span>            :   /* reserve space for strings */
-<span class="lineNum">     398 </span><span class="lineCov">         64 :   if (num_strings &gt; 0) {</span>
-<span class="lineNum">     399 </span><span class="lineCov">          1 :     CAFStrings *strings_chunk = NULL;</span>
-<span class="lineNum">     400 </span><span class="lineCov">          1 :     datasize_strings = sizeof(uint32_t)+num_strings*sizeof(CAFStringID);</span>
-<span class="lineNum">     401 </span><span class="lineCov">          1 :     strings_data = calloc(1, datasize_strings+256); // reserve a fixed space of 256 bytes for each string</span>
-<span class="lineNum">     402 </span><span class="lineCov">          1 :     byte_ptr_strings = (unsigned char*)strings_data;</span>
-<span class="lineNum">     403 </span><span class="lineCov">          1 :     byte_ptr_strings += (sizeof(uint32_t)+num_strings*(sizeof(CAFStringID)));</span>
-<span class="lineNum">     404 </span><span class="lineCov">          1 :     byte_ptr_stringid = (unsigned char*)strings_data;</span>
-<span class="lineNum">     405 </span><span class="lineCov">          1 :     byte_ptr_stringid += sizeof(uint32_t);</span>
-<span class="lineNum">     406 </span><span class="lineCov">          1 :     strings_chunk = (CAFStrings*)strings_data;</span>
-<span class="lineNum">     407 </span><span class="lineCov">          1 :     strings_chunk-&gt;mNumEntries = num_strings;</span>
-<span class="lineNum">     408 </span><span class="lineCov">          1 :     if (byteswap)</span>
-<span class="lineNum">     409 </span><span class="lineCov">          1 :       _ambix_swap4array(&amp;strings_chunk-&gt;mNumEntries, 1);</span>
-<span class="lineNum">     410 </span>            :   }
-<span class="lineNum">     411 </span>            :   /* markers */
-<span class="lineNum">     412 </span><span class="lineCov">         64 :   if (ambix-&gt;num_markers &gt; 0) {</span>
-<span class="lineNum">     413 </span><span class="lineCov">          1 :     CAFMarkerChunk* marker_chunk = NULL;</span>
-<span class="lineNum">     414 </span><span class="lineCov">          1 :     unsigned char* bytePtr = NULL;</span>
-<span class="lineNum">     415 </span><span class="lineCov">          1 :     datasize_markers = 2*sizeof(uint32_t) + ambix-&gt;num_markers*sizeof(CAFMarker);</span>
-<span class="lineNum">     416 </span><span class="lineCov">          1 :     marker_data = calloc(1, datasize_markers);</span>
-<span class="lineNum">     417 </span><span class="lineCov">          1 :     bytePtr = (unsigned char*)marker_data;</span>
-<span class="lineNum">     418 </span>            : 
-<span class="lineNum">     419 </span><span class="lineCov">          1 :     marker_chunk = (CAFMarkerChunk*)marker_data;</span>
-<span class="lineNum">     420 </span><span class="lineCov">          1 :     marker_chunk-&gt;mSMPTE_TimeType = kCAF_SMPTE_TimeTypeNone;</span>
-<span class="lineNum">     421 </span><span class="lineCov">          1 :     marker_chunk-&gt;mNumberMarkers = ambix-&gt;num_markers;</span>
-<span class="lineNum">     422 </span><span class="lineCov">          1 :     if (byteswap)</span>
-<span class="lineNum">     423 </span><span class="lineCov">          1 :       swap_marker_chunk(marker_chunk);</span>
-<span class="lineNum">     424 </span>            : 
-<span class="lineNum">     425 </span>            :     // offset the data pointer by 2*uint32_t to point to start of markers
-<span class="lineNum">     426 </span><span class="lineCov">          1 :     bytePtr += 2*sizeof(uint32_t);</span>
-<span class="lineNum">     427 </span><span class="lineCov">          4 :     for (i=0; i&lt;ambix-&gt;num_markers;i++) {</span>
-<span class="lineNum">     428 </span><span class="lineCov">          3 :       CAFMarker* new_marker = (CAFMarker*) bytePtr;</span>
-<span class="lineNum">     429 </span><span class="lineCov">          3 :       new_marker-&gt;mType = kCAFMarkerType_Generic;</span>
-<span class="lineNum">     430 </span><span class="lineCov">          3 :       new_marker-&gt;mFramePosition = ambix-&gt;markers[i].position;</span>
-<span class="lineNum">     431 </span><span class="lineCov">          3 :       new_marker-&gt;mMarkerID = i+1; // string ID -&gt; 1...num_markers</span>
-<span class="lineNum">     432 </span><span class="lineCov">          3 :       new_marker-&gt;mChannel = 0; // 0 means for all channels</span>
-<span class="lineNum">     433 </span><span class="lineCov">          3 :       if (byteswap) {</span>
-<span class="lineNum">     434 </span><span class="lineCov">          3 :         swap_marker(new_marker);</span>
-<span class="lineNum">     435 </span>            :       }
-<span class="lineNum">     436 </span><span class="lineCov">          3 :       bytePtr += sizeof(CAFMarker);</span>
-<span class="lineNum">     437 </span>            : 
-<span class="lineNum">     438 </span><span class="lineCov">          3 :       add_string_to_data(i+1, byte_ptr_stringid, ambix-&gt;markers[i].name, &amp;byteoffset_strings, byte_ptr_strings, &amp;datasize_strings, byteswap);</span>
-<span class="lineNum">     439 </span><span class="lineCov">          3 :       byte_ptr_strings += (strlen((const char*)ambix-&gt;markers[i].name)+1);</span>
-<span class="lineNum">     440 </span><span class="lineCov">          3 :       byte_ptr_stringid += sizeof(CAFStringID);</span>
-<span class="lineNum">     441 </span>            :     }
-<span class="lineNum">     442 </span>            :   }
-<span class="lineNum">     443 </span>            : 
-<span class="lineNum">     444 </span>            :   /* regions */
-<span class="lineNum">     445 </span>            :   // a region consists of 2 markers (start,end) and region chunk
-<span class="lineNum">     446 </span><span class="lineCov">         64 :   uint32_t datasize_regions = 2*sizeof(uint32_t) + ambix-&gt;num_regions*(SIZEOF_CAFRegion + 2*sizeof(CAFMarker));</span>
-<span class="lineNum">     447 </span><span class="lineCov">         64 :   void *region_data               = calloc(1, datasize_regions);</span>
-<span class="lineNum">     448 </span><span class="lineCov">         64 :   CAFRegionChunk* region_chunk    = (CAFRegionChunk*)region_data;</span>
-<span class="lineNum">     449 </span><span class="lineCov">         64 :   unsigned char* byte_ptr_regions = (unsigned char*)region_data;</span>
-<span class="lineNum">     450 </span><span class="lineCov">         64 :   region_chunk-&gt;mSMPTE_TimeType = kCAF_SMPTE_TimeTypeNone;</span>
-<span class="lineNum">     451 </span><span class="lineCov">         64 :   region_chunk-&gt;mNumberRegions = ambix-&gt;num_regions;</span>
-<span class="lineNum">     452 </span><span class="lineCov">         64 :   if (byteswap)</span>
-<span class="lineNum">     453 </span><span class="lineCov">         64 :     swap_region_chunk(region_chunk);</span>
-<span class="lineNum">     454 </span>            :   // offset the data pointer by 2*uint32_t to point to start of mRegions
-<span class="lineNum">     455 </span><span class="lineCov">         64 :   byte_ptr_regions += 2*sizeof(uint32_t);</span>
-<span class="lineNum">     456 </span><span class="lineCov">         67 :   for (i=0; i&lt;ambix-&gt;num_regions;i++) {</span>
-<span class="lineNum">     457 </span><span class="lineCov">          3 :     CAFRegion *new_region   = NULL;</span>
-<span class="lineNum">     458 </span><span class="lineCov">          3 :     CAFMarker *start_marker = NULL, *end_marker = NULL;</span>
-<span class="lineNum">     459 </span>            : 
-<span class="lineNum">     460 </span>            :     /* region */
-<span class="lineNum">     461 </span><span class="lineCov">          3 :     new_region = (CAFRegion*) byte_ptr_regions;</span>
-<span class="lineNum">     462 </span><span class="lineCov">          3 :     new_region-&gt;mRegionID = i+1; // does not have a connection with a string</span>
-<span class="lineNum">     463 </span><span class="lineCov">          3 :     new_region-&gt;mFlags = 0;</span>
-<span class="lineNum">     464 </span><span class="lineCov">          3 :     new_region-&gt;mNumberMarkers = 2; // start, end marker</span>
-<span class="lineNum">     465 </span>            : 
-<span class="lineNum">     466 </span>            :     /* start region marker */
-<span class="lineNum">     467 </span><span class="lineCov">          3 :     byte_ptr_regions += SIZEOF_CAFRegion; // offset pointer to start marker</span>
-<span class="lineNum">     468 </span><span class="lineCov">          3 :     start_marker = (CAFMarker*)byte_ptr_regions;// &amp;((new_region-&gt;mMarkers)[0]);</span>
-<span class="lineNum">     469 </span><span class="lineCov">          3 :     start_marker-&gt;mType = kCAFMarkerType_RegionStart;</span>
-<span class="lineNum">     470 </span><span class="lineCov">          3 :     start_marker-&gt;mFramePosition = ambix-&gt;regions[i].start_position;</span>
-<span class="lineNum">     471 </span><span class="lineCov">          3 :     start_marker-&gt;mMarkerID = ambix-&gt;num_markers+i+1; // string ID -&gt; num_markers+1...num_markers+num_regions</span>
-<span class="lineNum">     472 </span><span class="lineCov">          3 :     start_marker-&gt;mChannel = 0; // 0 means for all channels</span>
-<span class="lineNum">     473 </span>            : 
-<span class="lineNum">     474 </span>            :     /* end region marker */
-<span class="lineNum">     475 </span><span class="lineCov">          3 :     byte_ptr_regions += sizeof(CAFMarker); // offset pointer to end marker</span>
-<span class="lineNum">     476 </span><span class="lineCov">          3 :     end_marker = (CAFMarker*)byte_ptr_regions; // &amp;new_region-&gt;mMarkers[1];</span>
-<span class="lineNum">     477 </span><span class="lineCov">          3 :     end_marker-&gt;mType = kCAFMarkerType_RegionEnd;</span>
-<span class="lineNum">     478 </span><span class="lineCov">          3 :     end_marker-&gt;mFramePosition = ambix-&gt;regions[i].end_position;</span>
-<span class="lineNum">     479 </span><span class="lineCov">          3 :     end_marker-&gt;mMarkerID = ambix-&gt;num_markers+i+1; // string ID -&gt; num_markers+1...num_markers+num_regions</span>
-<span class="lineNum">     480 </span><span class="lineCov">          3 :     end_marker-&gt;mChannel = 0; // 0 means for all channels</span>
-<span class="lineNum">     481 </span><span class="lineCov">          3 :     if (byteswap) {</span>
-<span class="lineNum">     482 </span><span class="lineCov">          3 :       swap_region(new_region);</span>
-<span class="lineNum">     483 </span><span class="lineCov">          3 :       swap_marker(start_marker);</span>
-<span class="lineNum">     484 </span><span class="lineCov">          3 :       swap_marker(end_marker);</span>
-<span class="lineNum">     485 </span>            :     }
-<span class="lineNum">     486 </span><span class="lineCov">          3 :     byte_ptr_regions += sizeof(CAFMarker);</span>
-<span class="lineNum">     487 </span>            : 
-<span class="lineNum">     488 </span><span class="lineCov">          3 :     add_string_to_data(ambix-&gt;num_markers+i+1, byte_ptr_stringid, ambix-&gt;regions[i].name, &amp;byteoffset_strings, byte_ptr_strings, &amp;datasize_strings, byteswap);</span>
-<span class="lineNum">     489 </span><span class="lineCov">          3 :     byte_ptr_strings += (strlen((const char*)ambix-&gt;regions[i].name)+1);</span>
-<span class="lineNum">     490 </span><span class="lineCov">          3 :     byte_ptr_stringid += sizeof(CAFStringID);</span>
-<span class="lineNum">     491 </span>            :   }
-<span class="lineNum">     492 </span>            : 
-<span class="lineNum">     493 </span>            :   /* add the chunk data */
-<span class="lineNum">     494 </span>            :   do {
-<span class="lineNum">     495 </span>            :     union int_chars mark_id, regn_id, strg_id;
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            : /* chunk holding all markers */
+<span class="lineNum">      99 </span>            : typedef struct {
+<span class="lineNum">     100 </span>            :     uint32_t     mSMPTE_TimeType;
+<span class="lineNum">     101 </span>            :     uint32_t     mNumberMarkers;
+<span class="lineNum">     102 </span>            :     CAFMarker*  mMarkers;
+<span class="lineNum">     103 </span>            : } CAFMarkerChunk;
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            : /* ------------------------------------------------ */
+<span class="lineNum">     106 </span>            : /* REGIONS CHUNK */
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span>            : /* used for mFlags in CAFRegion */
+<span class="lineNum">     109 </span>            : typedef enum {
+<span class="lineNum">     110 </span>            :     kCAFRegionFlag_LoopEnable    = 1,
+<span class="lineNum">     111 </span>            :     kCAFRegionFlag_PlayForward   = 2,
+<span class="lineNum">     112 </span>            :     kCAFRegionFlag_PlayBackward  = 4
+<span class="lineNum">     113 </span>            : } kCAFRegionFlag; // uint32_t
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span>            : typedef struct {
+<span class="lineNum">     116 </span>            :     uint32_t    mRegionID;
+<span class="lineNum">     117 </span>            :     uint32_t    mFlags;
+<span class="lineNum">     118 </span>            :     uint32_t    mNumberMarkers;
+<span class="lineNum">     119 </span>            :     CAFMarker* mMarkers;
+<span class="lineNum">     120 </span>            : } CAFRegion;
+<span class="lineNum">     121 </span>            : #define SIZEOF_CAFRegion 12
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            : typedef struct {
+<span class="lineNum">     124 </span>            :     uint32_t     mSMPTE_TimeType;
+<span class="lineNum">     125 </span>            :     uint32_t     mNumberRegions;
+<span class="lineNum">     126 </span>            :     CAFRegion*   mRegions;
+<span class="lineNum">     127 </span>            : } CAFRegionChunk;
+<span class="lineNum">     128 </span>            : #define SIZEOF_CAFRegionChunk 8
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            : /* ------------------------------------------------ */
+<span class="lineNum">     131 </span>            : /* STRINGS CHUNK - used as labels for Markers and Regions*/
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            : typedef struct {
+<span class="lineNum">     134 </span>            :     uint32_t  mStringID;
+<span class="lineNum">     135 </span>            :     int64_t   mStringStartByteOffset;
+<span class="lineNum">     136 </span>            : } CAFStringID;
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            : typedef struct {
+<span class="lineNum">     139 </span>            :     uint32_t       mNumEntries; // The number of strings in the mStrings field.
+<span class="lineNum">     140 </span>            :     CAFStringID*   mStringsIDs; // the marker refers to this id with mMarkerID
+<span class="lineNum">     141 </span>            :     unsigned char* mStrings;    // An array of null-terminated UTF8-encoded text strings.
+<span class="lineNum">     142 </span>            : } CAFStrings;
+<span class="lineNum">     143 </span>            : #define SIZEOF_CAFStrings 4
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span>            : #pragma pack(pop)
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            : union int_chars {
+<span class="lineNum">     148 </span>            :   uint32_t a;
+<span class="lineNum">     149 </span>            :   char b[4];
+<span class="lineNum">     150 </span>            : };
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span>            : typedef struct {
+<span class="lineNum">     153 </span>            :   uint32_t      num_strings;
+<span class="lineNum">     154 </span>            :   uint32_t      *string_ids;
+<span class="lineNum">     155 </span>            :   unsigned char **strings;
+<a name="156"><span class="lineNum">     156 </span>            : } strings_buffer;</a>
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span><span class="lineCov">          2 : void swap_marker_chunk(CAFMarkerChunk* marker_chunk) {</span>
+<span class="lineNum">     159 </span><span class="lineCov">          2 :   _ambix_swap4array(&amp;marker_chunk-&gt;mSMPTE_TimeType, 1);</span>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">          2 :   _ambix_swap4array(&amp;marker_chunk-&gt;mNumberMarkers, 1);</span></a>
+<span class="lineNum">     161 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     162 </span><span class="lineCov">         18 : void swap_marker(CAFMarker* marker) {</span>
+<span class="lineNum">     163 </span><span class="lineCov">         18 :   _ambix_swap4array(&amp;marker-&gt;mType, 1);</span>
+<span class="lineNum">     164 </span><span class="lineCov">         18 :   _ambix_swap8array((uint64_t *)&amp;marker-&gt;mFramePosition, 1);</span>
+<span class="lineNum">     165 </span><span class="lineCov">         18 :   _ambix_swap4array(&amp;marker-&gt;mMarkerID, 1);</span>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">         18 :   _ambix_swap4array(&amp;marker-&gt;mChannel, 1);</span></a>
+<span class="lineNum">     167 </span><span class="lineCov">         18 : }</span>
+<span class="lineNum">     168 </span><span class="lineCov">          6 : void swap_region(CAFRegion* region) {</span>
+<span class="lineNum">     169 </span><span class="lineCov">          6 :   _ambix_swap4array(&amp;region-&gt;mRegionID, 1);</span>
+<span class="lineNum">     170 </span><span class="lineCov">          6 :   _ambix_swap4array(&amp;region-&gt;mFlags, 1);</span>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">          6 :   _ambix_swap4array(&amp;region-&gt;mNumberMarkers, 1);</span></a>
+<span class="lineNum">     172 </span><span class="lineCov">          6 : }</span>
+<span class="lineNum">     173 </span><span class="lineCov">          2 : void swap_region_chunk(CAFRegionChunk* region_chunk) {</span>
+<span class="lineNum">     174 </span><span class="lineCov">          2 :   _ambix_swap4array(&amp;region_chunk-&gt;mSMPTE_TimeType, 1);</span>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">          2 :   _ambix_swap4array(&amp;region_chunk-&gt;mNumberRegions, 1);</span></a>
+<span class="lineNum">     176 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     177 </span><span class="lineCov">         12 : void swap_stringid(CAFStringID* caf_stringid) {</span>
+<span class="lineNum">     178 </span><span class="lineCov">         12 :   _ambix_swap4array(&amp;caf_stringid-&gt;mStringID, 1);</span>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">         12 :   _ambix_swap8array((uint64_t *)&amp;caf_stringid-&gt;mStringStartByteOffset, 1);</span></a>
+<span class="lineNum">     180 </span><span class="lineCov">         12 : }</span>
+<span class="lineNum">     181 </span><span class="lineCov">          6 : unsigned char* get_string_from_buffer(strings_buffer* buffer, uint32_t id) {</span>
+<span class="lineNum">     182 </span><span class="lineCov">          6 :   if (buffer) {</span>
+<span class="lineNum">     183 </span>            :     uint32_t i;
+<span class="lineNum">     184 </span><span class="lineCov">         21 :     for (i=0; i&lt;buffer-&gt;num_strings;i++) {</span>
+<span class="lineNum">     185 </span><span class="lineCov">         21 :       if (buffer-&gt;string_ids[i] == id)</span>
+<span class="lineNum">     186 </span><span class="lineCov">          6 :         return buffer-&gt;strings[i];</span>
+<span class="lineNum">     187 </span>            :     }
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :     return NULL;</span>
+<span class="lineNum">     189 </span>            :   } else
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :     return NULL;</span>
+<a name="191"><span class="lineNum">     191 </span>            : }</a>
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span><span class="lineCov">        202 : ambix_err_t _ambix_read_markersregions(ambix_t*ambix) {</span>
+<span class="lineNum">     194 </span><span class="lineCov">        202 :   int byteswap = ambix-&gt;byteswap;</span>
+<span class="lineNum">     195 </span><span class="lineCov">        202 :   uint32_t chunk_it = 0;</span>
+<span class="lineNum">     196 </span>            :   uint32_t i;
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span><span class="lineCov">        202 :   int64_t strings_datasize = 1;</span>
+<span class="lineNum">     199 </span>            :   union int_chars strg_id;
+<span class="lineNum">     200 </span>            :   strings_buffer mystrings;
+<span class="lineNum">     201 </span><span class="lineCov">        202 :   memset(&amp;mystrings, 0, sizeof(strings_buffer));</span>
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineCov">        202 :   strg_id.b[0] = 's'; strg_id.b[1] = 't'; strg_id.b[2] = 'r'; strg_id.b[3] = 'g';</span>
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span>            :   /* first parse strings and save into a struct for later usage */
+<span class="lineNum">     206 </span><span class="lineCov">        607 :   while (strings_datasize) {</span>
+<span class="lineNum">     207 </span><span class="lineCov">        203 :     void*strings_data = _ambix_read_chunk(ambix, strg_id.a, chunk_it++, &amp;strings_datasize);</span>
+<span class="lineNum">     208 </span><span class="lineCov">        203 :     if (!strings_data)</span>
+<span class="lineNum">     209 </span><span class="lineCov">        202 :       continue;</span>
+<span class="lineNum">     210 </span><span class="lineCov">          1 :     if (strings_datasize &gt; SIZEOF_CAFStrings) {</span>
+<span class="lineNum">     211 </span><span class="lineCov">          1 :       uint32_t temp_num_strings = 0;</span>
+<span class="lineNum">     212 </span><span class="lineCov">          1 :       int64_t mstrings_datasize = 0;</span>
+<span class="lineNum">     213 </span><span class="lineCov">          1 :       char *strings_ptr = NULL;</span>
+<span class="lineNum">     214 </span><span class="lineCov">          1 :       CAFStringID* caf_stringid = NULL;</span>
+<span class="lineNum">     215 </span><span class="lineCov">          1 :       CAFStrings* strings_chunk = (CAFStrings*)strings_data;</span>
+<span class="lineNum">     216 </span><span class="lineCov">          1 :       if (byteswap)</span>
+<span class="lineNum">     217 </span><span class="lineCov">          1 :         _ambix_swap4array(&amp;strings_chunk-&gt;mNumEntries, 1);</span>
+<span class="lineNum">     218 </span><span class="lineCov">          1 :       if (strings_datasize &lt; (SIZEOF_CAFStrings + strings_chunk-&gt;mNumEntries*sizeof(CAFStringID))) {</span>
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :         free(strings_data);</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     221 </span>            :       }
+<span class="lineNum">     222 </span><span class="lineCov">          1 :       temp_num_strings = strings_chunk-&gt;mNumEntries;</span>
+<span class="lineNum">     223 </span><span class="lineCov">          1 :       mstrings_datasize = strings_datasize - (SIZEOF_CAFStrings + temp_num_strings*sizeof(CAFStringID));</span>
+<span class="lineNum">     224 </span>            :       // allocate memory for mystrings
+<span class="lineNum">     225 </span><span class="lineCov">          1 :       if (!mystrings.string_ids) {</span>
+<span class="lineNum">     226 </span><span class="lineCov">          1 :         mystrings.string_ids = malloc((mystrings.num_strings+temp_num_strings)*sizeof(uint32_t));</span>
+<span class="lineNum">     227 </span><span class="lineCov">          1 :         mystrings.strings = malloc((mystrings.num_strings+temp_num_strings)*sizeof(unsigned char*));</span>
+<span class="lineNum">     228 </span>            :       } else {
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :         mystrings.string_ids = realloc(mystrings.string_ids, (mystrings.num_strings+temp_num_strings)*sizeof(uint32_t));</span>
+<span class="lineNum">     230 </span><span class="lineNoCov">          0 :         mystrings.strings = realloc(mystrings.strings, (mystrings.num_strings+temp_num_strings)*sizeof(unsigned char*));</span>
+<span class="lineNum">     231 </span>            :       }
+<span class="lineNum">     232 </span><span class="lineCov">          1 :       strings_ptr = strings_data;</span>
+<span class="lineNum">     233 </span><span class="lineCov">          1 :       strings_ptr += (4+temp_num_strings*sizeof(CAFStringID)); // start of mStrings</span>
+<span class="lineNum">     234 </span><span class="lineCov">          1 :       caf_stringid = (CAFStringID*)(&amp;strings_data[4]);</span>
+<span class="lineNum">     235 </span><span class="lineCov">          7 :       for (i=0; i&lt;temp_num_strings; i++) {</span>
+<span class="lineNum">     236 </span><span class="lineCov">          6 :         unsigned char* mString = NULL;</span>
+<span class="lineNum">     237 </span><span class="lineCov">          6 :         uint32_t mString_len = 0;</span>
+<span class="lineNum">     238 </span><span class="lineCov">          6 :         if (byteswap)</span>
+<span class="lineNum">     239 </span><span class="lineCov">          6 :           swap_stringid(&amp;caf_stringid[i]);</span>
+<span class="lineNum">     240 </span><span class="lineCov">          6 :         if (caf_stringid[i].mStringStartByteOffset &gt;= mstrings_datasize)</span>
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :           break; // invalid offset!</span>
+<span class="lineNum">     242 </span><span class="lineCov">          6 :         mString = (unsigned char*) (strings_ptr+caf_stringid[i].mStringStartByteOffset);</span>
+<span class="lineNum">     243 </span><span class="lineCov">          6 :         mystrings.string_ids[mystrings.num_strings] = caf_stringid[i].mStringID;</span>
+<span class="lineNum">     244 </span><span class="lineCov">          6 :         mString_len = strlen((const char *)mString);</span>
+<span class="lineNum">     245 </span><span class="lineCov">          6 :         mystrings.strings[mystrings.num_strings] = calloc((mString_len+1), sizeof(unsigned char));</span>
+<span class="lineNum">     246 </span><span class="lineCov">          6 :         memcpy(mystrings.strings[mystrings.num_strings], mString, mString_len*sizeof(unsigned char));</span>
+<span class="lineNum">     247 </span><span class="lineCov">          6 :         mystrings.num_strings++;</span>
+<span class="lineNum">     248 </span>            :       }
+<span class="lineNum">     249 </span>            :     }
+<span class="lineNum">     250 </span><span class="lineCov">          1 :     free(strings_data);</span>
+<span class="lineNum">     251 </span>            :   }
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            :   /* parse markers */
+<span class="lineNum">     254 </span>            :   do {
+<span class="lineNum">     255 </span><span class="lineCov">        202 :     int64_t marker_datasize = 1;</span>
+<span class="lineNum">     256 </span>            :     union int_chars mark_id;
+<span class="lineNum">     257 </span><span class="lineCov">        202 :     chunk_it = 0;</span>
+<span class="lineNum">     258 </span><span class="lineCov">        202 :     mark_id.b[0] = 'm'; mark_id.b[1] = 'a'; mark_id.b[2] = 'r'; mark_id.b[3] = 'k';</span>
+<span class="lineNum">     259 </span><span class="lineCov">        607 :     while (marker_datasize) {</span>
+<span class="lineNum">     260 </span><span class="lineCov">        203 :       void*marker_data = _ambix_read_chunk(ambix, mark_id.a, chunk_it++, &amp;marker_datasize);</span>
+<span class="lineNum">     261 </span><span class="lineCov">        203 :       if (!marker_data)</span>
+<span class="lineNum">     262 </span><span class="lineCov">        202 :         continue;</span>
+<span class="lineNum">     263 </span><span class="lineCov">          1 :       if (marker_datasize &gt; 2*sizeof(uint32_t)) {</span>
+<span class="lineNum">     264 </span><span class="lineCov">          1 :         CAFMarkerChunk* marker_chunk = (CAFMarkerChunk*)marker_data;</span>
+<span class="lineNum">     265 </span><span class="lineCov">          1 :         unsigned char* bytePtr = NULL;</span>
+<span class="lineNum">     266 </span><span class="lineCov">          1 :         if (byteswap)</span>
+<span class="lineNum">     267 </span><span class="lineCov">          1 :           swap_marker_chunk(marker_chunk);</span>
+<span class="lineNum">     268 </span><span class="lineCov">          1 :         if (marker_datasize &lt; (marker_chunk-&gt;mNumberMarkers*(sizeof(CAFMarker)) + 2*sizeof(uint32_t))) {</span>
+<span class="lineNum">     269 </span><span class="lineNoCov">          0 :           free(marker_data);</span>
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :           break;</span>
+<span class="lineNum">     271 </span>            :         }
+<span class="lineNum">     272 </span><span class="lineCov">          1 :         bytePtr = (unsigned char*)marker_data;</span>
+<span class="lineNum">     273 </span><span class="lineCov">          1 :         bytePtr += 2*sizeof(uint32_t);</span>
+<span class="lineNum">     274 </span><span class="lineCov">          4 :         for (i=0; i&lt;marker_chunk-&gt;mNumberMarkers; i++) {</span>
+<span class="lineNum">     275 </span>            :           ambix_marker_t new_ambix_marker;
+<span class="lineNum">     276 </span><span class="lineCov">          3 :           CAFMarker *caf_marker = (CAFMarker*)bytePtr;</span>
+<span class="lineNum">     277 </span><span class="lineCov">          3 :           unsigned char* string = NULL;</span>
+<span class="lineNum">     278 </span><span class="lineCov">          3 :           if (byteswap)</span>
+<span class="lineNum">     279 </span><span class="lineCov">          3 :             swap_marker(caf_marker);</span>
+<span class="lineNum">     280 </span><span class="lineCov">          3 :           memset(&amp;new_ambix_marker, 0, sizeof(ambix_marker_t));</span>
+<span class="lineNum">     281 </span><span class="lineCov">          3 :           new_ambix_marker.position = caf_marker-&gt;mFramePosition;</span>
+<span class="lineNum">     282 </span><span class="lineCov">          3 :           string = get_string_from_buffer(&amp;mystrings, caf_marker-&gt;mMarkerID);</span>
+<span class="lineNum">     283 </span><span class="lineCov">          3 :           if (string) {</span>
+<span class="lineNum">     284 </span><span class="lineCov">          3 :             strncpy(new_ambix_marker.name, (const char *)string, 255);</span>
+<span class="lineNum">     285 </span>            :           }
+<span class="lineNum">     286 </span><span class="lineCov">          3 :           ambix_add_marker(ambix, &amp;new_ambix_marker);</span>
+<span class="lineNum">     287 </span><span class="lineCov">          3 :           bytePtr += sizeof(CAFMarker);</span>
+<span class="lineNum">     288 </span>            :         }
+<span class="lineNum">     289 </span>            :       }
+<span class="lineNum">     290 </span><span class="lineCov">          1 :       free(marker_data);</span>
+<span class="lineNum">     291 </span>            :     }
+<span class="lineNum">     292 </span>            :   } while(0);
+<span class="lineNum">     293 </span>            : 
+<span class="lineNum">     294 </span>            :   /* parse regions */
+<span class="lineNum">     295 </span>            :   do {
+<span class="lineNum">     296 </span><span class="lineCov">        202 :     void* region_data = NULL;</span>
+<span class="lineNum">     297 </span><span class="lineCov">        202 :     int64_t region_datasize = 1;</span>
+<span class="lineNum">     298 </span>            :     union int_chars regn_id;
+<span class="lineNum">     299 </span><span class="lineCov">        202 :     regn_id.b[0] = 'r'; regn_id.b[1] = 'e'; regn_id.b[2] = 'g'; regn_id.b[3] = 'n';</span>
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span><span class="lineCov">        202 :     chunk_it = 0;</span>
+<span class="lineNum">     302 </span>            : 
+<span class="lineNum">     303 </span><span class="lineCov">        607 :     while (region_datasize) {</span>
+<span class="lineNum">     304 </span><span class="lineCov">        203 :       region_data = _ambix_read_chunk(ambix, regn_id.a, chunk_it++, &amp;region_datasize);</span>
+<span class="lineNum">     305 </span><span class="lineCov">        203 :       if(!region_data)</span>
+<span class="lineNum">     306 </span><span class="lineCov">        202 :         continue;</span>
+<span class="lineNum">     307 </span><span class="lineCov">          1 :       if (region_datasize &gt; 2*sizeof(uint32_t)) {</span>
+<span class="lineNum">     308 </span><span class="lineCov">          1 :         int64_t data_read = 0;</span>
+<span class="lineNum">     309 </span><span class="lineCov">          1 :         unsigned char* bytePtr = NULL;</span>
+<span class="lineNum">     310 </span><span class="lineCov">          1 :         CAFRegionChunk* region_chunk = (CAFRegionChunk*)region_data;</span>
+<span class="lineNum">     311 </span><span class="lineCov">          1 :         if (byteswap)</span>
+<span class="lineNum">     312 </span><span class="lineCov">          1 :           swap_region_chunk(region_chunk);</span>
+<span class="lineNum">     313 </span><span class="lineCov">          1 :         if (region_datasize &lt; (region_chunk-&gt;mNumberRegions*(SIZEOF_CAFRegion+sizeof(CAFMarker)) + SIZEOF_CAFRegionChunk)) {</span>
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :           free(region_data);</span>
+<span class="lineNum">     315 </span><span class="lineNoCov">          0 :           break;</span>
+<span class="lineNum">     316 </span>            :         }
+<span class="lineNum">     317 </span><span class="lineCov">          1 :         bytePtr = (unsigned char*)region_data;</span>
+<span class="lineNum">     318 </span><span class="lineCov">          1 :         data_read += 2*sizeof(uint32_t); // SIZEOF_CAFRegionChunk</span>
+<span class="lineNum">     319 </span><span class="lineCov">          4 :         for (i=0; i&lt;region_chunk-&gt;mNumberRegions; i++) {</span>
+<span class="lineNum">     320 </span>            :           uint32_t j;
+<span class="lineNum">     321 </span>            :           ambix_region_t new_ambix_region;
+<span class="lineNum">     322 </span><span class="lineCov">          3 :           CAFRegion *caf_region = NULL;</span>
+<span class="lineNum">     323 </span><span class="lineCov">          3 :           if (region_datasize &lt; data_read + SIZEOF_CAFRegion)</span>
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     325 </span><span class="lineCov">          3 :           caf_region = (CAFRegion*)&amp;bytePtr[data_read];</span>
+<span class="lineNum">     326 </span><span class="lineCov">          3 :           if (byteswap)</span>
+<span class="lineNum">     327 </span><span class="lineCov">          3 :             swap_region(caf_region);</span>
+<span class="lineNum">     328 </span><span class="lineCov">          3 :           memset(&amp;new_ambix_region, 0, sizeof(ambix_region_t));</span>
+<span class="lineNum">     329 </span>            :           /* iterate over all markers and find startMarker and endMarker */
+<span class="lineNum">     330 </span><span class="lineCov">          3 :           data_read += SIZEOF_CAFRegion;</span>
+<span class="lineNum">     331 </span><span class="lineCov">          9 :           for (j=0; j&lt;caf_region-&gt;mNumberMarkers; j++) {</span>
+<span class="lineNum">     332 </span><span class="lineCov">          6 :             CAFMarker *caf_marker = NULL;</span>
+<span class="lineNum">     333 </span><span class="lineCov">          6 :             if (region_datasize &lt; data_read + sizeof(CAFMarker))</span>
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 :               break;</span>
+<span class="lineNum">     335 </span><span class="lineCov">          6 :             caf_marker = (CAFMarker*)&amp;bytePtr[data_read];</span>
+<span class="lineNum">     336 </span><span class="lineCov">          6 :             if (byteswap)</span>
+<span class="lineNum">     337 </span><span class="lineCov">          6 :               swap_marker(caf_marker);</span>
+<span class="lineNum">     338 </span><span class="lineCov">          6 :             if (caf_marker-&gt;mType == kCAFMarkerType_RegionStart) {</span>
+<span class="lineNum">     339 </span><span class="lineCov">          3 :               unsigned char* string = NULL;</span>
+<span class="lineNum">     340 </span><span class="lineCov">          3 :               new_ambix_region.start_position = caf_marker-&gt;mFramePosition;</span>
+<span class="lineNum">     341 </span><span class="lineCov">          3 :               string = get_string_from_buffer(&amp;mystrings, caf_marker-&gt;mMarkerID);</span>
+<span class="lineNum">     342 </span><span class="lineCov">          3 :               if (string)</span>
+<span class="lineNum">     343 </span><span class="lineCov">          3 :                 strncpy(new_ambix_region.name, (const char *)string, 255);</span>
+<span class="lineNum">     344 </span>            :             }
+<span class="lineNum">     345 </span><span class="lineCov">          3 :             else if (caf_marker-&gt;mType == kCAFMarkerType_RegionEnd)</span>
+<span class="lineNum">     346 </span><span class="lineCov">          3 :               new_ambix_region.end_position = caf_marker-&gt;mFramePosition;</span>
+<span class="lineNum">     347 </span><span class="lineCov">          6 :             data_read += sizeof(CAFMarker);</span>
+<span class="lineNum">     348 </span>            :           }
+<span class="lineNum">     349 </span><span class="lineCov">          3 :           ambix_add_region(ambix, &amp;new_ambix_region);</span>
+<span class="lineNum">     350 </span>            :         }
+<span class="lineNum">     351 </span>            :       }
+<span class="lineNum">     352 </span><span class="lineCov">          1 :       free(region_data);</span>
+<span class="lineNum">     353 </span>            :     }
+<span class="lineNum">     354 </span>            :   } while(0);
+<span class="lineNum">     355 </span>            : 
+<span class="lineNum">     356 </span>            :   /* free allocated strings data */
+<span class="lineNum">     357 </span><span class="lineCov">        202 :   if (mystrings.string_ids)</span>
+<span class="lineNum">     358 </span><span class="lineCov">          1 :     free(mystrings.string_ids);</span>
+<span class="lineNum">     359 </span><span class="lineCov">        208 :   for (i=0; i&lt;mystrings.num_strings; i++) {</span>
+<span class="lineNum">     360 </span><span class="lineCov">          6 :     if (mystrings.strings[i])</span>
+<span class="lineNum">     361 </span><span class="lineCov">          6 :       free(mystrings.strings[i]);</span>
+<span class="lineNum">     362 </span>            :   }
+<span class="lineNum">     363 </span><span class="lineCov">        202 :   if (mystrings.strings)</span>
+<span class="lineNum">     364 </span><span class="lineCov">          1 :     free(mystrings.strings);</span>
+<span class="lineNum">     365 </span><span class="lineCov">        202 :   memset(&amp;mystrings, 0, sizeof(strings_buffer));</span>
+<span class="lineNum">     366 </span>            : 
+<span class="lineNum">     367 </span><span class="lineCov">        202 :   return AMBIX_ERR_UNKNOWN;</span>
+<a name="368"><span class="lineNum">     368 </span>            : }</a>
+<span class="lineNum">     369 </span>            : 
+<span class="lineNum">     370 </span><span class="lineCov">          6 : void add_string_to_data(int id, unsigned char *byte_ptr_stringid, char *name, int64_t *byteoffset_strings, unsigned char *byte_ptr_strings, uint32_t *datasize_strings, int byteswap) {</span>
+<span class="lineNum">     371 </span>            :   /* handle the string */
+<span class="lineNum">     372 </span><span class="lineCov">          6 :   CAFStringID* string_id = (CAFStringID*)byte_ptr_stringid;</span>
+<span class="lineNum">     373 </span><span class="lineCov">          6 :   uint32_t name_len = strlen((const char *)name);</span>
+<span class="lineNum">     374 </span><span class="lineCov">          6 :   string_id-&gt;mStringID = id;</span>
+<span class="lineNum">     375 </span><span class="lineCov">          6 :   string_id-&gt;mStringStartByteOffset = *byteoffset_strings;</span>
+<span class="lineNum">     376 </span><span class="lineCov">          6 :   memcpy(byte_ptr_strings, name, name_len*sizeof(char));</span>
+<span class="lineNum">     377 </span><span class="lineCov">          6 :   byte_ptr_strings[name_len] = 0; // set the last char to NUL</span>
+<span class="lineNum">     378 </span><span class="lineCov">          6 :   *byteoffset_strings += (name_len+1);</span>
+<span class="lineNum">     379 </span><span class="lineCov">          6 :   *datasize_strings += (name_len+1);</span>
+<span class="lineNum">     380 </span><span class="lineCov">          6 :   if (byteswap)</span>
+<span class="lineNum">     381 </span><span class="lineCov">          6 :     swap_stringid(string_id);</span>
+<a name="382"><span class="lineNum">     382 </span><span class="lineCov">          6 : }</span></a>
+<span class="lineNum">     383 </span>            : 
+<span class="lineNum">     384 </span><span class="lineCov">         64 : ambix_err_t _ambix_write_markersregions(ambix_t*ambix) {</span>
+<span class="lineNum">     385 </span>            :   uint32_t i;
+<span class="lineNum">     386 </span><span class="lineCov">         64 :   int byteswap = ambix-&gt;byteswap;</span>
+<span class="lineNum">     387 </span><span class="lineCov">         64 :   uint32_t num_strings = ambix-&gt;num_markers+ambix-&gt;num_regions;</span>
+<span class="lineNum">     388 </span>            : 
+<span class="lineNum">     389 </span><span class="lineCov">         64 :   void *strings_data = NULL;</span>
+<span class="lineNum">     390 </span><span class="lineCov">         64 :   void *marker_data = NULL;</span>
+<span class="lineNum">     391 </span><span class="lineCov">         64 :   void *region_data = NULL;</span>
+<span class="lineNum">     392 </span><span class="lineCov">         64 :   uint32_t datasize_strings = 0;</span>
+<span class="lineNum">     393 </span><span class="lineCov">         64 :   uint32_t datasize_markers = 0;</span>
+<span class="lineNum">     394 </span><span class="lineCov">         64 :   uint32_t datasize_regions = 0;</span>
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span><span class="lineCov">         64 :   unsigned char* byte_ptr_strings = NULL;</span>
+<span class="lineNum">     397 </span><span class="lineCov">         64 :   unsigned char* byte_ptr_stringid = NULL;</span>
+<span class="lineNum">     398 </span><span class="lineCov">         64 :   int64_t byteoffset_strings = 0;</span>
+<span class="lineNum">     399 </span><span class="lineCov">         64 :   CAFStrings *strings_chunk = NULL;</span>
+<span class="lineNum">     400 </span>            : 
+<span class="lineNum">     401 </span>            :   /* reserve space for strings */
+<span class="lineNum">     402 </span><span class="lineCov">         64 :   if (!num_strings) {</span>
+<span class="lineNum">     403 </span><span class="lineCov">         63 :     return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     404 </span>            :   }
+<span class="lineNum">     405 </span><span class="lineCov">          1 :   datasize_strings = sizeof(uint32_t)+num_strings*sizeof(CAFStringID);</span>
+<span class="lineNum">     406 </span><span class="lineCov">          1 :   strings_data = calloc(1, datasize_strings+256); // reserve a fixed space of 256 bytes for each string</span>
+<span class="lineNum">     407 </span><span class="lineCov">          1 :   byte_ptr_strings = (unsigned char*)strings_data;</span>
+<span class="lineNum">     408 </span><span class="lineCov">          1 :   byte_ptr_strings += (sizeof(uint32_t)+num_strings*(sizeof(CAFStringID)));</span>
+<span class="lineNum">     409 </span><span class="lineCov">          1 :   byte_ptr_stringid = (unsigned char*)strings_data;</span>
+<span class="lineNum">     410 </span><span class="lineCov">          1 :   byte_ptr_stringid += sizeof(uint32_t);</span>
+<span class="lineNum">     411 </span><span class="lineCov">          1 :   strings_chunk = (CAFStrings*)strings_data;</span>
+<span class="lineNum">     412 </span><span class="lineCov">          1 :   strings_chunk-&gt;mNumEntries = num_strings;</span>
+<span class="lineNum">     413 </span><span class="lineCov">          1 :   if (byteswap)</span>
+<span class="lineNum">     414 </span><span class="lineCov">          1 :     _ambix_swap4array(&amp;strings_chunk-&gt;mNumEntries, 1);</span>
+<span class="lineNum">     415 </span>            : 
+<span class="lineNum">     416 </span>            :   /* markers */
+<span class="lineNum">     417 </span><span class="lineCov">          1 :   if (ambix-&gt;num_markers &gt; 0) {</span>
+<span class="lineNum">     418 </span><span class="lineCov">          1 :     CAFMarkerChunk* marker_chunk = NULL;</span>
+<span class="lineNum">     419 </span><span class="lineCov">          1 :     unsigned char* bytePtr = NULL;</span>
+<span class="lineNum">     420 </span><span class="lineCov">          1 :     datasize_markers = 2*sizeof(uint32_t) + ambix-&gt;num_markers*sizeof(CAFMarker);</span>
+<span class="lineNum">     421 </span><span class="lineCov">          1 :     marker_data = calloc(1, datasize_markers);</span>
+<span class="lineNum">     422 </span><span class="lineCov">          1 :     bytePtr = (unsigned char*)marker_data;</span>
+<span class="lineNum">     423 </span>            : 
+<span class="lineNum">     424 </span><span class="lineCov">          1 :     marker_chunk = (CAFMarkerChunk*)marker_data;</span>
+<span class="lineNum">     425 </span><span class="lineCov">          1 :     marker_chunk-&gt;mSMPTE_TimeType = kCAF_SMPTE_TimeTypeNone;</span>
+<span class="lineNum">     426 </span><span class="lineCov">          1 :     marker_chunk-&gt;mNumberMarkers = ambix-&gt;num_markers;</span>
+<span class="lineNum">     427 </span><span class="lineCov">          1 :     if (byteswap)</span>
+<span class="lineNum">     428 </span><span class="lineCov">          1 :       swap_marker_chunk(marker_chunk);</span>
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span>            :     // offset the data pointer by 2*uint32_t to point to start of markers
+<span class="lineNum">     431 </span><span class="lineCov">          1 :     bytePtr += 2*sizeof(uint32_t);</span>
+<span class="lineNum">     432 </span><span class="lineCov">          4 :     for (i=0; i&lt;ambix-&gt;num_markers;i++) {</span>
+<span class="lineNum">     433 </span><span class="lineCov">          3 :       CAFMarker* new_marker = (CAFMarker*) bytePtr;</span>
+<span class="lineNum">     434 </span><span class="lineCov">          3 :       new_marker-&gt;mType = kCAFMarkerType_Generic;</span>
+<span class="lineNum">     435 </span><span class="lineCov">          3 :       new_marker-&gt;mFramePosition = ambix-&gt;markers[i].position;</span>
+<span class="lineNum">     436 </span><span class="lineCov">          3 :       new_marker-&gt;mMarkerID = i+1; // string ID -&gt; 1...num_markers</span>
+<span class="lineNum">     437 </span><span class="lineCov">          3 :       new_marker-&gt;mChannel = 0; // 0 means for all channels</span>
+<span class="lineNum">     438 </span><span class="lineCov">          3 :       if (byteswap) {</span>
+<span class="lineNum">     439 </span><span class="lineCov">          3 :         swap_marker(new_marker);</span>
+<span class="lineNum">     440 </span>            :       }
+<span class="lineNum">     441 </span><span class="lineCov">          3 :       bytePtr += sizeof(CAFMarker);</span>
+<span class="lineNum">     442 </span>            : 
+<span class="lineNum">     443 </span><span class="lineCov">          3 :       add_string_to_data(i+1, byte_ptr_stringid, ambix-&gt;markers[i].name, &amp;byteoffset_strings, byte_ptr_strings, &amp;datasize_strings, byteswap);</span>
+<span class="lineNum">     444 </span><span class="lineCov">          3 :       byte_ptr_strings += (strlen((const char*)ambix-&gt;markers[i].name)+1);</span>
+<span class="lineNum">     445 </span><span class="lineCov">          3 :       byte_ptr_stringid += sizeof(CAFStringID);</span>
+<span class="lineNum">     446 </span>            :     }
+<span class="lineNum">     447 </span>            :   }
+<span class="lineNum">     448 </span>            : 
+<span class="lineNum">     449 </span>            :   /* regions */
+<span class="lineNum">     450 </span><span class="lineCov">          1 :   if (ambix-&gt;num_regions &gt; 0) {</span>
+<span class="lineNum">     451 </span>            :     // a region consists of 2 markers (start,end) and region chunk
+<span class="lineNum">     452 </span><span class="lineCov">          1 :     CAFRegionChunk* region_chunk = NULL;</span>
+<span class="lineNum">     453 </span><span class="lineCov">          1 :     unsigned char* byte_ptr_regions = NULL;</span>
+<span class="lineNum">     454 </span><span class="lineCov">          1 :     datasize_regions = 2*sizeof(uint32_t) + ambix-&gt;num_regions*(SIZEOF_CAFRegion + 2*sizeof(CAFMarker));</span>
+<span class="lineNum">     455 </span><span class="lineCov">          1 :     region_data      = calloc(1, datasize_regions);</span>
+<span class="lineNum">     456 </span><span class="lineCov">          1 :     region_chunk     = (CAFRegionChunk*)region_data;</span>
+<span class="lineNum">     457 </span><span class="lineCov">          1 :     byte_ptr_regions = (unsigned char*)region_data;</span>
+<span class="lineNum">     458 </span>            : 
+<span class="lineNum">     459 </span><span class="lineCov">          1 :     region_chunk-&gt;mSMPTE_TimeType = kCAF_SMPTE_TimeTypeNone;</span>
+<span class="lineNum">     460 </span><span class="lineCov">          1 :     region_chunk-&gt;mNumberRegions = ambix-&gt;num_regions;</span>
+<span class="lineNum">     461 </span><span class="lineCov">          1 :     if (byteswap)</span>
+<span class="lineNum">     462 </span><span class="lineCov">          1 :       swap_region_chunk(region_chunk);</span>
+<span class="lineNum">     463 </span>            :     // offset the data pointer by 2*uint32_t to point to start of mRegions
+<span class="lineNum">     464 </span><span class="lineCov">          1 :     byte_ptr_regions += 2*sizeof(uint32_t);</span>
+<span class="lineNum">     465 </span><span class="lineCov">          4 :     for (i=0; i&lt;ambix-&gt;num_regions;i++) {</span>
+<span class="lineNum">     466 </span><span class="lineCov">          3 :       CAFRegion *new_region   = NULL;</span>
+<span class="lineNum">     467 </span><span class="lineCov">          3 :       CAFMarker *start_marker = NULL, *end_marker = NULL;</span>
+<span class="lineNum">     468 </span>            : 
+<span class="lineNum">     469 </span>            :       /* region */
+<span class="lineNum">     470 </span><span class="lineCov">          3 :       new_region = (CAFRegion*) byte_ptr_regions;</span>
+<span class="lineNum">     471 </span><span class="lineCov">          3 :       new_region-&gt;mRegionID = i+1; // does not have a connection with a string</span>
+<span class="lineNum">     472 </span><span class="lineCov">          3 :       new_region-&gt;mFlags = 0;</span>
+<span class="lineNum">     473 </span><span class="lineCov">          3 :       new_region-&gt;mNumberMarkers = 2; // start, end marker</span>
+<span class="lineNum">     474 </span>            : 
+<span class="lineNum">     475 </span>            :       /* start region marker */
+<span class="lineNum">     476 </span><span class="lineCov">          3 :       byte_ptr_regions += SIZEOF_CAFRegion; // offset pointer to start marker</span>
+<span class="lineNum">     477 </span><span class="lineCov">          3 :       start_marker = (CAFMarker*)byte_ptr_regions;// &amp;((new_region-&gt;mMarkers)[0]);</span>
+<span class="lineNum">     478 </span><span class="lineCov">          3 :       start_marker-&gt;mType = kCAFMarkerType_RegionStart;</span>
+<span class="lineNum">     479 </span><span class="lineCov">          3 :       start_marker-&gt;mFramePosition = ambix-&gt;regions[i].start_position;</span>
+<span class="lineNum">     480 </span><span class="lineCov">          3 :       start_marker-&gt;mMarkerID = ambix-&gt;num_markers+i+1; // string ID -&gt; num_markers+1...num_markers+num_regions</span>
+<span class="lineNum">     481 </span><span class="lineCov">          3 :       start_marker-&gt;mChannel = 0; // 0 means for all channels</span>
+<span class="lineNum">     482 </span>            : 
+<span class="lineNum">     483 </span>            :       /* end region marker */
+<span class="lineNum">     484 </span><span class="lineCov">          3 :       byte_ptr_regions += sizeof(CAFMarker); // offset pointer to end marker</span>
+<span class="lineNum">     485 </span><span class="lineCov">          3 :       end_marker = (CAFMarker*)byte_ptr_regions; // &amp;new_region-&gt;mMarkers[1];</span>
+<span class="lineNum">     486 </span><span class="lineCov">          3 :       end_marker-&gt;mType = kCAFMarkerType_RegionEnd;</span>
+<span class="lineNum">     487 </span><span class="lineCov">          3 :       end_marker-&gt;mFramePosition = ambix-&gt;regions[i].end_position;</span>
+<span class="lineNum">     488 </span><span class="lineCov">          3 :       end_marker-&gt;mMarkerID = ambix-&gt;num_markers+i+1; // string ID -&gt; num_markers+1...num_markers+num_regions</span>
+<span class="lineNum">     489 </span><span class="lineCov">          3 :       end_marker-&gt;mChannel = 0; // 0 means for all channels</span>
+<span class="lineNum">     490 </span><span class="lineCov">          3 :       if (byteswap) {</span>
+<span class="lineNum">     491 </span><span class="lineCov">          3 :         swap_region(new_region);</span>
+<span class="lineNum">     492 </span><span class="lineCov">          3 :         swap_marker(start_marker);</span>
+<span class="lineNum">     493 </span><span class="lineCov">          3 :         swap_marker(end_marker);</span>
+<span class="lineNum">     494 </span>            :       }
+<span class="lineNum">     495 </span><span class="lineCov">          3 :       byte_ptr_regions += sizeof(CAFMarker);</span>
 <span class="lineNum">     496 </span>            : 
-<span class="lineNum">     497 </span><span class="lineCov">         64 :     mark_id.b[0] = 'm'; mark_id.b[1] = 'a'; mark_id.b[2] = 'r'; mark_id.b[3] = 'k';</span>
-<span class="lineNum">     498 </span><span class="lineCov">         64 :     _ambix_write_chunk(ambix, mark_id.a, marker_data, datasize_markers);</span>
-<span class="lineNum">     499 </span><span class="lineCov">         64 :     free(marker_data);</span>
-<span class="lineNum">     500 </span>            : 
-<span class="lineNum">     501 </span><span class="lineCov">         64 :     regn_id.b[0] = 'r'; regn_id.b[1] = 'e'; regn_id.b[2] = 'g'; regn_id.b[3] = 'n';</span>
-<span class="lineNum">     502 </span><span class="lineCov">         64 :     _ambix_write_chunk(ambix, regn_id.a, region_data, datasize_regions);</span>
-<span class="lineNum">     503 </span><span class="lineCov">         64 :     free(region_data);</span>
-<span class="lineNum">     504 </span>            : 
-<span class="lineNum">     505 </span><span class="lineCov">         64 :     strg_id.b[0] = 's'; strg_id.b[1] = 't'; strg_id.b[2] = 'r'; strg_id.b[3] = 'g';</span>
-<span class="lineNum">     506 </span><span class="lineCov">         64 :     _ambix_write_chunk(ambix, strg_id.a, strings_data, datasize_strings);</span>
-<span class="lineNum">     507 </span><span class="lineCov">         64 :     free(strings_data);</span>
-<span class="lineNum">     508 </span>            :   } while(0);
-<span class="lineNum">     509 </span><span class="lineCov">         64 :   return AMBIX_ERR_SUCCESS;</span>
-<span class="lineNum">     510 </span>            : }
+<span class="lineNum">     497 </span><span class="lineCov">          3 :       add_string_to_data(ambix-&gt;num_markers+i+1, byte_ptr_stringid, ambix-&gt;regions[i].name, &amp;byteoffset_strings, byte_ptr_strings, &amp;datasize_strings, byteswap);</span>
+<span class="lineNum">     498 </span><span class="lineCov">          3 :       byte_ptr_strings += (strlen((const char*)ambix-&gt;regions[i].name)+1);</span>
+<span class="lineNum">     499 </span><span class="lineCov">          3 :       byte_ptr_stringid += sizeof(CAFStringID);</span>
+<span class="lineNum">     500 </span>            :     }
+<span class="lineNum">     501 </span>            :   }
+<span class="lineNum">     502 </span>            : 
+<span class="lineNum">     503 </span>            :   /* add the chunk data */
+<span class="lineNum">     504 </span>            :   do {
+<span class="lineNum">     505 </span>            :     union int_chars mark_id, regn_id, strg_id;
+<span class="lineNum">     506 </span>            : 
+<span class="lineNum">     507 </span><span class="lineCov">          1 :     mark_id.b[0] = 'm'; mark_id.b[1] = 'a'; mark_id.b[2] = 'r'; mark_id.b[3] = 'k';</span>
+<span class="lineNum">     508 </span><span class="lineCov">          1 :     _ambix_write_chunk(ambix, mark_id.a, marker_data, datasize_markers);</span>
+<span class="lineNum">     509 </span><span class="lineCov">          1 :     free(marker_data);</span>
+<span class="lineNum">     510 </span>            : 
+<span class="lineNum">     511 </span><span class="lineCov">          1 :     regn_id.b[0] = 'r'; regn_id.b[1] = 'e'; regn_id.b[2] = 'g'; regn_id.b[3] = 'n';</span>
+<span class="lineNum">     512 </span><span class="lineCov">          1 :     _ambix_write_chunk(ambix, regn_id.a, region_data, datasize_regions);</span>
+<span class="lineNum">     513 </span><span class="lineCov">          1 :     free(region_data);</span>
+<span class="lineNum">     514 </span>            : 
+<span class="lineNum">     515 </span><span class="lineCov">          1 :     strg_id.b[0] = 's'; strg_id.b[1] = 't'; strg_id.b[2] = 'r'; strg_id.b[3] = 'g';</span>
+<span class="lineNum">     516 </span><span class="lineCov">          1 :     _ambix_write_chunk(ambix, strg_id.a, strings_data, datasize_strings);</span>
+<span class="lineNum">     517 </span><span class="lineCov">          1 :     free(strings_data);</span>
+<span class="lineNum">     518 </span>            :   } while(0);
+<span class="lineNum">     519 </span><span class="lineCov">          1 :   return AMBIX_ERR_SUCCESS;</span>
+<span class="lineNum">     520 </span>            : }
 </pre>
       </td>
     </tr>
