@@ -212,7 +212,7 @@
 <span class="lineNum">     150 </span>            :             snprintdata(bout, 16, fmt, B, i));
 <span class="lineNum">     151 </span><span class="lineCov">  346868282 :     vabs=(v&lt;0)?-v:v;</span>
 <span class="lineNum">     152 </span><span class="lineCov">  346868282 :     if(vabs&gt;maxdiff)</span>
-<span class="lineNum">     153 </span><span class="lineCov">        664 :       maxdiff=vabs;</span>
+<span class="lineNum">     153 </span><span class="lineCov">       7495 :       maxdiff=vabs;</span>
 <span class="lineNum">     154 </span><span class="lineCov">  346868282 :     sum+=vabs;</span>
 <span class="lineNum">     155 </span><span class="lineCov">  346868282 :     if(vabs&gt;eps) {</span>
 <span class="lineNum">     156 </span><span class="lineCov">         24 :       overcount++;</span>
@@ -290,13 +290,13 @@
 <a name="228"><span class="lineNum">     228 </span>            : }</a>
 <span class="lineNum">     229 </span>            : 
 <span class="lineNum">     230 </span><span class="lineCov">         72 : void*data_sine(ambixtest_presentationformat_t fmt, uint64_t frames, uint32_t channels, float32_t freq) {</span>
-<span class="lineNum">     231 </span><span class="lineCov">         72 :   float32_t periods=freq/44100.;</span>
+<span class="lineNum">     231 </span><span class="lineCov">         72 :   float64_t periods=freq/44100.;</span>
 <span class="lineNum">     232 </span><span class="lineCov">         72 :   void*data=data_calloc(fmt, frames*channels);</span>
 <span class="lineNum">     233 </span>            :   int64_t frame;
 <span class="lineNum">     234 </span><span class="lineCov">   29639384 :   for(frame=0; frame&lt;frames; frame++) {</span>
 <span class="lineNum">     235 </span>            :     int32_t chan;
 <span class="lineNum">     236 </span><span class="lineCov">   29639312 :     float64_t f=(float64_t)frame*periods;</span>
-<span class="lineNum">     237 </span><span class="lineCov">   29639312 :     float64_t value=0.5*sinf(f);</span>
+<span class="lineNum">     237 </span><span class="lineCov">   29639312 :     float64_t value=0.5*sin(f);</span>
 <span class="lineNum">     238 </span><span class="lineCov">  148422096 :     for(chan=0; chan&lt;channels; chan++)</span>
 <span class="lineNum">     239 </span><span class="lineCov">  118782784 :       setdata(fmt, data, f*channels+chan, value);</span>
 <span class="lineNum">     240 </span>            :   }
@@ -305,8 +305,8 @@
 <span class="lineNum">     243 </span>            : 
 <span class="lineNum">     244 </span><span class="lineCov">         63 : void*data_ramp(ambixtest_presentationformat_t fmt, uint64_t frames, uint32_t channels) {</span>
 <span class="lineNum">     245 </span><span class="lineCov">         63 :   void*data=data_calloc(fmt, frames*channels);</span>
-<span class="lineNum">     246 </span><span class="lineCov">         63 :   double increment=1./(double)frames;</span>
-<span class="lineNum">     247 </span><span class="lineCov">         63 :   double value=0.;</span>
+<span class="lineNum">     246 </span><span class="lineCov">         63 :   float64_t increment=1./(double)frames;</span>
+<span class="lineNum">     247 </span><span class="lineCov">         63 :   float64_t value=0.;</span>
 <span class="lineNum">     248 </span>            :   int64_t frame;
 <span class="lineNum">     249 </span><span class="lineCov">   27783063 :   for(frame=0; frame&lt;frames; frame++) {</span>
 <span class="lineNum">     250 </span>            :     int32_t chan;

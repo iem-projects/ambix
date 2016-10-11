@@ -121,16 +121,16 @@
 <span class="lineNum">      59 </span>            :   /* we want to write an EXTENDED file using the BASIC api (full set) */
 <span class="lineNum">      60 </span><span class="lineCov">         55 :   winfo.fileformat=AMBIX_BASIC;</span>
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span><span class="lineCov">         55 :   ambix=ambix_open(path, AMBIX_WRITE, &amp;winfo);</span>
-<span class="lineNum">      63 </span><span class="lineCov">         55 :   if(fail_if((NULL==ambix), __LINE__, &quot;couldn't create ambix file '%s' for writing&quot;, path))return 1;</span>
-<span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span><span class="lineCov">         55 :   orgambidata =data_sine(fmt, framesize, fullambichannels, periods);</span>
-<span class="lineNum">      66 </span><span class="lineCov">         55 :   orgotherdata=data_ramp(fmt, framesize, extrachannels);</span>
-<span class="lineNum">      67 </span><span class="lineCov">         55 :   if(fail_if((NULL==orgambidata), __LINE__, &quot;couldn't create ambidata %dx%d sine @ %f&quot;, (int)framesize, (int)fullambichannels, (float)periods))return 1;</span>
-<span class="lineNum">      68 </span><span class="lineCov">         55 :   if(fail_if((NULL==orgotherdata), __LINE__, &quot;couldn't create otherdata %dx%d sine @ %f&quot;, (int)framesize, (int)extrachannels, (float)periods))return 1;</span>
+<span class="lineNum">      62 </span><span class="lineCov">         55 :   orgambidata =data_sine(fmt, framesize, fullambichannels, periods);</span>
+<span class="lineNum">      63 </span><span class="lineCov">         55 :   orgotherdata=data_ramp(fmt, framesize, extrachannels);</span>
+<span class="lineNum">      64 </span><span class="lineCov">         55 :   if(fail_if((NULL==orgambidata), __LINE__, &quot;couldn't create ambidata %dx%d sine @ %f&quot;, (int)framesize, (int)fullambichannels, (float)periods))return 1;</span>
+<span class="lineNum">      65 </span><span class="lineCov">         55 :   if(fail_if((NULL==orgotherdata), __LINE__, &quot;couldn't create otherdata %dx%d sine @ %f&quot;, (int)framesize, (int)extrachannels, (float)periods))return 1;</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">         55 :   memcpy(ambidata, orgambidata, framesize*fullambichannels*data_size(fmt));</span>
+<span class="lineNum">      68 </span><span class="lineCov">         55 :   memcpy(otherdata, orgotherdata, framesize*extrachannels*data_size(fmt));</span>
 <span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span><span class="lineCov">         55 :   memcpy(ambidata, orgambidata, framesize*fullambichannels*data_size(fmt));</span>
-<span class="lineNum">      71 </span><span class="lineCov">         55 :   memcpy(otherdata, orgotherdata, framesize*extrachannels*data_size(fmt));</span>
+<span class="lineNum">      70 </span><span class="lineCov">         55 :   ambix=ambix_open(path, AMBIX_WRITE, &amp;winfo);</span>
+<span class="lineNum">      71 </span><span class="lineCov">         55 :   if(fail_if((NULL==ambix), __LINE__, &quot;couldn't create ambix file '%s' for writing&quot;, path))return 1;</span>
 <span class="lineNum">      72 </span>            : 
 <span class="lineNum">      73 </span><span class="lineCov">         55 :   err=ambix_set_adaptormatrix(ambix, matrix);</span>
 <span class="lineNum">      74 </span>            : #if 0
